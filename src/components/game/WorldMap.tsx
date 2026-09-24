@@ -22,7 +22,7 @@ const LivingBoard = dynamic(() => import("./LivingBoard"), { ssr: false, loading
 
 export default function WorldMap() {
   const mounted = useMounted();
-  const { isCityUnlocked, startEnterRealm, chapterProgress, getTotalStars, inventory, placedNodes } = useGameStore();
+  const { isCityUnlocked, startEnterRealm, chapterProgress, getTotalStars, inventory, placedNodes, ambientEffectsEnabled } = useGameStore();
   const [lockedNotice, setLockedNotice] = useState<{ city: City; needed: number } | null>(null);
   const [viewMode, setViewMode] = useState<"cards" | "map" | "board">("cards");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -73,10 +73,10 @@ export default function WorldMap() {
       {/* Decorative Antique Map Coordinate Grid */}
       <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:40px_40px]" />
 
-      {/* Rotating Astrological Mandala Background */}
+      {/* Rotating Astrological Mandala Background — respects the Ambient Motion setting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] sm:w-[950px] sm:h-[950px] rounded-full border border-gold-500/10 pointer-events-none flex items-center justify-center">
-        <div className="w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] rounded-full border border-dashed border-gold-400/15 animate-[spin_120s_linear_infinite]" />
-        <div className="absolute w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full border border-gold-500/10 animate-[spin_80s_linear_infinite_reverse]" />
+        <div className={`w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] rounded-full border border-dashed border-gold-400/15 ${ambientEffectsEnabled ? "animate-[spin_120s_linear_infinite]" : ""}`} />
+        <div className={`absolute w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full border border-gold-500/10 ${ambientEffectsEnabled ? "animate-[spin_80s_linear_infinite_reverse]" : ""}`} />
       </div>
 
       {/* ── TOP HEADER SECTION ── */}

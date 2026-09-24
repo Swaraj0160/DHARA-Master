@@ -3,13 +3,11 @@
 import { useState } from "react";
 import { useGameStore } from "@/store/gameState";
 import Link from "next/link";
-import { ArrowLeft, Settings as SettingsIcon, Volume2, VolumeX, RotateCcw, AlertTriangle, Check } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Sparkles, Ban, RotateCcw, AlertTriangle, Check } from "lucide-react";
 import WorldHUD from "@/components/game/WorldHUD";
 
 export default function SettingsPage() {
-  const { resetProgress } = useGameStore();
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [ambientEnabled, setAmbientEnabled] = useState(true);
+  const { resetProgress, ambientEffectsEnabled, setAmbientEffectsEnabled } = useGameStore();
   const [resetConfirm, setResetConfirm] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
 
@@ -53,47 +51,26 @@ export default function SettingsPage() {
             </Link>
           </div>
 
-          {/* Audio Toggles */}
+          {/* Accessibility */}
           <div className="space-y-4 mb-8">
             <div className="flex items-center justify-between p-4 rounded-2xl bg-earth-950/80 border border-gold-500/25">
               <div>
                 <div className="font-serif text-sm font-bold text-parchment-100">
-                  Sound Effects
+                  Ambient Motion
                 </div>
                 <div className="text-[11px] font-mono text-parchment-400">
-                  Puzzle interactions and milestone rewards
+                  Decorative background animation (mandala spin, drifting particles). Turn off to reduce motion.
                 </div>
               </div>
               <button
-                onClick={() => setSoundEnabled(!soundEnabled)}
+                onClick={() => setAmbientEffectsEnabled(!ambientEffectsEnabled)}
                 className={`p-2.5 rounded-xl border transition-all ${
-                  soundEnabled
+                  ambientEffectsEnabled
                     ? "bg-gold-500 text-earth-950 border-gold-400"
                     : "bg-earth-900 text-stone-500 border-earth-800"
                 }`}
               >
-                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-              </button>
-            </div>
-
-            <div className="flex items-center justify-between p-4 rounded-2xl bg-earth-950/80 border border-gold-500/25">
-              <div>
-                <div className="font-serif text-sm font-bold text-parchment-100">
-                  Ambient Atmosphere
-                </div>
-                <div className="text-[11px] font-mono text-parchment-400">
-                  World map animations and background particle effects
-                </div>
-              </div>
-              <button
-                onClick={() => setAmbientEnabled(!ambientEnabled)}
-                className={`p-2.5 rounded-xl border transition-all ${
-                  ambientEnabled
-                    ? "bg-gold-500 text-earth-950 border-gold-400"
-                    : "bg-earth-900 text-stone-500 border-earth-800"
-                }`}
-              >
-                {ambientEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                {ambientEffectsEnabled ? <Sparkles className="w-4 h-4" /> : <Ban className="w-4 h-4" />}
               </button>
             </div>
           </div>

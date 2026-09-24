@@ -137,6 +137,8 @@ export const WORLD_SLOTS: WorldSlot[] = [
 export interface DharaState {
   hasSeenIntro: boolean;
   setHasSeenIntro: (val: boolean) => void;
+  ambientEffectsEnabled: boolean;
+  setAmbientEffectsEnabled: (val: boolean) => void;
 
   player: PlayerProfile;
   chapterProgress: Record<string, ChapterProgress>;
@@ -250,6 +252,8 @@ export const useGameStore = create<DharaState>()(
     (set, get) => ({
       hasSeenIntro: false,
       setHasSeenIntro: (val) => set({ hasSeenIntro: val }),
+      ambientEffectsEnabled: true,
+      setAmbientEffectsEnabled: (val) => set({ ambientEffectsEnabled: val }),
 
       player: {
         name: 'Explorer',
@@ -676,6 +680,7 @@ export const useGameStore = create<DharaState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         hasSeenIntro: state.hasSeenIntro,
+        ambientEffectsEnabled: state.ambientEffectsEnabled,
         player: state.player,
         chapterProgress: state.chapterProgress,
         currentCityId: state.currentCityId,

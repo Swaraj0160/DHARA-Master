@@ -17,6 +17,7 @@ export default function GameRoot() {
     enteringCityId,
     confirmEnterRealm,
     setHasSeenIntro,
+    ambientEffectsEnabled,
   } = useGameStore();
   const [hasEntered, setHasEntered] = useState(false);
   const [introStep, setIntroStep] = useState(0);
@@ -63,7 +64,7 @@ export default function GameRoot() {
 
         {/* Subtle geometric mandala watermark */}
         <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-          <div className="w-[600px] h-[600px] bg-[url('/mandala.svg')] bg-contain bg-center bg-no-repeat animate-[spin_80s_linear_infinite]" />
+          <div className={`w-[600px] h-[600px] bg-[url('/mandala.svg')] bg-contain bg-center bg-no-repeat ${ambientEffectsEnabled ? "animate-[spin_80s_linear_infinite]" : ""}`} />
         </div>
 
         {/* Skip button */}
