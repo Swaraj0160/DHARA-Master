@@ -34,12 +34,12 @@ export const REALM_ENTRANCE_DATA: Record<string, RealmEntranceConfig> = {
       {
         id: "patali-vista-1",
         chapterNumber: 1,
-        title: "The Grand Torana Gate",
-        subTitle: "Megasthenes' Monolithic Palisade & Ramparts",
+        title: "Gateways of the Mauryan World",
+        subTitle: "Reference image: Sanchi's surviving stone torana",
         era: "c. 300 BCE · Mauryan Empire",
         locationName: "Monumental City Bastions",
-        description: "Stand before the monumental wooden and sandstone palisades recorded by Greek ambassador Megasthenes in his Indica.",
-        historicalSignificance: "Ancient Pataliputra boasted 64 fortified gateways and 570 defensive towers spanning the Ganga-Son riverbanks.",
+        description: "Pataliputra's own timber-and-sandstone palisade gates, recorded by Greek ambassador Megasthenes in his Indica, have not survived above ground. This carved torana at Sanchi — built in the same Mauryan-Sunga architectural tradition — is shown here as a reference for the gateway style of the era, not as a photograph of Pataliputra itself.",
+        historicalSignificance: "Ancient Pataliputra boasted 64 fortified gateways and 570 defensive towers spanning the Ganga-Son riverbanks, per Megasthenes' account.",
         image: "/chapter_torana.jpg",
       },
       {
