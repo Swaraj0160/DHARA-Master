@@ -57,7 +57,7 @@ export default function VedaCompanion() {
     getRemainingDailyAiQueries,
   } = useVedaStore();
 
-  const { currentCityId, currentChapterId } = useGameStore();
+  const { currentCityId, currentChapterId, hasSeenIntro } = useGameStore();
   const [inputText, setInputText] = useState("");
   const [imageSrc, setImageSrc] = useState<string>("/veda/Hello.png");
   const prevCityRef = useRef<string | null>(null);
@@ -126,7 +126,9 @@ export default function VedaCompanion() {
     sendPlayerMessage(text, { cityId: currentCityId, chapterId: currentChapterId });
   };
 
-  if (!mounted) return null;
+  // Never let VEDA appear over the cinematic opening — it belongs to the
+  // game, not the pre-"ENTER DHARA" title sequence.
+  if (!mounted || !hasSeenIntro) return null;
 
   return (
     <>

@@ -16,15 +16,21 @@ export default function GameRoot() {
     currentChapterId,
     enteringCityId,
     confirmEnterRealm,
+    setHasSeenIntro,
   } = useGameStore();
   const [hasEntered, setHasEntered] = useState(false);
   const [introStep, setIntroStep] = useState(0);
+
+  const enterExperience = () => {
+    setHasEntered(true);
+    setHasSeenIntro(true);
+  };
 
   useEffect(() => {
     const t1 = setTimeout(() => setIntroStep(1), 800);  // "India is not one story."
     const t2 = setTimeout(() => setIntroStep(2), 2800); // "It is millions of stories connected across time."
     const t3 = setTimeout(() => setIntroStep(3), 5200); // BHARATVERSE title screen
-    const t4 = setTimeout(() => setHasEntered(true), 12000); // Auto enter game
+    const t4 = setTimeout(enterExperience, 12000); // Auto enter game
 
     return () => {
       clearTimeout(t1);
@@ -35,7 +41,7 @@ export default function GameRoot() {
   }, []);
 
   const handleSkipIntro = () => {
-    setHasEntered(true);
+    enterExperience();
   };
 
   if (!hasEntered) {
