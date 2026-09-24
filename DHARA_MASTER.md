@@ -3,14 +3,15 @@
 Short, living memory. Update at end of each work session; don't re-read completed work.
 
 ## Current Phase
-Phase 0 — Baseline + ownership + security. IN PROGRESS.
+Phase 0 — Baseline + ownership + security. DONE.
 
 ## Completed
 - Verified repo: Next.js 16.3.4 / React 19.2.8 / TS. `npm install` + `npm run build` succeed (9 routes + 1 API route, all compile clean).
-- `git init` done locally.
-- `.env.local` already present locally with `GEMINI_API_KEY=` (gitignored, not committed, value not inspected/printed).
+- `git init` done locally; initial commit (118 files) pushed to `Swaraj0160/DHARA-Master` (private) as `main`.
+- `.env.local` present locally with `GEMINI_API_KEY=` (gitignored, not committed, value not inspected/printed — not yet confirmed as a *working* key).
 - `.env.example` created with placeholder only.
-- Ownership: GitHub CLI + Vercel CLI both authenticated as `Swaraj0160`.
+- Vercel project `swaraj0160s-projects/dhara-master` created and linked to the GitHub repo (auto-deploy on push now active). `GEMINI_API_KEY` NOT yet set in Vercel env — VEDA chat will fail on deployed site until added.
+- Ownership confirmed: GitHub CLI + Vercel CLI both authenticated as `Swaraj0160`. Zero contact with `HerelsKrishna/DHARA`.
 
 ## Architecture (as-is)
 - Next.js App Router. Routes: `/`, `/classroom`, `/dashboard`, `/games`, `/historian`, `/map`, `/profile`, `/quest/nalanda`, `/settings`, API `/api/veda/chat`.
@@ -30,4 +31,4 @@ Phase 0 — Baseline + ownership + security. IN PROGRESS.
 - No PWA manifest, no tests, no CI yet.
 
 ## Next Action
-Finish Phase 0: push initial commit to `Swaraj0160/DHARA-Master`, link Vercel project (no deploy until env key is confirmed working). Then begin Phase 1 (design system) in a following session/turn — this is a large, multi-phase build and will not fit in one pass.
+Confirm `GEMINI_API_KEY` is a real working key (smoke-test `/api/veda/chat` via `npm run dev`), then set the same key in Vercel project env vars. After that, begin Phase 1 (realistic design system) — this is a large, multi-phase build and will proceed incrementally across sessions, not in one pass.
