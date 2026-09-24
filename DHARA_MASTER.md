@@ -3,10 +3,13 @@
 Short, living memory. Update at end of each work session; don't re-read completed work.
 
 ## Current Phase
-Phase 1 — Realistic design system. IN PROGRESS.
-- Added stone/charcoal/forest token ramps to `src/app/globals.css` (alongside existing earth/parchment/gold/terracotta — that palette was already close to the realism target, extended not replaced).
-- NOT YET DONE: apply new tokens across `ui/Button.tsx`, `ui/Card.tsx`, `Navigation.tsx`, landing page — currently still on old palette only.
-- NEXT: apply stone/forest tokens to core `ui/` components + Navigation, verify build, commit, then move to Phase 2 (cinematic opening).
+Phase 1/7 overlap — Realism pass + Heritage Truth Layer foundation. IN PROGRESS.
+- Added stone/charcoal/forest token ramps to `src/app/globals.css` (existing earth/parchment/gold/terracotta palette was already close to the realism target — extended, not replaced. Button.tsx/Card.tsx/Navigation.tsx already restrained, gold used only as accent — audited, no change needed).
+- Built `src/components/ui/TruthBadge.tsx` (Phase 7 Heritage Truth Layer: verified / source-qualified / reconstruction / fiction) — real component, not a stub.
+- Wired `truthLevel` prop into `DiscoveryReveal.tsx` and used it on the one real call site (`quest/nalanda/page.tsx` Nalanda discovery — tagged `source-qualified`, citing Xuanzang/Si-Yu-Ki per deck's own reference list).
+- Toned down `DiscoveryReveal.tsx` glow/shadow effects (removed 40-80px gold blur-glows, pulsing halo) — was the clearest "fantasy game UI" violation of the realism rule found so far.
+- Build verified clean after each change.
+- NEXT: audit remaining components for the same excessive-glow pattern (check `game/LivingBoard.tsx`, `game/WorldMap.tsx`, `game/RealmEntranceAnimation.tsx`, `veda/VedaCompanion.tsx` — not yet inspected this pass). Then tag remaining historicalContext strings across `gameContent.ts` city chapters with TruthBadge levels (currently only Nalanda's single discovery moment is tagged).
 
 ## Phase 0
 DONE — see below, do not redo.

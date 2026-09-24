@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Trophy, ArrowRight } from "lucide-react";
 import { ItemRarity } from "@/store/gameState";
+import TruthBadge, { type TruthLevel } from "@/components/ui/TruthBadge";
 
 interface DiscoveryRevealProps {
   isOpen: boolean;
@@ -13,6 +14,8 @@ interface DiscoveryRevealProps {
   icon: string | React.ReactNode;
   description: string;
   historicalContext?: string;
+  /** Heritage Truth Layer classification for the historicalContext shown below. Omit only for pure gameplay-fiction discoveries with no historical claim. */
+  truthLevel?: TruthLevel;
   rewards?: {
     xp?: number;
     dna?: { trait: string; value: number }[];
@@ -32,6 +35,7 @@ export default function DiscoveryReveal({
   icon,
   description,
   historicalContext,
+  truthLevel,
   rewards,
   tags = [],
   ctaLabel = "ADD TO YOUR DHARA",
@@ -60,7 +64,7 @@ export default function DiscoveryReveal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.85 }}
           transition={{ type: "spring", damping: 25, stiffness: 250 }}
-          className="relative max-w-xl w-full bg-gradient-to-b from-earth-900 via-earth-850 to-earth-950 border-2 border-gold-500/80 rounded-3xl p-6 sm:p-8 shadow-[0_0_80px_rgba(212,175,55,0.4)] text-center text-parchment-100 overflow-hidden my-auto"
+          className="relative max-w-xl w-full bg-gradient-to-b from-earth-900 via-earth-850 to-earth-950 border border-gold-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-black/60 text-center text-parchment-100 overflow-hidden my-auto"
         >
           {/* Top Tag & Rarity */}
           <div className="flex items-center justify-between mb-4 text-xs">
@@ -80,9 +84,8 @@ export default function DiscoveryReveal({
               initial={{ scale: 0, rotate: -20 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
-              className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-gold-500/20 via-earth-800 to-earth-900 border-2 border-gold-500/60 shadow-[0_0_40px_rgba(212,175,55,0.5)] flex items-center justify-center text-5xl sm:text-6xl relative group"
+              className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-gold-500/15 via-earth-800 to-earth-900 border border-gold-500/50 shadow-lg flex items-center justify-center text-5xl sm:text-6xl relative group"
             >
-              <div className="absolute inset-0 rounded-3xl bg-gold-500/10 blur-xl animate-pulse" />
               <span className="relative z-10">{icon}</span>
             </motion.div>
           </div>
@@ -119,8 +122,11 @@ export default function DiscoveryReveal({
               transition={{ delay: 0.55 }}
               className="p-3 bg-earth-950/60 rounded-xl border border-gold-500/20 text-left text-xs mb-5 space-y-1"
             >
-              <div className="text-[10px] font-bold tracking-widest text-gold-400 uppercase flex items-center gap-1">
-                <span>Historical Context</span>
+              <div className="flex items-center justify-between gap-2 mb-0.5">
+                <div className="text-[10px] font-bold tracking-widest text-gold-400 uppercase flex items-center gap-1">
+                  <span>Historical Context</span>
+                </div>
+                {truthLevel && <TruthBadge level={truthLevel} />}
               </div>
               <p className="text-parchment-300/80 leading-relaxed">{historicalContext}</p>
             </motion.div>
@@ -175,7 +181,7 @@ export default function DiscoveryReveal({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75 }}
             onClick={onConfirm}
-            className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold tracking-widest text-sm uppercase shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+            className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold tracking-widest text-sm uppercase shadow-lg hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
           >
             <span>{ctaLabel}</span>
             <ArrowRight className="w-4 h-4" />

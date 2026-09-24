@@ -345,6 +345,7 @@ export default function NalandaQuestPage() {
         icon="🏛️"
         description="You have fully reconstructed the foundational knowledge of Nalanda. The ancient university token is now yours to physically place on your Living India Board."
         historicalContext="Operating from 427 to 1197 CE in Magadha, Nalanda was the world's first great residential university, sheltering thousands of masters of logic, mathematics, astronomy, and medicine."
+        truthLevel="source-qualified"
         rewards={{
           xp: 450,
           badge: "Nalanda Scholar",
