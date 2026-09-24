@@ -47,6 +47,20 @@ export default function GameRoot() {
   if (!hasEntered) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden text-center p-6 selection:bg-gold-500/40">
+        {/* Decorative cartographic backdrop — atmosphere only, never read as
+            accurate geography (the real interactive map is a separate,
+            verified-coordinate Leaflet map elsewhere). Fades in slowly and
+            brightens slightly as "India emerges" toward the title reveal. */}
+        <motion.div
+          initial={{ opacity: 0, scale: 1.08 }}
+          animate={{ opacity: introStep >= 3 ? 0.22 : introStep >= 1 ? 0.1 : 0, scale: 1 }}
+          transition={{ duration: 4, ease: "easeOut" }}
+          className="absolute inset-0 bg-[url('/ancient_india_map.jpg')] bg-cover bg-center pointer-events-none"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/70 to-black pointer-events-none" />
+        {/* Subtle vignette for cinematic depth */}
+        <div className="absolute inset-0 pointer-events-none [box-shadow:inset_0_0_180px_120px_rgba(0,0,0,0.9)]" />
+
         {/* Subtle geometric mandala watermark */}
         <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
           <div className="w-[600px] h-[600px] bg-[url('/mandala.svg')] bg-contain bg-center bg-no-repeat animate-[spin_80s_linear_infinite]" />
