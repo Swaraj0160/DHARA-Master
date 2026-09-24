@@ -3,7 +3,13 @@
 Short, living memory. Update at end of each work session; don't re-read completed work.
 
 ## Current Phase
-Phase 0 — Baseline + ownership + security. DONE.
+Phase 1 — Realistic design system. IN PROGRESS.
+- Added stone/charcoal/forest token ramps to `src/app/globals.css` (alongside existing earth/parchment/gold/terracotta — that palette was already close to the realism target, extended not replaced).
+- NOT YET DONE: apply new tokens across `ui/Button.tsx`, `ui/Card.tsx`, `Navigation.tsx`, landing page — currently still on old palette only.
+- NEXT: apply stone/forest tokens to core `ui/` components + Navigation, verify build, commit, then move to Phase 2 (cinematic opening).
+
+## Phase 0
+DONE — see below, do not redo.
 
 ## Completed
 - Verified repo: Next.js 16.3.4 / React 19.2.8 / TS. `npm install` + `npm run build` succeed (9 routes + 1 API route, all compile clean).

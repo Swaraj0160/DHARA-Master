@@ -36,7 +36,21 @@
 
   --color-indigo-900: #1a203c;
   --color-indigo-950: #0f1325;
-  
+
+  --color-stone-950: #14120f;
+  --color-stone-900: #201c17;
+  --color-stone-800: #322c24;
+  --color-stone-700: #453d32;
+  --color-stone-600: #5c5142;
+  --color-stone-500: #766a57;
+  --color-stone-400: #998970;
+  --color-stone-300: #b6a992;
+
+  --color-forest-950: #0e1712;
+  --color-forest-900: #16261d;
+  --color-forest-800: #1f3629;
+  --color-forest-700: #2c4a38;
+
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
 }
