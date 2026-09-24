@@ -208,7 +208,7 @@ export default function CityMap({ cityId }: CityMapProps) {
           animate={{ opacity: 1, y: 0 }}
           className="absolute bottom-6 inset-x-0 flex justify-center pointer-events-none z-30 px-4"
         >
-          <div className="bg-gradient-to-r from-earth-950 via-earth-900 to-earth-950 border-2 border-gold-400/80 px-6 py-2.5 rounded-2xl shadow-[0_0_30px_rgba(212,175,55,0.5)] flex items-center gap-3 text-gold-300 pointer-events-auto backdrop-blur-md">
+          <div className="bg-gradient-to-r from-earth-950 via-earth-900 to-earth-950 border-2 border-gold-400/80 px-6 py-2.5 rounded-2xl shadow-xl flex items-center gap-3 text-gold-300 pointer-events-auto backdrop-blur-md">
             <Trophy className="w-5 h-5 text-gold-400" />
             <div>
               <span className="font-serif font-bold text-xs uppercase tracking-wider">

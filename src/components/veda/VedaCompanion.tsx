@@ -136,7 +136,7 @@ export default function VedaCompanion() {
           onClick={toggleOpen}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.92 }}
-          className="relative w-14 h-14 rounded-full border-2 border-gold-400/80 bg-earth-950/95 p-1.5 shadow-[0_0_20px_rgba(212,175,55,0.45)] hover:shadow-[0_0_25px_rgba(212,175,55,0.7)] backdrop-blur-md transition-all cursor-pointer flex items-center justify-center group"
+          className="relative w-14 h-14 rounded-full border-2 border-gold-400/80 bg-earth-950/95 p-1.5 shadow-xl hover:shadow-xl backdrop-blur-md transition-all cursor-pointer flex items-center justify-center group"
           title="VEDA - Heritage Guide"
           aria-label="Toggle Veda Guide"
         >

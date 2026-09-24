@@ -53,7 +53,7 @@ export default function CityNode({
         <div
           className={`w-3.5 h-3.5 rounded-full -ml-[7px] -mt-[7px] border-2 shadow-lg ${
             isUnlocked
-              ? "bg-gold-400 border-earth-950 shadow-[0_0_12px_rgba(212,175,55,0.9)]"
+              ? "bg-gold-400 border-earth-950 shadow-xl"
               : "bg-stone-600 border-stone-900"
           }`}
         />
@@ -72,7 +72,7 @@ export default function CityNode({
           <div
             className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl relative transition-all duration-300 border-2 shadow-2xl ${
               isUnlocked
-                ? "bg-gradient-to-tr from-earth-950 via-[#26150d] to-earth-900 border-gold-400 text-parchment-100 shadow-[0_0_20px_rgba(212,175,55,0.5)] group-hover:border-gold-300 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.85)]"
+                ? "bg-gradient-to-tr from-earth-950 via-[#26150d] to-earth-900 border-gold-400 text-parchment-100 shadow-xl group-hover:border-gold-300 group-hover:shadow-xl"
                 : "bg-stone-950/90 border-stone-700/80 text-stone-500 opacity-75 group-hover:opacity-100"
             }`}
           >

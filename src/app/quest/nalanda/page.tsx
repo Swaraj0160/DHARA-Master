@@ -141,7 +141,7 @@ export default function NalandaQuestPage() {
               <div className="text-gold-400 font-mono text-xs tracking-[0.4em] uppercase">
                 Temporal Translation Active
               </div>
-              <h1 className="font-serif text-5xl sm:text-7xl text-transparent bg-clip-text bg-gradient-to-b from-white via-gold-200 to-gold-500 font-bold tracking-widest uppercase drop-shadow-[0_0_30px_rgba(212,175,55,0.8)]">
+              <h1 className="font-serif text-5xl sm:text-7xl text-transparent bg-clip-text bg-gradient-to-b from-white via-gold-200 to-gold-500 font-bold tracking-widest uppercase drop-shadow-xl">
                 Time Portal
               </h1>
               <div className="py-2 px-6 rounded-full bg-earth-900/80 border border-gold-500/40 inline-block font-mono text-sm text-gold-300">
@@ -188,7 +188,7 @@ export default function NalandaQuestPage() {
                     key={step.num}
                     className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-mono whitespace-nowrap transition-all ${
                       isCurrent
-                        ? "bg-gold-500 text-earth-950 font-bold shadow-[0_0_15px_rgba(212,175,55,0.6)]"
+                        ? "bg-gold-500 text-earth-950 font-bold shadow-xl"
                         : isCompleted
                         ? "bg-earth-800 text-gold-400 border border-gold-500/40"
                         : "bg-earth-950/60 text-parchment-400/50 border border-white/5"

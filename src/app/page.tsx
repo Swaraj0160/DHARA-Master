@@ -91,7 +91,7 @@ export default function GameRoot() {
               transition={{ duration: 0.8 }}
               className="flex flex-col items-center space-y-4 max-w-xl"
             >
-              <h1 className="text-6xl sm:text-8xl font-serif tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white via-gold-200 to-gold-500 font-bold drop-shadow-[0_0_40px_rgba(212,175,55,0.7)]">
+              <h1 className="text-6xl sm:text-8xl font-serif tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white via-gold-200 to-gold-500 font-bold drop-shadow-xl">
                 DHARA
               </h1>
 
@@ -105,7 +105,7 @@ export default function GameRoot() {
 
               <button
                 onClick={handleSkipIntro}
-                className="mt-6 px-10 py-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-sm tracking-widest uppercase shadow-[0_0_35px_rgba(212,175,55,0.6)] hover:brightness-110 active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer"
+                className="mt-6 px-10 py-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-sm tracking-widest uppercase shadow-xl hover:brightness-110 active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer"
               >
                 <span>ENTER DHARA</span>
                 <ArrowRight className="w-4 h-4" />

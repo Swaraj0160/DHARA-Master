@@ -103,7 +103,7 @@ export default function NalandaMap({ onComplete }: { onComplete: () => void }) {
                   onClick={() => handleVisit(loc)}
                   className={`relative group rounded-full p-2.5 transition-all duration-300 ${
                     isSelected
-                      ? "bg-gold-500 text-earth-950 scale-125 shadow-[0_0_25px_rgba(212,175,55,1)] ring-4 ring-gold-400/40"
+                      ? "bg-gold-500 text-earth-950 scale-125 shadow-xl ring-4 ring-gold-400/40"
                       : isExplored
                       ? "bg-gold-600/80 text-parchment-100 scale-105 shadow-md border border-gold-400"
                       : "bg-earth-800/90 text-gold-400 hover:scale-110 border border-gold-500/40 shadow-sm"

@@ -159,7 +159,7 @@ export default function CityVerticalCard({
           <div
             className={`w-24 h-24 sm:w-28 sm:h-28 rounded-3xl flex items-center justify-center text-5xl sm:text-6xl relative transition-transform duration-500 group-hover:scale-105 border ${
               isUnlocked
-                ? "bg-gradient-to-br from-black/80 via-earth-900/90 to-earth-950 border-gold-500/50 shadow-[0_0_30px_rgba(212,175,55,0.3)] group-hover:border-gold-400"
+                ? "bg-gradient-to-br from-black/80 via-earth-900/90 to-earth-950 border-gold-500/50 shadow-xl group-hover:border-gold-400"
                 : "bg-stone-900/90 border-stone-700/60 shadow-lg text-stone-500"
             }`}
           >
@@ -243,7 +243,7 @@ export default function CityVerticalCard({
               e.stopPropagation();
               onSelect();
             }}
-            className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(212,175,55,0.4)] group-hover:shadow-[0_0_35px_rgba(212,175,55,0.7)] group-hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest shadow-xl group-hover:shadow-xl group-hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>ENTER REALM</span>
             <ArrowRight className="w-4 h-4" />

@@ -29,7 +29,7 @@ export default function QuestComplete({ score, onAddToBharat }: QuestCompletePro
           initial={{ scale: 0, rotate: -20 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", bounce: 0.5, delay: 0.2 }}
-          className="w-24 h-24 mx-auto bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 rounded-3xl flex items-center justify-center shadow-[0_0_40px_rgba(212,175,55,0.45)] mb-6 border-2 border-white/60"
+          className="w-24 h-24 mx-auto bg-gradient-to-br from-gold-400 via-gold-500 to-gold-600 rounded-3xl flex items-center justify-center shadow-xl mb-6 border-2 border-white/60"
         >
           <Trophy className="text-earth-950 w-12 h-12" />
         </motion.div>
@@ -137,7 +137,7 @@ export default function QuestComplete({ score, onAddToBharat }: QuestCompletePro
           <Button
             size="lg"
             onClick={onAddToBharat}
-            className="w-full sm:w-auto px-12 py-5 bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold tracking-widest text-base uppercase shadow-[0_0_40px_rgba(212,175,55,0.6)] hover:brightness-110 transition-all flex items-center justify-center gap-3 mx-auto"
+            className="w-full sm:w-auto px-12 py-5 bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold tracking-widest text-base uppercase shadow-xl hover:brightness-110 transition-all flex items-center justify-center gap-3 mx-auto"
           >
             <span>ADD NALANDA TO YOUR DHARA</span>
             <ArrowRight className="w-5 h-5" />

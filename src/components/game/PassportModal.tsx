@@ -109,7 +109,7 @@ export default function PassportModal({ onClose }: PassportModalProps) {
                 key={city.id}
                 className={`p-4 sm:p-5 rounded-2xl border transition-all relative overflow-hidden ${
                   passportUnlocked
-                    ? "bg-gradient-to-r from-gold-950/40 via-earth-900/80 to-earth-950 border-gold-400/60 shadow-[0_0_25px_rgba(212,175,55,0.2)]"
+                    ? "bg-gradient-to-r from-gold-950/40 via-earth-900/80 to-earth-950 border-gold-400/60 shadow-xl"
                     : unlocked
                     ? "bg-earth-900/50 border-gold-500/25 text-parchment-200"
                     : "bg-stone-950/60 border-stone-800/80 opacity-60 text-stone-400"
@@ -155,7 +155,7 @@ export default function PassportModal({ onClose }: PassportModalProps) {
                   <div className="sm:text-right shrink-0">
                     {passportUnlocked ? (
                       /* Royal Wax Stamp Granted */
-                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-gold-500/20 via-gold-400/20 to-gold-500/20 border-2 border-gold-400 text-gold-200 shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-gradient-to-r from-gold-500/20 via-gold-400/20 to-gold-500/20 border-2 border-gold-400 text-gold-200 shadow-xl">
                         <Award className="w-5 h-5 text-gold-400 shrink-0" />
                         <div className="text-left">
                           <div className="text-[10px] font-mono uppercase tracking-widest font-bold text-gold-300">

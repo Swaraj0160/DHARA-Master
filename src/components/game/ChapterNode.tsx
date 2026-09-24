@@ -106,9 +106,9 @@ export default function ChapterNode({
             {/* Thumbnail Frame */}
             <div
               className={`relative w-20 h-14 sm:w-24 sm:h-16 rounded-2xl overflow-hidden border-2 shadow-xl transition-all duration-300 ${isCompleted
-                ? "border-gold-400/80 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+                ? "border-gold-400/80 shadow-xl"
                 : isOngoing
-                  ? "border-gold-300 shadow-[0_0_25px_rgba(212,175,55,0.7)]"
+                  ? "border-gold-300 shadow-xl"
                   : "border-gold-500/40"
                 }`}
             >
@@ -142,7 +142,7 @@ export default function ChapterNode({
             {isOngoing && (
               <>
                 <div className="absolute -inset-1.5 rounded-2xl border-2 border-gold-400 animate-ping opacity-35 pointer-events-none" />
-                <div className="absolute -inset-1 rounded-2xl border border-gold-300 shadow-[0_0_25px_rgba(212,175,55,0.7)] animate-pulse pointer-events-none" />
+                <div className="absolute -inset-1 rounded-2xl border border-gold-300 shadow-xl animate-pulse pointer-events-none" />
               </>
             )}
           </div>
@@ -162,9 +162,9 @@ export default function ChapterNode({
         <div className="relative flex flex-col items-center">
           <div
             className={`px-3 py-1 rounded-full flex items-center gap-1.5 shadow-lg border transition-all ${isCompleted
-              ? "bg-earth-950/95 border-gold-400 text-gold-300 shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+              ? "bg-earth-950/95 border-gold-400 text-gold-300 shadow-xl"
               : isOngoing
-                ? "bg-gradient-to-r from-gold-500 to-gold-600 text-earth-950 font-bold border-gold-300 shadow-[0_0_20px_rgba(212,175,55,0.6)]"
+                ? "bg-gradient-to-r from-gold-500 to-gold-600 text-earth-950 font-bold border-gold-300 shadow-xl"
                 : !isLocked
                   ? "bg-earth-900/90 border-gold-500/40 text-gold-300"
                   : "bg-stone-900/90 border-stone-700 text-stone-500"
@@ -197,7 +197,7 @@ export default function ChapterNode({
           className={`mt-2 px-3 py-1 rounded-xl text-center backdrop-blur-md shadow-lg border transition-all max-w-[160px] sm:max-w-[200px] ${isCompleted
             ? "bg-earth-950/90 border-gold-500/40 text-parchment-200"
             : isOngoing
-              ? "bg-earth-950/95 border-gold-400 text-gold-300 shadow-[0_0_20px_rgba(212,175,55,0.4)]"
+              ? "bg-earth-950/95 border-gold-400 text-gold-300 shadow-xl"
               : !isLocked
                 ? "bg-earth-950/90 border-gold-500/30 text-parchment-300"
                 : "bg-stone-950/85 border-stone-800 text-stone-500"

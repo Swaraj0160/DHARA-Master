@@ -102,7 +102,7 @@ export default function PlayerHUD() {
             initial={{ opacity: 0, y: -40, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -30 }}
-            className="absolute top-28 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-earth-950 via-earth-900 to-earth-950 border-2 border-gold-400 px-8 py-4 rounded-3xl shadow-[0_0_50px_rgba(212,175,55,0.7)] pointer-events-auto flex items-center gap-6"
+            className="absolute top-28 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-earth-950 via-earth-900 to-earth-950 border-2 border-gold-400 px-8 py-4 rounded-3xl shadow-xl pointer-events-auto flex items-center gap-6"
           >
             <div className="w-12 h-12 rounded-full bg-gold-500 text-earth-950 flex items-center justify-center font-serif text-2xl font-bold shadow-lg">
               {levelUpNotification.newLevel}

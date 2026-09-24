@@ -94,7 +94,7 @@ export default function RealmEntranceAnimation({
         {/* TOP BAR: Realm Identity & Skip */}
         <div className="relative z-30 w-full bg-gradient-to-b from-black via-black/95 to-transparent px-6 sm:px-12 pt-6 pb-4 border-b border-gold-500/20 backdrop-blur-sm flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-earth-950 border border-gold-500/40 flex items-center justify-center text-gold-400 shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+            <div className="w-9 h-9 rounded-xl bg-earth-950 border border-gold-500/40 flex items-center justify-center text-gold-400 shadow-xl">
               <Compass className="w-5 h-5 animate-[spin_60s_linear_infinite]" />
             </div>
             <div>
@@ -250,7 +250,7 @@ export default function RealmEntranceAnimation({
                   }}
                   className={`group relative flex items-center gap-2.5 p-1.5 sm:p-2 rounded-2xl border transition-all duration-300 cursor-pointer ${
                     isActive
-                      ? "bg-earth-900/90 border-gold-400 shadow-[0_0_20px_rgba(212,175,55,0.5)] scale-105"
+                      ? "bg-earth-900/90 border-gold-400 shadow-xl scale-105"
                       : "bg-black/50 border-stone-800 hover:border-gold-500/50 hover:bg-black/80"
                   }`}
                 >
@@ -305,7 +305,7 @@ export default function RealmEntranceAnimation({
             <button
               onClick={handleFinish}
               disabled={isTransitioningOut}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:shadow-[0_0_40px_rgba(212,175,55,0.9)] hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest shadow-xl hover:shadow-xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>ENTER REALM CHAPTERS</span>
               <ArrowRight className="w-4 h-4" />

@@ -301,7 +301,7 @@ export default function LivingBoard() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest rounded-full shadow-[0_0_35px_rgba(212,175,55,0.6)] border border-white/40"
+              className="flex items-center gap-3 px-6 py-3.5 bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest rounded-full shadow-xl border border-white/40"
             >
               <Play className="w-4 h-4" fill="currentColor" />
               <span>Begin Quest: The Lost Library of Nalanda</span>
@@ -546,10 +546,10 @@ export default function LivingBoard() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-gradient-to-b from-earth-900 via-earth-850 to-earth-950 border-2 border-gold-500 text-parchment-100 p-8 rounded-3xl max-w-lg w-full text-center shadow-[0_0_60px_rgba(212,175,55,0.5)] relative overflow-hidden"
+              className="bg-gradient-to-b from-earth-900 via-earth-850 to-earth-950 border-2 border-gold-500 text-parchment-100 p-8 rounded-3xl max-w-lg w-full text-center shadow-xl relative overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="w-16 h-16 rounded-full bg-gold-500/20 border-2 border-gold-400 mx-auto flex items-center justify-center mb-4 text-3xl shadow-[0_0_20px_rgba(212,175,55,0.8)]">
+              <div className="w-16 h-16 rounded-full bg-gold-500/20 border-2 border-gold-400 mx-auto flex items-center justify-center mb-4 text-3xl shadow-xl">
                 ✨
               </div>
 

@@ -309,7 +309,7 @@ export default function GameMaster() {
         className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.6)] border-2 border-gold-400 text-earth-950 pointer-events-auto hover:scale-105 transition-all ${
           isOpen
             ? "bg-parchment-100 text-earth-900"
-            : "bg-gradient-to-br from-gold-400 to-gold-600 shadow-[0_0_25px_rgba(212,175,55,0.7)]"
+            : "bg-gradient-to-br from-gold-400 to-gold-600 shadow-xl"
         }`}
         aria-label="Toggle Game Master"
       >

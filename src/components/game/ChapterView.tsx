@@ -179,7 +179,7 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.8 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-gradient-to-r from-gold-600 to-gold-400 text-earth-950 font-serif font-bold text-sm shadow-[0_0_25px_rgba(212,175,55,0.7)] flex items-center gap-1.5"
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-gradient-to-r from-gold-600 to-gold-400 text-earth-950 font-serif font-bold text-sm shadow-xl flex items-center gap-1.5"
           >
             <Sparkles className="w-4 h-4 fill-earth-950" />
             <span>+100 XP Earned</span>
@@ -255,7 +255,7 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
 
             <button
               onClick={() => setHasStarted(true)}
-              className="px-10 py-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all shadow-[0_0_35px_rgba(212,175,55,0.5)] flex items-center justify-center gap-2 mx-auto"
+              className="px-10 py-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all shadow-xl flex items-center justify-center gap-2 mx-auto"
             >
               <span>Begin Chapter</span>
               <Play className="w-4 h-4 fill-earth-950" />

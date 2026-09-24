@@ -130,7 +130,7 @@ export default function Dashboard() {
           <Link href={nextAction.link} className="shrink-0 w-full md:w-auto">
             <Button
               size="lg"
-              className="w-full font-serif font-bold uppercase tracking-wider text-xs py-4 px-8 bg-gradient-to-r from-gold-500 to-gold-600 text-earth-950 hover:brightness-110 shadow-[0_0_25px_rgba(212,175,55,0.5)] flex items-center justify-center gap-2"
+              className="w-full font-serif font-bold uppercase tracking-wider text-xs py-4 px-8 bg-gradient-to-r from-gold-500 to-gold-600 text-earth-950 hover:brightness-110 shadow-xl flex items-center justify-center gap-2"
             >
               <span>{nextAction.buttonLabel}</span>
               <ArrowRight className="w-4 h-4" />

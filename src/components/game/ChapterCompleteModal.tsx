@@ -32,7 +32,7 @@ export default function ChapterCompleteModal({
         initial={{ scale: 0.85, opacity: 0, y: 30 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ type: "spring", damping: 20 }}
-        className="bg-earth-950 border-2 border-gold-400 p-6 sm:p-10 rounded-3xl max-w-lg w-full shadow-[0_0_60px_rgba(212,175,55,0.4)] relative text-center text-parchment-100 overflow-hidden"
+        className="bg-earth-950 border-2 border-gold-400 p-6 sm:p-10 rounded-3xl max-w-lg w-full shadow-xl relative text-center text-parchment-100 overflow-hidden"
       >
         {/* Subtle background mandala watermark */}
         <div className="absolute inset-0 opacity-5 bg-[url('/mandala.svg')] bg-center bg-no-repeat pointer-events-none" />
@@ -60,7 +60,7 @@ export default function ChapterCompleteModal({
                 transition={{ delay: 0.2 + starIndex * 0.15, type: "spring" }}
                 className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center border-2 transition-all ${
                   hasStar
-                    ? "bg-gradient-to-tr from-gold-600 via-gold-400 to-gold-500 border-gold-300 text-earth-950 shadow-[0_0_25px_rgba(212,175,55,0.6)]"
+                    ? "bg-gradient-to-tr from-gold-600 via-gold-400 to-gold-500 border-gold-300 text-earth-950 shadow-xl"
                     : "bg-earth-900/60 border-earth-800 text-earth-700"
                 }`}
               >
@@ -113,7 +113,7 @@ export default function ChapterCompleteModal({
         {/* Continue Button */}
         <button
           onClick={onContinue}
-          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-[0_0_30px_rgba(212,175,55,0.4)]"
+          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-xl"
         >
           <span>Continue Journey</span>
           <ArrowRight className="w-4 h-4" />
