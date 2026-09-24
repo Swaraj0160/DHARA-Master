@@ -97,7 +97,7 @@ export default function NalandaQuestPage() {
         : { mathematics: 30, history: 20, architecture: 15, strategy: 15 };
 
     completeQuest("nalanda", {
-      xp: 450,
+      xp: totalScore || 450,
       dnaDeltas: curriculumDNA,
       badge,
       item,
@@ -347,7 +347,7 @@ export default function NalandaQuestPage() {
         historicalContext="Operating from 427 to 1197 CE in Magadha, Nalanda was the world's first great residential university, sheltering thousands of masters of logic, mathematics, astronomy, and medicine."
         truthLevel="source-qualified"
         rewards={{
-          xp: 450,
+          xp: totalScore || 450,
           badge: "Nalanda Scholar",
           dna: [
             { trait: "History", value: 25 },
