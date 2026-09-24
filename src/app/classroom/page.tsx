@@ -3,7 +3,7 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Users, GraduationCap, TrendingUp, AlertCircle, BarChart3, BrainCircuit } from "lucide-react";
+import { Users, GraduationCap, TrendingUp, AlertCircle, BarChart3, BrainCircuit, Eye } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ClassroomMode() {
@@ -18,16 +18,24 @@ export default function ClassroomMode() {
       <Navigation />
       
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-12">
+        <div className="mb-8 p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-center gap-3 text-blue-900">
+          <Eye className="w-5 h-5 flex-shrink-0 text-blue-600" />
+          <p className="text-sm font-medium">
+            <strong>Concept preview.</strong> This page illustrates a planned Classroom Mode with sample data —
+            it is not connected to a real class, students, or backend yet.
+          </p>
+        </div>
+
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <h1 className="font-serif text-4xl md:text-5xl text-earth-900 mb-3 flex items-center gap-4 drop-shadow-sm">
               <BarChart3 className="text-gold-600 w-10 h-10" /> Educator Dashboard
             </h1>
-            <p className="text-earth-600 text-xl">Class: History Grade 8 (Section A)</p>
+            <p className="text-earth-600 text-xl">Sample Class: History Grade 8 (Section A)</p>
           </div>
           <div className="flex gap-4">
-            <Button variant="outline" size="lg" className="bg-white border-parchment-300 text-earth-800">Generate Join Code</Button>
-            <Button size="lg" className="shadow-md hover:shadow-lg">Assign New Quest</Button>
+            <Button variant="outline" size="lg" disabled className="bg-white border-parchment-300 text-earth-400 cursor-not-allowed opacity-60">Generate Join Code (Preview)</Button>
+            <Button size="lg" disabled className="shadow-md opacity-60 cursor-not-allowed">Assign New Quest (Preview)</Button>
           </div>
         </div>
 
@@ -115,7 +123,7 @@ export default function ClassroomMode() {
                   </div>
                 ))}
               </div>
-              <Button className="w-full mt-6 py-6" variant="outline">View Full Student Roster</Button>
+              <Button className="w-full mt-6 py-6 opacity-60 cursor-not-allowed" variant="outline" disabled>View Full Student Roster (Preview)</Button>
             </Card>
           </motion.div>
         </div>
