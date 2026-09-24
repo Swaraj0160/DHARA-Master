@@ -543,22 +543,117 @@ export const useGameStore = create<DharaState>()(
       setBannerMessage: (msg) => set({ bannerMessage: msg }),
       completeQuest: (questId, rewards) => {
         get().addXP(rewards.xp);
+
+        set((state) => ({
+          completedQuests: state.completedQuests.includes(questId)
+            ? state.completedQuests
+            : [...state.completedQuests, questId],
+        }));
+
+        if (rewards.badge) {
+          const badge = rewards.badge;
+          set((state) => ({
+            badges: state.badges.some((b) => b.id === badge.id)
+              ? state.badges
+              : [...state.badges, badge],
+          }));
+        }
+
+        if (rewards.item) {
+          get().addToInventory(rewards.item);
+        }
+
+        if (rewards.dnaDeltas) {
+          for (const [trait, value] of Object.entries(rewards.dnaDeltas)) {
+            if (typeof value === 'number') {
+              get().updateDNA(trait as keyof HeritageDNA, value);
+            }
+          }
+        }
       },
-      addToInventory: () => {},
-      markPlaced: () => {},
-      placeNode: () => true,
-      addConnection: () => ({ success: true, message: 'Connected' }),
-      updateDNA: () => {},
+      addToInventory: (item) => {
+        set((state) => ({
+          inventory: state.inventory.some((i) => i.id === item.id)
+            ? state.inventory
+            : [...state.inventory, item],
+        }));
+      },
+      markPlaced: (id) => {
+        set((state) => ({
+          inventory: state.inventory.map((i) =>
+            i.id === id ? { ...i, isPlaced: true } : i
+          ),
+        }));
+      },
+      placeNode: (node) => {
+        const { placedNodes } = get();
+        if (placedNodes.some((n) => n.id === node.id)) return false;
+        set((state) => ({ placedNodes: [...state.placedNodes, node] }));
+        return true;
+      },
+      addConnection: (fromId, toId) => {
+        const { placedNodes, connections } = get();
+        const fromNode = placedNodes.find((n) => n.id === fromId);
+        const toNode = placedNodes.find((n) => n.id === toId);
+
+        if (!fromNode || !toNode) {
+          return { success: false, message: 'Both sites must be placed on the board first.' };
+        }
+        const alreadyConnected = connections.some(
+          (c) => (c.from === fromId && c.to === toId) || (c.from === toId && c.to === fromId)
+        );
+        if (alreadyConnected) {
+          return { success: false, message: 'These sites are already connected.' };
+        }
+
+        // No synergy data table exists yet (only one board slot is defined so
+        // far) — record a plain Sangam connection with a flat XP reward. Once
+        // real synergy pairs are authored, look them up here before falling
+        // back to this generic path.
+        const connection: Connection = {
+          id: `${fromId}__${toId}`,
+          from: fromId,
+          to: toId,
+          name: `${fromNode.name} ↔ ${toNode.name}`,
+        };
+        set((state) => ({ connections: [...state.connections, connection] }));
+        get().addXP(50);
+
+        return { success: true, message: 'Sangam Connection Formed (+50 XP)' };
+      },
+      updateDNA: (trait, delta) => {
+        set((state) => ({
+          heritageDNA: {
+            ...state.heritageDNA,
+            [trait]: Math.max(0, Math.min(100, state.heritageDNA[trait] + delta)),
+          },
+        }));
+      },
       choices: {},
-      recordChoice: () => {},
+      recordChoice: (choiceKey, choiceValue) => {
+        set((state) => ({ choices: { ...state.choices, [choiceKey]: choiceValue } }));
+      },
     }),
     {
       name: 'dhara_game_progression_v1',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
+        hasSeenIntro: state.hasSeenIntro,
         player: state.player,
         chapterProgress: state.chapterProgress,
         currentCityId: state.currentCityId,
+        inventory: state.inventory,
+        badges: state.badges,
+        heritageDNA: state.heritageDNA,
+        placedNodes: state.placedNodes,
+        connections: state.connections,
+        discoveredSynergies: state.discoveredSynergies,
+        completedQuests: state.completedQuests,
+        questProgress: state.questProgress,
+        unlockedLocations: state.unlockedLocations,
+        unlockedEras: state.unlockedEras,
+        unlockedGames: state.unlockedGames,
+        choices: state.choices,
       }),
     }
   )

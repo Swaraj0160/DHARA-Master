@@ -7,25 +7,24 @@ import { CITIES_DATA, City } from "@/data/gameContent";
 import CityVerticalCard from "./CityVerticalCard";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
-import { Lock, X, LayoutGrid, Map as MapIcon, ChevronLeft, ChevronRight, Star, Sparkles } from "lucide-react";
+import { Lock, X, LayoutGrid, Map as MapIcon, ChevronLeft, ChevronRight, Star, Sparkles, Network } from "lucide-react";
 
 // leaflet touches `window` at module-import time (browser sniffing) — must
 // never be pulled into the server bundle, so this is a real dynamic() import,
 // not a static one wrapped in a Promise.
-const HeritageWorldMap = dynamic(() => import("./HeritageWorldMap"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full aspect-[16/9] min-h-[440px] sm:min-h-[560px] md:min-h-[620px] rounded-3xl border-2 border-gold-500/30 bg-earth-950 flex items-center justify-center text-parchment-400 text-sm font-mono">
-      Loading map…
-    </div>
-  ),
-});
+const mapLoading = (
+  <div className="w-full aspect-[16/9] min-h-[440px] sm:min-h-[560px] md:min-h-[620px] rounded-3xl border-2 border-gold-500/30 bg-earth-950 flex items-center justify-center text-parchment-400 text-sm font-mono">
+    Loading map…
+  </div>
+);
+const HeritageWorldMap = dynamic(() => import("./HeritageWorldMap"), { ssr: false, loading: () => mapLoading });
+const LivingBoard = dynamic(() => import("./LivingBoard"), { ssr: false, loading: () => mapLoading });
 
 export default function WorldMap() {
   const mounted = useMounted();
-  const { isCityUnlocked, startEnterRealm, chapterProgress, getTotalStars } = useGameStore();
+  const { isCityUnlocked, startEnterRealm, chapterProgress, getTotalStars, inventory, placedNodes } = useGameStore();
   const [lockedNotice, setLockedNotice] = useState<{ city: City; needed: number } | null>(null);
-  const [viewMode, setViewMode] = useState<"cards" | "map">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "map" | "board">("cards");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const totalGlobalStars = mounted ? getTotalStars() : 0;
@@ -125,6 +124,20 @@ export default function WorldMap() {
                 <MapIcon className="w-3.5 h-3.5" />
                 <span>Atlas Map</span>
               </button>
+
+              {mounted && (inventory.length > 0 || placedNodes.length > 0) && (
+                <button
+                  onClick={() => setViewMode("board")}
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-serif tracking-wider uppercase transition-all cursor-pointer ${
+                    viewMode === "board"
+                      ? "bg-gradient-to-r from-gold-500 to-gold-600 text-earth-950 font-bold shadow-md"
+                      : "text-parchment-400 hover:text-gold-300"
+                  }`}
+                >
+                  <Network className="w-3.5 h-3.5" />
+                  <span>Living Board</span>
+                </button>
+              )}
             </div>
 
             {/* Carousel navigation arrows (only in cards view) */}
@@ -194,7 +207,7 @@ export default function WorldMap() {
               <span>← Scroll or use arrows to view all 5 ancient realms →</span>
             </div>
           </div>
-        ) : (
+        ) : viewMode === "map" ? (
           /* ── REAL GEOGRAPHIC HERITAGE MAP ── */
           <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
             <HeritageWorldMap
@@ -207,6 +220,11 @@ export default function WorldMap() {
             <div className="flex justify-center items-center gap-2 text-[11px] font-mono text-parchment-400/80 pt-2 text-center">
               <span>Real map of India · verified site coordinates · select a marker to travel there</span>
             </div>
+          </div>
+        ) : (
+          /* ── LIVING HERITAGE BOARD: place discoveries, form Sangam connections ── */
+          <div className="relative w-full aspect-[16/9] min-h-[440px] sm:min-h-[560px] md:min-h-[620px] max-w-6xl mx-auto rounded-3xl overflow-hidden border-2 border-gold-500/50 shadow-xl">
+            <LivingBoard />
           </div>
         )}
       </div>
