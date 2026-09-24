@@ -1,10 +1,33 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { City } from "@/data/gameContent";
 import { useRouter } from "next/navigation";
+
+const TRAVEL_MS = 900;
+
+/** Flies the camera to a target before the parent navigates away — gives
+ * marker selection a "travelling there" feel instead of an instant cut. */
+function TravelCamera({
+  target,
+  onArrive,
+}: {
+  target: [number, number] | null;
+  onArrive: () => void;
+}) {
+  const map = useMap();
+  useEffect(() => {
+    if (!target) return;
+    map.flyTo(target, 7, { duration: TRAVEL_MS / 1000 });
+    const timer = setTimeout(onArrive, TRAVEL_MS);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target]);
+  return null;
+}
 
 // Nalanda lives as its own standalone quest (not a City record), but it is
 // DHARA's master vertical slice and must appear on the real map too.
@@ -52,6 +75,19 @@ export default function HeritageWorldMap({
   onLockedCity,
 }: HeritageWorldMapProps) {
   const router = useRouter();
+  const [travelTarget, setTravelTarget] = useState<[number, number] | null>(null);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+
+  const beginTravel = (latLng: [number, number], action: () => void) => {
+    setTravelTarget(latLng);
+    setPendingAction(() => action);
+  };
+
+  const handleArrive = () => {
+    pendingAction?.();
+    setTravelTarget(null);
+    setPendingAction(null);
+  };
 
   return (
     <div className="relative w-full aspect-[16/9] min-h-[440px] sm:min-h-[560px] md:min-h-[620px] rounded-3xl overflow-hidden border-2 border-gold-500/50 shadow-xl bg-[#1e140d]">
@@ -83,11 +119,15 @@ export default function HeritageWorldMap({
           }
         `}</style>
 
+        <TravelCamera target={travelTarget} onArrive={handleArrive} />
+
         {/* Nalanda — the master vertical slice, always playable */}
         <Marker
           position={NALANDA_MARKER.latLng}
           icon={createSiteIcon(NALANDA_MARKER.name, "master")}
-          eventHandlers={{ click: () => router.push("/quest/nalanda") }}
+          eventHandlers={{
+            click: () => beginTravel(NALANDA_MARKER.latLng, () => router.push("/quest/nalanda")),
+          }}
         />
 
         {cities.map((city) => {
@@ -98,12 +138,23 @@ export default function HeritageWorldMap({
               position={city.latLng}
               icon={createSiteIcon(city.name, unlocked ? "playable" : "locked")}
               eventHandlers={{
-                click: () => (unlocked ? onSelectCity(city) : onLockedCity(city)),
+                click: () =>
+                  unlocked
+                    ? beginTravel(city.latLng, () => onSelectCity(city))
+                    : onLockedCity(city),
               }}
             />
           );
         })}
       </MapContainer>
+
+      {travelTarget && (
+        <div className="absolute inset-0 z-[400] flex items-end justify-center pb-6 bg-black/0 pointer-events-none">
+          <div className="px-4 py-2 rounded-full bg-earth-950/90 border border-gold-500/40 text-gold-300 text-xs font-mono tracking-widest uppercase animate-pulse">
+            Travelling…
+          </div>
+        </div>
+      )}
 
       <div className="absolute top-4 left-4 z-[400] pointer-events-none hidden sm:flex items-center gap-2 bg-earth-950/85 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-gold-500/40 text-[11px] font-mono text-gold-300 shadow-md">
         <span>Real geography · verified site coordinates</span>
