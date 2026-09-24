@@ -30,26 +30,33 @@ const CHAPTER_PHOTOS: Record<string, string> = {
   "hampi-ch4": "/hampi_ch4.jpg",
   "hampi-ch5": "/hampi_ch5.jpg",
 
+  // Varanasi, Madurai, Konark: these previously pointed at Unsplash stock
+  // photos matched to the wrong subject entirely (confirmed by direct
+  // inspection: a beach VW van, a starry-night sailboat, a saree fashion
+  // shoot, a limestone karst island, an alpine mountain range — none
+  // depicting the claimed site). Rather than swap in other unverified stock
+  // photos, all fall back to the local conceptual-illustration placeholder
+  // until real, verified site photography is sourced (see DHARA_MASTER.md).
   // Varanasi
-  "varanasi-ch1": "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=400&q=80",
-  "varanasi-ch2": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&q=80",
-  "varanasi-ch3": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&q=80",
-  "varanasi-ch4": "https://images.unsplash.com/photo-1596178060671-7a80dc8059ea?w=400&q=80",
-  "varanasi-ch5": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80",
+  "varanasi-ch1": "/ancient_temple_bg.jpg",
+  "varanasi-ch2": "/ancient_temple_bg.jpg",
+  "varanasi-ch3": "/ancient_temple_bg.jpg",
+  "varanasi-ch4": "/ancient_temple_bg.jpg",
+  "varanasi-ch5": "/ancient_temple_bg.jpg",
 
   // Madurai
-  "madurai-ch1": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=400&q=80",
-  "madurai-ch2": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80",
-  "madurai-ch3": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?w=400&q=80",
-  "madurai-ch4": "https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=400&q=80",
-  "madurai-ch5": "https://images.unsplash.com/photo-1600100397608-f010f443b71c?w=400&q=80",
+  "madurai-ch1": "/ancient_temple_bg.jpg",
+  "madurai-ch2": "/ancient_temple_bg.jpg",
+  "madurai-ch3": "/ancient_temple_bg.jpg",
+  "madurai-ch4": "/ancient_temple_bg.jpg",
+  "madurai-ch5": "/ancient_temple_bg.jpg",
 
   // Konark
-  "konark-ch1": "https://images.unsplash.com/photo-1548013146-72479768bada?w=400&q=80",
-  "konark-ch2": "/ancient_temple_bg.jpg", // conceptual illustration — the real vista-2 mismatch fix (see realmEntranceData.ts) applies here too; the original Unsplash photo was an unrelated snowy mountain range
-  "konark-ch3": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?w=400&q=80",
-  "konark-ch4": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=400&q=80",
-  "konark-ch5": "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=400&q=80",
+  "konark-ch1": "/ancient_temple_bg.jpg",
+  "konark-ch2": "/ancient_temple_bg.jpg",
+  "konark-ch3": "/ancient_temple_bg.jpg",
+  "konark-ch4": "/ancient_temple_bg.jpg",
+  "konark-ch5": "/ancient_temple_bg.jpg",
 };
 
 export default function ChapterNode({
@@ -64,7 +71,7 @@ export default function ChapterNode({
   const isOngoing = isCurrent && !isCompleted && !isLocked;
   const starsEarned = progress.stars || 0;
 
-  const photoUrl = CHAPTER_PHOTOS[chapter.id] || "/chapter_torana.jpg";
+  const photoUrl = CHAPTER_PHOTOS[chapter.id] || "/ancient_temple_bg.jpg";
 
   const handleClick = () => {
     if (isLocked) {
