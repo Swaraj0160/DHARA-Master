@@ -77,6 +77,7 @@ export default function LivingBoard() {
     connections,
     addConnection,
     flyToTarget,
+    isCityPassportUnlocked,
   } = useGameStore();
 
   const [selectedSlot, setSelectedSlot] = useState<WorldSlot | null>(null);
@@ -202,7 +203,10 @@ export default function LivingBoard() {
           );
           if (isOccupied) return null;
 
-          const isAvailable = slot.status === "unlocked" || slot.status === "available";
+          // Nalanda (magadha) has its own dedicated quest and is always
+          // available; every other slot mirrors that city's real Heritage
+          // Passport unlock state rather than the slot's static `status`.
+          const isAvailable = slot.id === "magadha" || isCityPassportUnlocked(slot.id);
 
           return (
             <Marker

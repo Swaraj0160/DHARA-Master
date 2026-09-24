@@ -104,6 +104,11 @@ export interface WorldSlot {
   recommendedQuest?: string;
 }
 
+// Nalanda (always available — it has its own dedicated quest) plus one slot
+// per CITIES_DATA city, reusing each city's real coordinates. `status` here
+// is only the fallback for consumers that don't check live unlock state —
+// LivingBoard.tsx checks isCityPassportUnlocked(slot.id) dynamically instead,
+// since a static array can't reflect per-player progress.
 export const WORLD_SLOTS: WorldSlot[] = [
   {
     id: 'magadha',
@@ -115,7 +120,18 @@ export const WORLD_SLOTS: WorldSlot[] = [
     status: 'unlocked',
     accepts: 'monument',
     historicalContext: 'Ancient world-renowned Buddhist monastic university.'
-  }
+  },
+  ...CITIES_DATA.map((c): WorldSlot => ({
+    id: c.id,
+    name: c.name,
+    region: c.region,
+    era: c.era,
+    lat: c.latLng[0],
+    lng: c.latLng[1],
+    status: 'locked',
+    accepts: 'monument',
+    historicalContext: c.description,
+  })),
 ];
 
 export interface DharaState {
@@ -464,6 +480,27 @@ export const useGameStore = create<DharaState>()(
         });
 
         set({ chapterProgress: updatedProgress });
+
+        // The moment a city's Passport is fully earned, grant its Living
+        // Board token — addToInventory dedupes by id, so re-completing
+        // chapters afterward is a no-op rather than granting duplicates.
+        if (city && get().isCityPassportUnlocked(city.id)) {
+          get().addToInventory({
+            id: `${city.id}_token`,
+            name: city.name,
+            icon: '🏛️',
+            category: 'monument',
+            rarity: 'Epic',
+            era: city.era,
+            source: `Heritage Passport: ${city.name}`,
+            description: city.description,
+            historicalContext: `${city.subtitle} — ${city.region}.`,
+            tags: [city.region],
+            placeable: true,
+            isPlaced: false,
+            targetSlotId: city.id,
+          });
+        }
 
         return {
           starsAwarded: finalStars,
