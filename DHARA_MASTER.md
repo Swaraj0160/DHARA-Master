@@ -85,8 +85,20 @@ Live-checked Profile (fine, no issues), Settings, Classroom, AI Historian:
 2. **`/classroom`'s "Educator Dashboard" was a fully-fabricated mockup** (specific fake student names/scores, a fake "AI Recommendation", buttons with no onClick) with nothing on the page itself indicating it wasn't real. FIXED: added an explicit "Concept preview" banner, relabeled sample data, disabled the non-functional buttons.
 3. **`/historian` (AI Historian) had a real Heritage Truth Layer violation**: its own tagline claimed "strictly grounded in verified... sources," 4 keyword-matched questions had genuine curated answers with real citations (kept), but ANY other question fell through to a generic non-answer that ignored what was asked while still displaying a "Historical Source Citation" box with citations unrelated to the actual question — i.e. fabricated-looking citations, the exact thing the master directive prohibits. FIXED PROPERLY (not just relabeled): built `src/app/api/historian/chat/route.ts`, a real Gemini call with a system prompt forbidding invented citations and requiring an honest "I don't have a specific verified citation for that" when it lacks one. Verified live: a Konark question that previously triggered the broken fallback now returns the correct, specific, real answer (Narasimhadeva I, architect Bishu Maharana) with no fake citation box.
 
+## /games audit — clean, no issues found
+Checked Ashtapada (the only playable game): genuinely interactive board (verified clicks register real state changes), honestly labeled "DHARA Gameplay Adaptation" (not claiming historical authenticity), plausible historical note (Buddhist prohibition texts, 5th c. BCE). The other two listed games (Chaupar/Pachisi, Gilli-Danda & Moksha Patam) are honestly marked "Coming in Module 2 · Preservation in Progress" — not presented as playable when they aren't. No fix needed.
+
+## `next.config.ts` cleanup — DONE
+Removed the now-unused `images.unsplash.com` remotePattern (every image reference is local as of this session's audits).
+
+## REAL BLOCKER: Vercel production has zero environment variables set
+Checked via `vercel env ls production` — confirmed empty. This means:
+- `GEMINI_API_KEY` is NOT set in production — VEDA and the AI Historian would both silently fall back to their "no API key" canned messages on any real deployment right now.
+- Phase 14 (production deployment) cannot meaningfully proceed until this is resolved.
+**This needs the user** — per the hard credential-handling rule, I cannot ask them to paste the raw key into chat for me to type back; they should either set it themselves in the Vercel dashboard (Project Settings → Environment Variables) or tell me to set it via `vercel env add GEMINI_API_KEY production` (which prompts for the value interactively/securely, never echoing it back to me). Flag this to the user directly — do not deploy to production silently in this state.
+
 ## Next major feature (pick up here)
-(1) Ask the user whether to source real, verified photography for Varanasi/Madurai/Konark (Wikimedia Commons has public-domain options for major monuments) — needs their go-ahead per the no-download rule. (2) `/games` page not yet inspected this session — check for similar fake-feature or accuracy issues. (3) Trivial cleanup: `next.config.ts`'s `images.remotePatterns` still allows `images.unsplash.com`, now fully unused.
+(1) **Surface the Vercel env var blocker to the user** — this is the actual next gate before any production deployment work makes sense. (2) Ask the user whether to source real, verified photography for Varanasi/Madurai/Konark — needs their go-ahead per the no-download rule. (3) Given the accumulation of real blockers needing user input (env vars, photography), consider this a natural checkpoint to report consolidated status rather than manufacturing more autonomous work — most remaining high-value items now depend on the user.
 
 ## Phase 0
 DONE — see below, do not redo.
