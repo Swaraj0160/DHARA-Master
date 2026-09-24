@@ -40,8 +40,19 @@ Live-played the full Nalanda quest chain this pass (Arrive → Explore → Schol
 - **Live-tested against the real Gemini API** (not just build-checked): confirmed for both the Nalanda special-case path and the CITIES_DATA path (Pataliputra) — responses correctly surfaced injected facts (Dharmaganja library, Kumhrar pillars, Jaladurga). Confirmed the honesty guard: asked for an exact 700 CE monk census (not in the grounding data) → VEDA correctly declined with "the chronicles I carry do not preserve that detail" instead of inventing a number.
 - Note: candidate models are `gemini-3.5-flash` / `gemini-3.6-flash` / `gemini-flash-latest` (pre-existing code) — occasionally hit transient 503 "high demand" from Google's side; the 3-model fallback chain already handles this, confirmed by testing (first call 503'd all three, retry succeeded).
 
+## MAJOR FIX this pass: the entire progression/Living Board pipeline was silently broken
+Two compounding bugs, found only by actually playing the game and checking raw localStorage (not by reading code):
+1. `completeQuest` in `gameState.ts` only ever called `addXP` — badge/item/dnaDeltas args were silently dropped. `addToInventory`/`markPlaced`/`placeNode`/`addConnection`/`updateDNA` were all no-op stubs (`() => {}` / `() => true`) despite full type signatures and a fully-built consuming UI (`LivingBoard.tsx`, `DiscoveryReveal.tsx`).
+2. The persist `partialize` whitelist only kept `player`, `chapterProgress`, `currentCityId` — badges/inventory/placedNodes/connections/heritageDNA/completedQuests/questProgress/unlocked*/choices/**hasSeenIntro** were all dropped on every save and reset on reload.
+FIXED both. Verified live end-to-end: played real Nalanda quest to completion, confirmed badge+item survive a hard reload, placed the real item on the newly-wired Living Board and watched the marker change from available(+) to placed(🏛️).
+Also fixed: `chapter_torana.jpg` mislabeled as Pataliputra (it's actually Sanchi) — recaptioned honestly, no image swap needed.
+Also wired: `LivingBoard.tsx` into `WorldMap.tsx` as a third "Living Board" tab (gated on having ≥1 inventory item, so it's not empty on first visit).
+
+## Known follow-up (not yet fixed, low severity)
+`quest/nalanda/page.tsx`'s `handleTriggerAddToBharat` calls `completeQuest("nalanda", { xp: 450, ... })` with a **hardcoded 450**, but `QuestComplete.tsx`'s summary screen displays "+780 Heritage XP" (presumably computed from the accumulated `totalScore` across steps) — the promised reward doesn't match the applied one. Minor, but a real reward-integrity bug worth fixing: either make `completeQuest` receive the real `totalScore`, or make the summary screen show the same flat 450.
+
 ## Next major feature (pick up here)
-(1) Investigate finding #1 (image provenance of `chapter_torana.jpg` and similar) — verify, don't fix by guessing; no downloads without asking first. (2) `LivingBoard.tsx` — still unused; wire into `/dashboard` or remove. (3) Consider extending grounding to Hampi/Varanasi/Madurai/Konark once unlocked-in-testing (currently only Pataliputra is unlocked by default so only it + Nalanda were live-verified; the other 4 cities use the same CITIES_DATA code path so should work identically, but haven't been observed live).
+(1) Fix the 450-vs-780 XP mismatch above (quick, contained). (2) Extend VEDA grounding verification to Hampi/Varanasi/Madurai/Konark once reachable (only Pataliputra+Nalanda live-verified so far — same code path, likely fine, but unobserved). (3) `WORLD_SLOTS` only has one slot (Nalanda/magadha) defined — `addConnection`'s Sangam-pairing logic is now real but untestable until a second slot exists; add slots for unlocked cities as their quests get built out.
 
 ## Phase 0
 DONE — see below, do not redo.
