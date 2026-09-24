@@ -9,7 +9,8 @@ Phase 1/7 overlap — Realism pass + Heritage Truth Layer foundation. IN PROGRES
 - Wired `truthLevel` prop into `DiscoveryReveal.tsx` and used it on the one real call site (`quest/nalanda/page.tsx` Nalanda discovery — tagged `source-qualified`, citing Xuanzang/Si-Yu-Ki per deck's own reference list).
 - Toned down `DiscoveryReveal.tsx` glow/shadow effects (removed 40-80px gold blur-glows, pulsing halo) — was the clearest "fantasy game UI" violation of the realism rule found so far.
 - Build verified clean after each change.
-- NEXT: audit remaining components for the same excessive-glow pattern (check `game/LivingBoard.tsx`, `game/WorldMap.tsx`, `game/RealmEntranceAnimation.tsx`, `veda/VedaCompanion.tsx` — not yet inspected this pass). Then tag remaining historicalContext strings across `gameContent.ts` city chapters with TruthBadge levels (currently only Nalanda's single discovery moment is tagged).
+- DONE: batch-replaced `shadow-[0_0_Npx_rgba(212,175,55,x)]` gold glow across 18 files with `shadow-xl` (mechanical, build-verified). 5 files still carry non-gold rarity-color glows (blue/purple/legendary) — left as-is, lower priority than the gold-everywhere pattern.
+- NEXT (pick up here): (1) tag remaining `historicalContext` strings in `src/data/gameContent.ts` (Pataliputra/Hampi/Varanasi/Konark chapters) with `TruthBadge` levels via each city's chapter-view rendering path — need to check `ChapterView.tsx`/`GameMaster.tsx` for where historicalContext actually renders before wiring badges in. (2) Read `veda/VedaCompanion.tsx` fully — directive explicitly warns against VEDA looking like "a floating AI assistant pasted onto the game"; not yet audited this pass. (3) Then move toward Phase 2 (cinematic opening) only after this realism/truth-layer pass is reasonably thorough — don't jump ahead while known gaps remain.
 
 ## Phase 0
 DONE — see below, do not redo.
