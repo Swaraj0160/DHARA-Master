@@ -76,8 +76,11 @@ Opened every remaining Unsplash URL directly (not guessed from filenames). 100% 
 ## Sangam connection polyline — verified working (was already fine)
 Checked via DOM inspection (`.leaflet-overlay-pane path`): the Nalanda↔Konark connection renders a real SVG path with the correct gold stroke (`#d4af37`, width 3) between the correct marker positions. It's just visually subtle/thin against the busy map tiles at this zoom — not a bug. No fix needed.
 
+## Phase 2: cinematic intro atmosphere — DONE
+Added a slow Ken-Burns reveal of the existing `ancient_india_map.jpg` (decorative parchment-map art, already local) as a fading/brightening backdrop through the intro sequence, plus a vignette. Explicitly kept as atmosphere-only — the real interactive map stays the verified-coordinate Leaflet map built earlier; this decorative one is never presented as authoritative geography. Verified via DOM inspection (element present, correct background-image, opacity animates from 0). Build passes.
+
 ## Next major feature (pick up here)
-(1) Ask the user whether to source real, verified photography for Varanasi/Madurai/Konark (Wikimedia Commons has public-domain options for major monuments) — this is the natural next step now that the dishonest placeholders are gone, but requires their go-ahead per the no-download-without-asking rule. (2) Return to visual/design-system work (Phase 1) or cinematic intro depth (Phase 2) — untouched since early sessions. (3) Consider a Next.js `images.remotePatterns` cleanup in `next.config.ts` (still allows `images.unsplash.com`, now unused) — trivial, low priority.
+(1) Ask the user whether to source real, verified photography for Varanasi/Madurai/Konark (Wikimedia Commons has public-domain options for major monuments) — natural next step now that dishonest placeholders are gone, but needs their go-ahead per the no-download rule. (2) Phase 1 (design system) — most core UI already reasonably restrained per earlier audits; look for remaining rough edges in less-visited screens (Profile, Settings, Classroom preview) not yet inspected this session. (3) Trivial cleanup: `next.config.ts`'s `images.remotePatterns` still allows `images.unsplash.com`, now fully unused — low priority.
 
 ## Phase 0
 DONE — see below, do not redo.
