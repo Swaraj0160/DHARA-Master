@@ -46,7 +46,7 @@ const CHAPTER_PHOTOS: Record<string, string> = {
 
   // Konark
   "konark-ch1": "https://images.unsplash.com/photo-1548013146-72479768bada?w=400&q=80",
-  "konark-ch2": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=400&q=80",
+  "konark-ch2": "/ancient_temple_bg.jpg", // conceptual illustration — the real vista-2 mismatch fix (see realmEntranceData.ts) applies here too; the original Unsplash photo was an unrelated snowy mountain range
   "konark-ch3": "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?w=400&q=80",
   "konark-ch4": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=400&q=80",
   "konark-ch5": "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=400&q=80",
