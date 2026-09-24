@@ -53,7 +53,8 @@ export interface City {
   description: string;
   artwork: string;
   requiredStars: number; // Global stars threshold to unlock
-  coordinates: { x: number; y: number }; // Percentage (0-100) on the world map
+  coordinates: { x: number; y: number }; // Percentage (0-100) on the world map (legacy card layout)
+  latLng: [number, number]; // Real-world [lat, lng] — verified site/city coordinates for the geographic map
   region: string;
   era: string;
   chapters: Chapter[];
@@ -88,6 +89,7 @@ export const CITIES_DATA: City[] = [
     artwork: "🏛️",
     requiredStars: 0, // Unlocked from start
     coordinates: { x: 61, y: 46.5 },
+    latLng: [25.6127, 85.1228],
     region: "Magadha (Bihar)",
     era: "4th Century BCE - 5th Century CE",
     chapters: [
@@ -371,6 +373,7 @@ export const CITIES_DATA: City[] = [
     artwork: "🛕",
     requiredStars: 6, // Global threshold: unlocked once player reaches 6 total stars
     coordinates: { x: 41.5, y: 68 },
+    latLng: [15.3350, 76.4600],
     region: "Ballari (Karnataka)",
     era: "14th - 16th Century CE",
     chapters: [
@@ -697,6 +700,7 @@ export const CITIES_DATA: City[] = [
     artwork: "🕉️",
     requiredStars: 15, // Threshold: 15 global stars
     coordinates: { x: 53.5, y: 45.5 },
+    latLng: [25.3176, 82.9739],
     region: "Kashi (Uttar Pradesh)",
     era: "Ancient to Modern",
     chapters: [
@@ -980,6 +984,7 @@ export const CITIES_DATA: City[] = [
     artwork: "🌸",
     requiredStars: 25, // Threshold: 25 global stars
     coordinates: { x: 47, y: 84 },
+    latLng: [9.9252, 78.1198],
     region: "Tamil Nadu",
     era: "3rd Century BCE - 17th Century CE",
     chapters: [
@@ -1263,6 +1268,7 @@ export const CITIES_DATA: City[] = [
     artwork: "☀️",
     requiredStars: 40, // Threshold: 40 global stars
     coordinates: { x: 59, y: 62 },
+    latLng: [19.8876, 86.0945],
     region: "Puri (Odisha)",
     era: "13th Century CE",
     chapters: [
