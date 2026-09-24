@@ -48,11 +48,11 @@ FIXED both. Verified live end-to-end: played real Nalanda quest to completion, c
 Also fixed: `chapter_torana.jpg` mislabeled as Pataliputra (it's actually Sanchi) — recaptioned honestly, no image swap needed.
 Also wired: `LivingBoard.tsx` into `WorldMap.tsx` as a third "Living Board" tab (gated on having ≥1 inventory item, so it's not empty on first visit).
 
-## Known follow-up (not yet fixed, low severity)
-`quest/nalanda/page.tsx`'s `handleTriggerAddToBharat` calls `completeQuest("nalanda", { xp: 450, ... })` with a **hardcoded 450**, but `QuestComplete.tsx`'s summary screen displays "+780 Heritage XP" (presumably computed from the accumulated `totalScore` across steps) — the promised reward doesn't match the applied one. Minor, but a real reward-integrity bug worth fixing: either make `completeQuest` receive the real `totalScore`, or make the summary screen show the same flat 450.
+## Follow-up fixed same pass
+XP mismatch fixed: both `completeQuest()`'s call and `DiscoveryReveal`'s `rewards.xp` in `quest/nalanda/page.tsx` now use `totalScore || 450` instead of a hardcoded 450, matching what `QuestComplete.tsx` already displayed (780 for a full correct run).
 
 ## Next major feature (pick up here)
-(1) Fix the 450-vs-780 XP mismatch above (quick, contained). (2) Extend VEDA grounding verification to Hampi/Varanasi/Madurai/Konark once reachable (only Pataliputra+Nalanda live-verified so far — same code path, likely fine, but unobserved). (3) `WORLD_SLOTS` only has one slot (Nalanda/magadha) defined — `addConnection`'s Sangam-pairing logic is now real but untestable until a second slot exists; add slots for unlocked cities as their quests get built out.
+(1) Extend VEDA grounding verification to Hampi/Varanasi/Madurai/Konark once reachable (only Pataliputra+Nalanda live-verified so far — same code path, likely fine, but unobserved). (2) `WORLD_SLOTS` only has one slot (Nalanda/magadha) defined — `addConnection`'s Sangam-pairing logic is now real but untestable until a second slot exists; add slots for unlocked cities as their quests get built out. (3) Given how much was silently broken here, worth a similar live-testing pass over Hampi/Varanasi/Madurai/Konark's own quest flows once unlocked, rather than assuming they work from code alone.
 
 ## Phase 0
 DONE — see below, do not redo.
