@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "../ui/Button";
+import TruthBadge from "../ui/TruthBadge";
 import { Search, Eye, Check, AlertCircle, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -215,9 +216,12 @@ export default function ManuscriptHunt({ onComplete }: ManuscriptHuntProps) {
             animate={{ opacity: 1, scale: 1 }}
             className="p-6 bg-green-50 border-2 border-green-400 rounded-2xl shadow-xl space-y-4"
           >
-            <div className="flex items-center gap-2 text-green-900">
-              <Check className="w-6 h-6 text-green-600" />
-              <h3 className="font-serif text-2xl font-bold">Manuscript Successfully Identified</h3>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-green-900">
+                <Check className="w-6 h-6 text-green-600" />
+                <h3 className="font-serif text-2xl font-bold">Manuscript Successfully Identified</h3>
+              </div>
+              <TruthBadge level="verified" />
             </div>
 
             <p className="text-sm text-green-950 leading-relaxed font-medium">

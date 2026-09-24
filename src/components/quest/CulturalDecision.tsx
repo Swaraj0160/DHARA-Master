@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "../ui/Button";
+import TruthBadge from "../ui/TruthBadge";
 import { GitBranch, AlertCircle, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useGameStore } from "@/store/gameState";
@@ -132,7 +133,10 @@ export default function CulturalDecision({ onComplete }: CulturalDecisionProps) 
           </div>
 
           <div className="p-4 bg-earth-900 text-parchment-100 rounded-xl text-xs sm:text-sm leading-relaxed border border-gold-500/30">
-            <strong className="text-gold-400 block mb-1">Historical Context:</strong>
+            <div className="flex items-center justify-between gap-2 mb-1.5">
+              <strong className="text-gold-400">Historical Context</strong>
+              <TruthBadge level="source-qualified" />
+            </div>
             {selectedData.historicalNote}
           </div>
 

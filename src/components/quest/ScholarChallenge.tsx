@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
+import TruthBadge from "../ui/TruthBadge";
 import { Brain, HelpCircle, CheckCircle, RotateCcw, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -158,14 +159,17 @@ export default function ScholarChallenge({ onComplete }: ScholarChallengeProps) 
               animate={{ opacity: 1, y: 0 }}
               className="p-5 bg-green-50 border-2 border-green-300 rounded-2xl space-y-4"
             >
-              <div className="flex items-center gap-2 text-green-800">
-                <CheckCircle className="w-5 h-5 text-green-600" />
-                <h4 className="font-serif font-bold text-lg">The Gates Swing Open</h4>
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-green-800">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <h4 className="font-serif font-bold text-lg">The Gates Swing Open</h4>
+                </div>
+                <TruthBadge level="source-qualified" />
               </div>
 
               <div className="text-xs text-green-900 leading-relaxed space-y-2">
                 <p>
-                  <strong>Historical Truth:</strong> Ancient Indian prosodists like <em>Pingala</em> (3rd c. BCE), <em>Virahanka</em> (6th c. CE), and <em>Hemachandra</em> (11th c. CE) developed this sequence while systematically mapping rhythmic permutations in Sanskrit poetry—centuries before Fibonacci introduced it in Europe in 1202 CE.
+                  Ancient Indian prosodists like <em>Pingala</em> (3rd c. BCE), <em>Virahanka</em> (6th c. CE), and <em>Hemachandra</em> (11th c. CE) developed this sequence while systematically mapping rhythmic permutations in Sanskrit poetry—centuries before Fibonacci introduced it in Europe in 1202 CE.
                 </p>
               </div>
 
