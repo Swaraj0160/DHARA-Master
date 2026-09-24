@@ -31,7 +31,7 @@ export default function AIHistorian() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = textToSend || input;
     if (!query.trim()) return;
 
@@ -39,9 +39,13 @@ export default function AIHistorian() {
     setMessages((prev) => [...prev, { role: "user", content: query }]);
     setIsTyping(true);
 
-    // Contextual Grounded Responses
-    setTimeout(() => {
-      let aiResponse: Message;
+    // A handful of topics have real, curated, citation-checked answers —
+    // match those instantly. Anything else goes to a real Gemini call
+    // rather than a generic non-answer with citations unrelated to the
+    // actual question (that was a real "fabricated citation" bug: see
+    // DHARA_MASTER.md).
+    {
+      let aiResponse: Message | null = null;
       const lower = query.toLowerCase();
 
       if (lower.includes("nalanda") || lower.includes("university") || lower.includes("dharama")) {
@@ -80,20 +84,35 @@ export default function AIHistorian() {
             { title: "Pingala's Chandaḥśāstra", type: "Primary Sanskrit Metric Treatise" }
           ]
         };
-      } else {
-        aiResponse = {
-          role: "ai",
-          content: "A profound inquiry into India's civilizational heritage. Indian intellectual history spans six orthodox systems of philosophy (Shad-darshana), extensive marine trade networks along the Uttarapatha and Dakshinapatha, and monumental stone architectural traditions. In this prototype, our responses are grounded directly in vetted ASI records and classical primary texts.",
-          sources: [
-            { title: "A Cultural History of India - A. L. Basham", type: "Reference Text" },
-            { title: "Archaeological Survey of India Research Publications", type: "Official Archive" }
-          ]
-        };
       }
 
-      setMessages((prev) => [...prev, aiResponse]);
+      if (aiResponse) {
+        setTimeout(() => {
+          setMessages((prev) => [...prev, aiResponse as Message]);
+          setIsTyping(false);
+        }, 700);
+        return;
+      }
+    }
+
+    // No curated match — ask the real Historian, which is instructed to
+    // admit when it has no specific verified citation rather than invent one.
+    try {
+      const res = await fetch("/api/historian/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: query }),
+      });
+      const data = await res.json();
+      setMessages((prev) => [...prev, { role: "ai", content: data.reply }]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        { role: "ai", content: "The archive is momentarily unreachable, Scholar. Please try again." },
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 1000);
+    }
   };
 
   const sampleQuestions = [
@@ -133,7 +152,7 @@ export default function AIHistorian() {
                 AI Historian & Knowledge Archive
               </h1>
               <p className="text-xs text-earth-600 flex items-center gap-1.5 font-medium mt-0.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-green-700" /> Strictly grounded in verified primary and archaeological sources
+                <ShieldCheck className="w-3.5 h-3.5 text-green-700" /> Cites real sources when it has one — and says so honestly when it doesn&apos;t
               </p>
             </div>
           </div>
