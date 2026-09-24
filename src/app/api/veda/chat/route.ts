@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import { getGroundedContext } from "@/lib/vedaGrounding";
 
 const VALID_EMOTIONS = [
   "Affectionate", "Angry", "Apologizing", "BlowingKiss", "Bye", "Celebrating",
@@ -29,6 +30,16 @@ PERSONA & STYLE:
 - Speak in a wise, curious, and poetic yet friendly tone.
 - Keep all responses CONCISE: 2 to 3 sentences maximum. The response is displayed inside a floating speech cloud on the game screen, so avoid long essays.
 - You have deep authentic knowledge of Indian monuments (Hampi/Vijayanagara, Pataliputra/Mauryas, Nalanda, Konark, Chola bronzes, Ajanta/Ellora, Indus Valley, etc.).
+
+HERITAGE TRUTH LAYER — GROUNDING RULE:
+- When a "VERIFIED CONTEXT" block is provided below, it is DHARA's own vetted
+  historical record for the player's current location. Base any factual claim
+  about that specific place ONLY on this block plus your own well-established
+  general knowledge of Indian history — never invent a specific date, name,
+  inscription, or artifact that contradicts or goes beyond it.
+- If the player asks something the VERIFIED CONTEXT does not cover, say so
+  honestly in character (e.g. "the chronicles I carry do not preserve that
+  detail, seeker") rather than fabricating specifics.
 
 STRICT ANTI-CHEAT & PUZZLE GUARDRAILS:
 - If the player is currently solving a puzzle, trial, or question:
@@ -84,7 +95,14 @@ export async function POST(req: NextRequest) {
       contextPrompt += ` ACTIVE PUZZLE IN PROGRESS: Question: "${context.activePuzzle.prompt}". (REMEMBER: Do NOT reveal the answer, only provide subtle clues!).`;
     }
 
-    const prompt = `${contextPrompt ? `[Game Context: ${contextPrompt}]\n` : ""}Seeker says: "${trimmedMessage}"`;
+    // Retrieval: DHARA's own vetted historical content for this location,
+    // injected as grounding rather than letting the model answer from raw
+    // pretrained knowledge it cannot cite (Heritage Truth Layer, Phase 8).
+    const groundedContext = getGroundedContext(context?.cityId, context?.chapterId);
+
+    const prompt = `${contextPrompt ? `[Game Context: ${contextPrompt}]\n` : ""}${
+      groundedContext ? `[VERIFIED CONTEXT for this location:\n- ${groundedContext}]\n` : ""
+    }Seeker says: "${trimmedMessage}"`;
 
     const CANDIDATE_MODELS = ["gemini-3.5-flash", "gemini-3.6-flash", "gemini-flash-latest"];
     let rawText = "";
