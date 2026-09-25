@@ -7,24 +7,40 @@ import WorldHUD from "@/components/game/WorldHUD";
 import WorldMap from "@/components/game/WorldMap";
 import CityMap from "@/components/game/CityMap";
 import ChapterView from "@/components/game/ChapterView";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import CinematicVRIntro from "@/engine/CinematicVRIntro";
 
 function GameRootContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   
   const {
     currentCityId,
     currentChapterId,
     enteringCityId,
-    confirmEnterRealm
+    confirmEnterRealm,
+    hasSeenIntro,
+    setHasSeenIntro
   } = useGameStore();
 
   useEffect(() => {
-    // Bypass the old Time Portal entirely if the map sets enteringCityId
+    if (searchParams.get("intro") === "reset") {
+      setHasSeenIntro(false);
+      router.replace("/");
+    }
+  }, [searchParams, setHasSeenIntro, router]);
+
+  useEffect(() => {
     if (enteringCityId) {
       confirmEnterRealm();
     }
   }, [enteringCityId, confirmEnterRealm]);
+
+  if (searchParams.get("intro") === "reset") return null;
+
+  if (!hasSeenIntro) {
+    return <CinematicVRIntro onComplete={() => setHasSeenIntro(true)} />;
+  }
 
   return (
     <motion.div
