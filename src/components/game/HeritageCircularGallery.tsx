@@ -14,6 +14,15 @@ export default function HeritageCircularGallery({ onEnterRealm }: CircularGaller
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0); // 1 for right, -1 for left
   const { chapterProgress, isCityUnlocked } = useGameStore();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleNext = () => {
     setDirection(1);
@@ -67,7 +76,7 @@ export default function HeritageCircularGallery({ onEnterRealm }: CircularGaller
                 initial={{ opacity: 0, x: offset * 200 }}
                 animate={{
                   opacity: Math.abs(offset) > 1 ? 0.3 : isCenter ? 1 : 0.6,
-                  x: offset * (isCenter ? 0 : offset > 0 ? (typeof window !== 'undefined' && window.innerWidth < 768 ? 100 : 220) : (typeof window !== 'undefined' && window.innerWidth < 768 ? -100 : -220)),
+                  x: offset * (isCenter ? 0 : offset > 0 ? (isMobile ? 100 : 220) : (isMobile ? -100 : -220)),
                   scale: isCenter ? 1 : 0.8,
                   rotateY: offset * -15, // turn inward
                   z: isCenter ? 100 : -50,

@@ -8,6 +8,7 @@ import { useVedaStore } from "@/store/vedaStore";
 import { Compass, Play, ArrowRight, ShieldCheck, Star, Trophy, Award, ChevronRight, ChevronLeft, MapPin, User } from "lucide-react";
 import Link from "next/link";
 import HeritageCircularGallery from "./HeritageCircularGallery";
+import HeritageJourneyTicket from "./HeritageJourneyTicket";
 
 const getImagesForCity = (id: string) => {
   return {
@@ -64,10 +65,11 @@ function DestinationCard({ city, progress, onClick }: { city: City, progress: nu
 }
 
 export default function WorldMap() {
-  const { startEnterRealm, chapterProgress, getTotalStars, player } = useGameStore();
+  const { startEnterRealm, chapterProgress, getTotalStars, player, addXP } = useGameStore();
   const { openVeda } = useVedaStore();
   const [mounted, setMounted] = useState(false);
   const [enteringCityId, setEnteringCityId] = useState<string | null>(null);
+  const [ticketCityId, setTicketCityId] = useState<string | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll();
@@ -76,8 +78,17 @@ export default function WorldMap() {
   useEffect(() => setMounted(true), []);
 
   const handleEnterWorld = (cityId: string) => {
-    setEnteringCityId(cityId);
-    setTimeout(() => startEnterRealm(cityId), 1500);
+    // Show journey ticket instead of immediately entering
+    setTicketCityId(cityId);
+  };
+
+  const handleTicketAccept = () => {
+    if (ticketCityId) {
+      addXP(10); // Exploration Bonus
+      setEnteringCityId(ticketCityId);
+      setTimeout(() => startEnterRealm(ticketCityId), 1500);
+      setTicketCityId(null);
+    }
   };
 
   const scrollCarousel = (direction: "left" | "right") => {
@@ -96,6 +107,13 @@ export default function WorldMap() {
       
       {/* ENTERING TRANSITION OVERLAY */}
       <AnimatePresence>
+        {ticketCityId && (
+          <HeritageJourneyTicket 
+            cityId={ticketCityId} 
+            onAccept={handleTicketAccept} 
+            onCancel={() => setTicketCityId(null)} 
+          />
+        )}
         {enteringCityId && (
           <motion.div 
             initial={{ opacity: 0 }}
