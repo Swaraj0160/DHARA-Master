@@ -12,6 +12,8 @@ import CulturalDecision from "@/components/quest/CulturalDecision";
 import FinalSynthesisChallenge from "@/components/quest/FinalSynthesisChallenge";
 import QuestComplete from "@/components/quest/QuestComplete";
 import DiscoveryReveal from "@/components/game/DiscoveryReveal";
+import SceneManager from "@/engine/SceneManager";
+import { NalandaSceneConfig } from "@/engine/worldConfigs";
 
 export default function NalandaQuestPage() {
   const router = useRouter();
@@ -211,45 +213,12 @@ export default function NalandaQuestPage() {
       {/* Main Quest Content Container */}
       <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 flex items-center justify-center my-auto">
         <AnimatePresence mode="wait">
-          {/* Step 1: Nalanda Arrival Briefing */}
+          {/* Step 1: Nalanda Arrival Cinematic World Test */}
           {currentStep === 1 && (
-            <motion.div
-              key="arrival"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="max-w-3xl w-full bg-parchment-100 text-earth-900 rounded-3xl p-8 sm:p-12 border-2 border-gold-500 shadow-2xl relative overflow-hidden"
-            >
-              <div className="absolute inset-0 opacity-5 bg-[url('/mandala.svg')] bg-center bg-no-repeat pointer-events-none" />
-
-              <div className="text-xs font-bold tracking-widest text-terracotta-600 uppercase mb-2">
-                Ancient Magadha · 650 CE
-              </div>
-              <h2 className="font-serif text-3xl sm:text-5xl font-bold mb-4">
-                Arrival at the Mahavihara
-              </h2>
-              <p className="text-earth-800 text-base sm:text-lg leading-relaxed mb-6 font-medium">
-                You step through the southern mist onto the red baked-brick paths of Nalanda. Ahead rise the nine storeys of the <em>Dharmaganja</em> library towers, reflecting the afternoon sun. Hundreds of monks and scholars from across Asia pace the stone courtyards in deep debate.
-              </p>
-
-              <div className="p-4 bg-parchment-200/90 rounded-2xl border border-parchment-300 mb-8 space-y-2 text-sm text-earth-900">
-                <div className="font-bold text-xs uppercase tracking-wider text-earth-700">Mission Objectives:</div>
-                <ul className="space-y-1.5 text-xs sm:text-sm list-disc list-inside">
-                  <li>Survey the campus sectors to understand institutional layout.</li>
-                  <li>Pass the Dwarapala entrance riddle on poetic mathematics.</li>
-                  <li>Recover the misplaced palm-leaf philosophical treatise.</li>
-                  <li>Make a strategic preservation choice for the library&apos;s copyists.</li>
-                </ul>
-              </div>
-
-              <button
-                onClick={() => setCurrentStep(2)}
-                className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-gold-500 to-gold-600 text-earth-950 font-serif font-bold text-sm uppercase tracking-widest shadow-lg hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
-              >
-                <span>Enter Campus Survey</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </motion.div>
+            <SceneManager 
+              config={NalandaSceneConfig} 
+              onExit={() => setCurrentStep(2)} 
+            />
           )}
 
           {/* Step 2: Campus Map Exploration */}

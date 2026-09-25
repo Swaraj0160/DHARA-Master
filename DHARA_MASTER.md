@@ -2,8 +2,18 @@
 
 Short, living memory. Update at end of each work session; don't re-read completed work.
 
-## Current Phase
-Phase 1/7 overlap — Realism pass + Heritage Truth Layer foundation. IN PROGRESS.
+## Current Phase: Cinematic Experience Foundation (Block 1) - COMPLETED
+- Implemented Renderer-Agnostic `SceneManager`.
+- Built `Camera` (2.5D virtual panning context).
+- Created `MotionSystem` for global cinematic easing.
+- Created `Atmosphere` (lightweight CSS dust/fog layer respecting reduced motion).
+- Implemented `MediaRenderer` and typed `MediaAsset` architecture (REAL, ARCHIVAL, etc.).
+- Created global `AudioArchitecture` via Web Audio API.
+- Replaced Nalanda Step 1 arrival card with a live, immersive 2.5D SceneManager test (Dharmaganja library prototype).
+- Configured Zustand `WorldStateStore` to track `LOCKED`, `DISCOVERED`, `EXPLORING` states persistently.
+- Leaflet map flyTo successfully hands off to the spatial engine.
+
+## Previous Phase
 - Added stone/charcoal/forest token ramps to `src/app/globals.css` (existing earth/parchment/gold/terracotta palette was already close to the realism target — extended, not replaced. Button.tsx/Card.tsx/Navigation.tsx already restrained, gold used only as accent — audited, no change needed).
 - Built `src/components/ui/TruthBadge.tsx` (Phase 7 Heritage Truth Layer: verified / source-qualified / reconstruction / fiction) — real component, not a stub.
 - Wired `truthLevel` prop into `DiscoveryReveal.tsx` and used it on the one real call site (`quest/nalanda/page.tsx` Nalanda discovery — tagged `source-qualified`, citing Xuanzang/Si-Yu-Ki per deck's own reference list).
