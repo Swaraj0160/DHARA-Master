@@ -16,7 +16,9 @@ import {
   Sparkles,
   Lock,
   Play,
+  Sun,
 } from "lucide-react";
+import KonarkTimeLens from "../quest/konark/KonarkTimeLens";
 
 interface ChapterViewProps {
   cityId: string;
@@ -45,6 +47,7 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
   const [correctCount, setCorrectCount] = useState(0);
   const [xpEarnedInRun, setXpEarnedInRun] = useState(0);
   const [showXpToast, setShowXpToast] = useState(false);
+  const [showTimeLens, setShowTimeLens] = useState(false);
 
   // Completion modal state
   const [completionData, setCompletionData] = useState<{
@@ -253,13 +256,25 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
               </div>
             </div>
 
-            <button
-              onClick={() => setHasStarted(true)}
-              className="px-10 py-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all shadow-xl flex items-center justify-center gap-2 mx-auto"
-            >
-              <span>Begin Chapter</span>
-              <Play className="w-4 h-4 fill-earth-950" />
-            </button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mx-auto max-w-lg">
+              {city.id === "konark" && (
+                <button
+                  onClick={() => setShowTimeLens(true)}
+                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-earth-800 border border-gold-500/40 text-gold-400 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:bg-earth-700 hover:text-gold-300 transition-all shadow-xl flex items-center justify-center gap-2"
+                >
+                  <Sun className="w-4 h-4" />
+                  <span>Time Lens</span>
+                </button>
+              )}
+
+              <button
+                onClick={() => setHasStarted(true)}
+                className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all shadow-xl flex items-center justify-center gap-2"
+              >
+                <span>Begin Chapter</span>
+                <Play className="w-4 h-4 fill-earth-950" />
+              </button>
+            </div>
           </motion.div>
         ) : (
           /* Step 1..N: Puzzles Runner */
@@ -432,6 +447,13 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
           onContinue={() => enterChapter(null)}
         />
       )}
+
+      {/* Time Lens Modal */}
+      <AnimatePresence>
+        {showTimeLens && (
+          <KonarkTimeLens onClose={() => setShowTimeLens(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
