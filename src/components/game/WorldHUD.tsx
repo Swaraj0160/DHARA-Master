@@ -63,14 +63,14 @@ export default function WorldHUD() {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 pointer-events-none">
-      <div className="h-20 bg-[#171513]/90 backdrop-blur-md border-b border-gold-600/10 flex items-center justify-between px-4 sm:px-6 shadow-sm">
+      <div className="h-20 bg-charcoal-900/90 backdrop-blur-md border-b border-gold-600/10 flex items-center justify-between px-4 sm:px-6 shadow-sm">
         
         {/* LEFT: Brand & Back Control */}
         <div className="flex items-center gap-4 pointer-events-auto shrink-0 w-[20%]">
           {!isHome && (
             <button 
               onClick={handleBack}
-              className="px-3 py-1.5 rounded-full border border-gold-500/20 text-[#D8CCB8] hover:text-white hover:border-gold-500 flex items-center gap-2 text-[10px] uppercase tracking-widest transition-colors shadow-sm bg-[#211E1A]"
+              className="px-3 py-1.5 rounded-full border border-gold-500/20 text-[#D8CCB8] hover:text-white hover:border-gold-500 flex items-center gap-2 text-[10px] uppercase tracking-widest transition-colors shadow-sm bg-charcoal-800"
             >
               <ArrowLeft className="w-3 h-3" /> Back
             </button>
@@ -105,7 +105,7 @@ export default function WorldHUD() {
         <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto justify-end shrink-0 w-auto xl:w-[35%]">
           
           {/* Global Stars Currency */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-[#211E1A] border border-gold-500/20 text-gold-400 shadow-sm hidden md:flex">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-charcoal-800 border border-gold-500/20 text-gold-400 shadow-sm hidden md:flex">
             <Star className="w-4 h-4 fill-gold-500 text-gold-500" />
             <div className="flex items-baseline gap-1">
               <span suppressHydrationWarning className="font-mono text-sm sm:text-base font-bold text-gold-500">
@@ -117,7 +117,7 @@ export default function WorldHUD() {
           {/* Heritage Passports Section */}
           <button
             onClick={() => setShowPassport(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-[#211E1A] border border-gold-500/20 hover:border-gold-500 text-gold-400 shadow-sm transition-all group cursor-pointer active:scale-95 hidden md:flex"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-charcoal-800 border border-gold-500/20 hover:border-gold-500 text-gold-400 shadow-sm transition-all group cursor-pointer active:scale-95 hidden md:flex"
             title="Dhara Heritage Passports"
           >
             <ShieldCheck className="w-4 h-4 text-gold-500 group-hover:scale-110 transition-transform" />
@@ -132,7 +132,7 @@ export default function WorldHUD() {
           </button>
 
           {/* Level & XP Gauge */}
-          <div className="flex flex-col bg-[#211E1A] px-3 py-1.5 rounded-2xl border border-gold-500/20 shadow-sm min-w-[120px]">
+          <div className="flex flex-col bg-charcoal-800 px-3 py-1.5 rounded-2xl border border-gold-500/20 shadow-sm min-w-[120px]">
             <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-[#D8CCB8]">
               <span suppressHydrationWarning className="text-gold-500 font-serif font-bold flex items-center gap-1">
                 <Trophy className="w-3 h-3 text-gold-500" />
@@ -142,7 +142,7 @@ export default function WorldHUD() {
                 {xp} XP
               </span>
             </div>
-            <div className="w-full bg-[#171513] rounded-full h-1 mt-1 overflow-hidden">
+            <div className="w-full bg-charcoal-900 rounded-full h-1 mt-1 overflow-hidden">
               <div
                 className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full transition-all duration-500"
                 style={{ width: `${progressPercent}%` }}
@@ -154,7 +154,7 @@ export default function WorldHUD() {
           <div className="flex items-center gap-1 ml-1">
             <Link href="/profile" className="hidden sm:block">
               <button
-                className="p-2 rounded-full border border-gold-500/20 bg-[#211E1A] text-[#D8CCB8] hover:text-white hover:border-gold-500 transition-all shadow-sm cursor-pointer"
+                className="p-2 rounded-full border border-gold-500/20 bg-charcoal-800 text-[#D8CCB8] hover:text-white hover:border-gold-500 transition-all shadow-sm cursor-pointer"
                 title="Scholar Profile"
               >
                 <User className="w-4 h-4" />
@@ -163,7 +163,7 @@ export default function WorldHUD() {
 
             <Link href="/settings" className="hidden sm:block">
               <button
-                className="p-2 rounded-full border border-gold-500/20 bg-[#211E1A] text-[#D8CCB8] hover:text-white hover:border-gold-500 transition-all shadow-sm cursor-pointer"
+                className="p-2 rounded-full border border-gold-500/20 bg-charcoal-800 text-[#D8CCB8] hover:text-white hover:border-gold-500 transition-all shadow-sm cursor-pointer"
                 title="Settings"
               >
                 <SettingsIcon className="w-4 h-4" />
@@ -173,7 +173,7 @@ export default function WorldHUD() {
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="xl:hidden p-2 ml-2 rounded-full border border-gold-500/20 bg-[#211E1A] text-[#D8CCB8] hover:text-white transition-colors cursor-pointer"
+              className="xl:hidden p-2 ml-2 rounded-full border border-gold-500/20 bg-charcoal-800 text-[#D8CCB8] hover:text-white transition-colors cursor-pointer"
             >
                <Menu className="w-5 h-5" />
             </button>
@@ -189,7 +189,7 @@ export default function WorldHUD() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[200] bg-[#171513] flex flex-col items-center justify-center pointer-events-auto"
+            className="fixed inset-0 z-[200] bg-charcoal-900 flex flex-col items-center justify-center pointer-events-auto"
           >
             <button 
               onClick={() => setMobileMenuOpen(false)}
@@ -253,3 +253,4 @@ export default function WorldHUD() {
     </header>
   );
 }
+

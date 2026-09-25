@@ -30,9 +30,9 @@ function DestinationCard({ city, progress, onClick }: { city: City, progress: nu
       whileHover={{ y: -10 }}
       whileTap={{ scale: 0.98 }}
       onClick={() => scrollToElement(`realm-${city.id}`)}
-      className="group relative flex flex-col text-left overflow-hidden border border-[#201D18]/10 hover:border-gold-600/50 transition-colors duration-500 bg-[#29251F] w-[85vw] md:w-[45vw] lg:w-[28vw] aspect-[3/4] cursor-pointer shrink-0 snap-center shadow-2xl"
+      className="group relative flex flex-col text-left overflow-hidden border border-[#201D18]/10 hover:border-gold-600/50 transition-colors duration-500 bg-charcoal-700 w-[85vw] md:w-[45vw] lg:w-[28vw] aspect-[3/4] cursor-pointer shrink-0 snap-center shadow-2xl"
     >
-       <div className="absolute inset-0 w-full h-full overflow-hidden bg-[#171513]">
+       <div className="absolute inset-0 w-full h-full overflow-hidden bg-charcoal-900">
          <motion.img 
            initial={{ scale: 1 }}
            whileHover={{ scale: 1.05 }}
@@ -43,18 +43,18 @@ function DestinationCard({ city, progress, onClick }: { city: City, progress: nu
        
        <div className="relative z-10 p-6 sm:p-8 flex flex-col h-full justify-end transform transition-transform duration-500 group-hover:-translate-y-2">
           <span className="text-[10px] uppercase tracking-[0.3em] text-gold-400 mb-2">{city.region}</span>
-          <h3 className="text-3xl sm:text-4xl font-serif font-bold tracking-widest uppercase text-[#F5EFE4] mb-2 drop-shadow-md">{city.name}</h3>
-          <span className="text-[10px] uppercase tracking-widest text-[#D8CCB8] mb-4 font-mono border border-[#D8CCB8]/20 px-2 py-1 inline-block w-max backdrop-blur-sm bg-black/20">{city.era}</span>
+          <h3 className="text-3xl sm:text-4xl font-serif font-bold tracking-widest uppercase text-ivory-100 mb-2 drop-shadow-md">{city.name}</h3>
+          <span className="text-[10px] uppercase tracking-widest text-ivory-300 mb-4 font-mono border border-[#D8CCB8]/20 px-2 py-1 inline-block w-max backdrop-blur-sm bg-black/20">{city.era}</span>
           
-          <p className="text-xs sm:text-sm text-[#D8CCB8] mb-6 line-clamp-2 leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity duration-500">{city.description}</p>
+          <p className="text-xs sm:text-sm text-ivory-300 mb-6 line-clamp-2 leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity duration-500">{city.description}</p>
           
           <div className="flex items-center justify-between border-t border-[#D8CCB8]/20 pt-5 mt-auto">
              <div className="flex flex-col gap-1">
-               <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/60">Discoveries</span>
-               <span className="text-xs font-mono text-gold-400">{progress} <span className="text-[#D8CCB8]/40">/ {city.chapters.length}</span></span>
+               <span className="text-[9px] uppercase tracking-[0.2em] text-ivory-300/60">Discoveries</span>
+               <span className="text-xs font-mono text-gold-400">{progress} <span className="text-ivory-300/40">/ {city.chapters.length}</span></span>
              </div>
-             <div className="w-10 h-10 rounded-full border border-gold-500/30 flex items-center justify-center group-hover:bg-gold-600 transition-colors bg-[#171513]/50 backdrop-blur-md">
-               <ArrowRight className="w-4 h-4 text-gold-400 group-hover:text-[#171513] transition-colors" />
+             <div className="w-10 h-10 rounded-full border border-gold-500/30 flex items-center justify-center group-hover:bg-gold-600 transition-colors bg-charcoal-900/50 backdrop-blur-md">
+               <ArrowRight className="w-4 h-4 text-gold-400 group-hover:text-charcoal-900 transition-colors" />
              </div>
           </div>
        </div>
@@ -86,12 +86,12 @@ export default function WorldMap() {
     }
   };
 
-  if (!mounted) return <div className="min-h-screen bg-[#F4F0E7]" />;
+  if (!mounted) return <div className="min-h-screen bg-ivory-100" />;
 
   const discoveredCount = CITIES_DATA.filter(c => c.chapters.some(ch => chapterProgress[ch.id]?.completed)).length;
 
   return (
-    <div className="relative w-full bg-[#F4F0E7] text-[#201D18] font-sans overflow-x-hidden selection:bg-gold-600/30">
+    <div className="relative w-full bg-ivory-100 text-charcoal-800 font-sans overflow-x-hidden selection:bg-gold-600/30">
       
       {/* ENTERING TRANSITION OVERLAY */}
       <AnimatePresence>
@@ -99,7 +99,7 @@ export default function WorldMap() {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="fixed inset-0 z-[100] bg-[#171513] flex items-center justify-center"
+            className="fixed inset-0 z-[100] bg-charcoal-900 flex items-center justify-center"
           >
             <motion.div 
               animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
@@ -113,7 +113,7 @@ export default function WorldMap() {
       {/* =========================================
           01 HERO / WORLD INTRO
       ========================================= */}
-      <section className="relative w-full min-h-[100vh] flex flex-col justify-center items-center text-center px-6 overflow-hidden pt-20 bg-[#171513] text-[#F5EFE4]">
+      <section className="relative w-full min-h-[100vh] flex flex-col justify-center items-center text-center px-6 overflow-hidden pt-20 bg-charcoal-900 text-ivory-100">
         
         {/* CINEMATIC BACKGROUND IMAGE */}
         <motion.div 
@@ -128,11 +128,11 @@ export default function WorldMap() {
         {/* SUBTLE GAME HUD OVERLAYS */}
         <div className="absolute top-24 left-8 text-left hidden lg:block z-10 pointer-events-none opacity-60">
            <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-gold-400 mb-1">Chapter 01</p>
-           <p className="text-[10px] font-sans uppercase tracking-widest text-[#D8CCB8]">Bharat · Heritage World</p>
+           <p className="text-[10px] font-sans uppercase tracking-widest text-ivory-300">Bharat · Heritage World</p>
         </div>
         <div className="absolute top-24 right-8 text-right hidden lg:block z-10 pointer-events-none opacity-60">
            <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-gold-400 mb-1">Discoveries: {discoveredCount}</p>
-           <p className="text-[10px] font-sans uppercase tracking-widest text-[#D8CCB8]">XP: {player.xp}</p>
+           <p className="text-[10px] font-sans uppercase tracking-widest text-ivory-300">XP: {player.xp}</p>
         </div>
         <div className="absolute bottom-32 left-8 hidden lg:block z-10 pointer-events-none opacity-30">
            <div className="w-[1px] h-32 bg-gold-600/50 mb-2 relative"><div className="absolute top-0 left-[-2px] w-[5px] h-[5px] bg-gold-400 rounded-full" /></div>
@@ -154,7 +154,7 @@ export default function WorldMap() {
             <span className="text-3xl md:text-5xl lg:text-7xl font-light italic text-gold-400/90 mt-2 block tracking-wider">of Bharat</span>
           </h1>
           
-          <p className="text-sm md:text-lg text-[#D8CCB8] max-w-xl font-light leading-relaxed mb-12 drop-shadow-md">
+          <p className="text-sm md:text-lg text-ivory-300 max-w-xl font-light leading-relaxed mb-12 drop-shadow-md">
             Explore real places.<br />
             Uncover forgotten stories.<br />
             Be a part of India's living heritage.
@@ -162,7 +162,7 @@ export default function WorldMap() {
 
           <button 
             onClick={() => scrollToElement("destinations-nav")}
-            className="px-8 py-4 bg-gold-600 text-[#171513] font-bold uppercase tracking-[0.3em] text-xs hover:bg-[#F5EFE4] transition-colors shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(212,175,55,0.5)] cursor-pointer"
+            className="px-8 py-4 bg-gold-600 text-charcoal-900 font-bold uppercase tracking-[0.3em] text-xs hover:bg-[#F5EFE4] transition-colors shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(212,175,55,0.5)] cursor-pointer"
           >
             Explore Dhara
           </button>
@@ -172,14 +172,14 @@ export default function WorldMap() {
       {/* =========================================
           02 REALM NAVIGATION
       ========================================= */}
-      <div id="destinations-nav" className="sticky top-0 z-40 w-full bg-[#EAE3D5]/90 backdrop-blur-xl border-b border-[#201D18]/10 py-4 px-6 shadow-sm">
+      <div id="destinations-nav" className="sticky top-0 z-40 w-full bg-ivory-200/90 backdrop-blur-xl border-b border-[#201D18]/10 py-4 px-6 shadow-sm">
         <ul className="flex items-center justify-start md:justify-center gap-6 lg:gap-10 max-w-7xl mx-auto overflow-x-auto no-scrollbar">
-          <li><span className="text-[10px] md:text-xs tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 text-[#201D18]/50 font-bold">Realms</span></li>
+          <li><span className="text-[10px] md:text-xs tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 text-charcoal-800/50 font-bold">Realms</span></li>
           {CITIES_DATA.map(city => (
             <li key={`nav-${city.id}`}>
               <button 
                 onClick={() => scrollToElement(`realm-${city.id}`)}
-                className="text-[10px] md:text-xs tracking-[0.2em] uppercase whitespace-nowrap transition-colors px-4 py-2 text-[#201D18] hover:text-gold-600 font-bold cursor-pointer"
+                className="text-[10px] md:text-xs tracking-[0.2em] uppercase whitespace-nowrap transition-colors px-4 py-2 text-charcoal-800 hover:text-gold-600 font-bold cursor-pointer"
               >
                 {city.name}
               </button>
@@ -191,17 +191,17 @@ export default function WorldMap() {
       {/* =========================================
           03 REALM HORIZONTAL EXPLORER
       ========================================= */}
-      <section className="relative z-10 w-full bg-[#F4F0E7] py-24 md:py-32 overflow-hidden border-b border-[#D8CCB8]">
+      <section className="relative z-10 w-full bg-ivory-100 py-24 md:py-32 overflow-hidden border-b border-[#D8CCB8]">
         <div className="max-w-[1800px] mx-auto px-6 mb-8 flex justify-between items-end">
           <div>
              <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-gold-600 mb-2">Explore the World</h2>
-             <h3 className="text-3xl md:text-4xl font-serif text-[#201D18]">Heritage Destinations</h3>
+             <h3 className="text-3xl md:text-4xl font-serif text-charcoal-800">Heritage Destinations</h3>
           </div>
           <div className="hidden md:flex gap-4">
-             <button onClick={() => scrollCarousel('left')} className="w-12 h-12 rounded-full border border-[#201D18]/20 flex items-center justify-center hover:bg-[#201D18] hover:text-[#F4F0E7] transition-colors cursor-pointer">
+             <button onClick={() => scrollCarousel('left')} className="w-12 h-12 rounded-full border border-[#201D18]/20 flex items-center justify-center hover:bg-charcoal-800 hover:text-[#F4F0E7] transition-colors cursor-pointer">
                <ChevronLeft className="w-5 h-5" />
              </button>
-             <button onClick={() => scrollCarousel('right')} className="w-12 h-12 rounded-full border border-[#201D18]/20 flex items-center justify-center hover:bg-[#201D18] hover:text-[#F4F0E7] transition-colors cursor-pointer">
+             <button onClick={() => scrollCarousel('right')} className="w-12 h-12 rounded-full border border-[#201D18]/20 flex items-center justify-center hover:bg-charcoal-800 hover:text-[#F4F0E7] transition-colors cursor-pointer">
                <ChevronRight className="w-5 h-5" />
              </button>
           </div>
@@ -224,7 +224,7 @@ export default function WorldMap() {
       {/* =========================================
           04 DESTINATION EDITORIAL SECTIONS
       ========================================= */}
-      <div className="w-full bg-[#EAE3D5] relative z-10 pt-24 pb-32">
+      <div className="w-full bg-ivory-200 relative z-10 pt-24 pb-32">
         {CITIES_DATA.map((city, index) => {
           const isEven = index % 2 === 0;
           const displayIndex = String(index + 1).padStart(2, '0');
@@ -238,14 +238,14 @@ export default function WorldMap() {
               className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center max-w-[1800px] mx-auto ${index === CITIES_DATA.length - 1 ? 'mb-0' : 'mb-32 lg:mb-48'} group`}
             >
               {/* TEXT CONTENT (40%) */}
-              <div className="w-full lg:w-[40%] flex flex-col px-8 lg:px-20 py-16 order-2 lg:order-none bg-[#F4F0E7]/50 lg:bg-transparent">
+              <div className="w-full lg:w-[40%] flex flex-col px-8 lg:px-20 py-16 order-2 lg:order-none bg-ivory-100/50 lg:bg-transparent">
                 <div className="flex items-center gap-6 mb-8">
-                  <span className="text-gold-600 font-serif text-3xl font-light">{displayIndex} <span className="text-[#201D18]/30 text-xl">/ 06</span></span>
+                  <span className="text-gold-600 font-serif text-3xl font-light">{displayIndex} <span className="text-charcoal-800/30 text-xl">/ 06</span></span>
                   <div className="h-[1px] flex-1 bg-gradient-to-r from-[#201D18]/10 to-transparent" />
                 </div>
                 
                 <span className="text-xs font-bold uppercase tracking-[0.4em] text-gold-600 mb-4">{city.region}</span>
-                <h2 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-widest uppercase text-[#201D18] mb-6 leading-tight">
+                <h2 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-widest uppercase text-charcoal-800 mb-6 leading-tight">
                   {city.name}
                 </h2>
                 
@@ -255,23 +255,23 @@ export default function WorldMap() {
 
                 <div className="grid grid-cols-2 gap-8 mb-12">
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#201D18]/50 mb-2">Historical Era</p>
-                    <p className="text-sm font-mono text-[#201D18]">{city.era}</p>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-charcoal-800/50 mb-2">Historical Era</p>
+                    <p className="text-sm font-mono text-charcoal-800">{city.era}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#201D18]/50 mb-2">Progress</p>
-                    <p className="text-sm font-mono text-[#201D18]">{completedCount} <span className="text-[#201D18]/40">/ {city.chapters.length} Chapters</span></p>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-charcoal-800/50 mb-2">Progress</p>
+                    <p className="text-sm font-mono text-charcoal-800">{completedCount} <span className="text-charcoal-800/40">/ {city.chapters.length} Chapters</span></p>
                   </div>
                   <div className="col-span-2">
-                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#201D18]/50 mb-2">Category</p>
-                    <p className="text-sm font-mono text-[#201D18]">Heritage Site</p>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-charcoal-800/50 mb-2">Category</p>
+                    <p className="text-sm font-mono text-charcoal-800">Heritage Site</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 w-full">
                   <button 
                     onClick={() => handleEnterWorld(city.id)}
-                    className="px-8 py-5 bg-[#201D18] text-[#F5EFE4] font-bold uppercase tracking-[0.2em] text-xs hover:bg-gold-600 hover:text-[#171513] transition-colors flex items-center justify-center gap-3 cursor-pointer shadow-[0_4px_20px_rgba(32,29,24,0.1)] hover:shadow-[0_4px_30px_rgba(32,29,24,0.2)]"
+                    className="px-8 py-5 bg-charcoal-800 text-ivory-100 font-bold uppercase tracking-[0.2em] text-xs hover:bg-gold-600 hover:text-charcoal-900 transition-colors flex items-center justify-center gap-3 cursor-pointer shadow-[0_4px_20px_rgba(32,29,24,0.1)] hover:shadow-[0_4px_30px_rgba(32,29,24,0.2)]"
                   >
                     Enter Realm <Play className="w-4 h-4 fill-current" />
                   </button>
@@ -279,7 +279,7 @@ export default function WorldMap() {
               </div>
 
               {/* CINEMATIC IMAGE SLOT (60%) */}
-              <div className="w-full lg:w-[60%] aspect-[4/3] lg:aspect-[16/10] relative order-1 lg:order-none overflow-hidden bg-[#171513]">
+              <div className="w-full lg:w-[60%] aspect-[4/3] lg:aspect-[16/10] relative order-1 lg:order-none overflow-hidden bg-charcoal-900">
                 <img 
                   src={images.hero} 
                   alt={`${city.name} Hero`} 
@@ -293,8 +293,8 @@ export default function WorldMap() {
                 )}
                 
                 {/* Provenance Tag */}
-                <div className="absolute top-6 left-6 z-10 bg-[#EAE3D5]/90 backdrop-blur-md border border-[#201D18]/10 px-4 py-2 shadow-xl">
-                  <span className="text-[9px] font-sans font-bold uppercase tracking-[0.3em] text-[#201D18] flex items-center gap-2">
+                <div className="absolute top-6 left-6 z-10 bg-ivory-200/90 backdrop-blur-md border border-[#201D18]/10 px-4 py-2 shadow-xl">
+                  <span className="text-[9px] font-sans font-bold uppercase tracking-[0.3em] text-charcoal-800 flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-blue-600" /> EVIDENCE-BASED RECONSTRUCTION
                   </span>
                 </div>
@@ -307,7 +307,7 @@ export default function WorldMap() {
       {/* =========================================
           05 HERITAGE PASSPORT
       ========================================= */}
-      <section className="relative w-full py-32 bg-[#171513] text-[#F5EFE4] z-10 overflow-hidden">
+      <section className="relative w-full py-32 bg-charcoal-900 text-ivory-100 z-10 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
           
           <div className="lg:col-span-5 flex flex-col justify-center">
@@ -315,24 +315,24 @@ export default function WorldMap() {
             <h3 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-widest uppercase text-white mb-8 leading-tight">
               Heritage<br />Passport
             </h3>
-            <p className="text-base text-[#D8CCB8] leading-relaxed mb-12 max-w-md">
+            <p className="text-base text-ivory-300 leading-relaxed mb-12 max-w-md">
               Every discovery, every solved mystery, and every truth uncovered is recorded here. Earn stars to unlock advanced realms and elevate your scholar rank.
             </p>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-[#211E1A] border border-white/5 p-5">
-                <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/50 block mb-2">Total Stars</span>
+              <div className="bg-charcoal-800 border border-white/5 p-5">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-ivory-300/50 block mb-2">Total Stars</span>
                 <span className="text-3xl font-serif text-gold-400">{getTotalStars()}</span>
               </div>
-              <div className="bg-[#211E1A] border border-white/5 p-5">
-                <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/50 block mb-2">Scholar Level</span>
+              <div className="bg-charcoal-800 border border-white/5 p-5">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-ivory-300/50 block mb-2">Scholar Level</span>
                 <span className="text-3xl font-serif text-white">{player.level}</span>
               </div>
-              <div className="bg-[#211E1A] border border-white/5 p-5">
-                <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/50 block mb-2">Worlds Discovered</span>
+              <div className="bg-charcoal-800 border border-white/5 p-5">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-ivory-300/50 block mb-2">Worlds Discovered</span>
                 <span className="text-3xl font-serif text-white">{discoveredCount}</span>
               </div>
-              <div className="bg-[#211E1A] border border-white/5 p-5">
-                <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/50 block mb-2">Player Title</span>
+              <div className="bg-charcoal-800 border border-white/5 p-5">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-ivory-300/50 block mb-2">Player Title</span>
                 <span className="text-sm font-serif italic text-gold-400">{player.title}</span>
               </div>
             </div>
@@ -349,15 +349,15 @@ export default function WorldMap() {
                   <div className="w-1/2 h-full relative p-6 sm:p-10 flex flex-col items-center text-center border-r border-[#171513]/10">
                      <div className="w-full flex justify-between items-start mb-6">
                        <img src="/LOGO.png" className="h-6 opacity-40 invert" alt="Logo" />
-                       <span className="text-[8px] font-mono tracking-widest text-[#171513]/40">IND-HRT-0{player.level}</span>
+                       <span className="text-[8px] font-mono tracking-widest text-charcoal-900/40">IND-HRT-0{player.level}</span>
                      </div>
                      
-                     <div className="relative w-24 h-32 sm:w-32 sm:h-40 border-2 border-[#171513]/20 p-1 mb-4 bg-[#F4F0E7]/50 overflow-hidden cursor-pointer">
+                     <div className="relative w-24 h-32 sm:w-32 sm:h-40 border-2 border-[#171513]/20 p-1 mb-4 bg-ivory-100/50 overflow-hidden cursor-pointer">
                         {player.profilePhoto ? (
                           <img src={player.profilePhoto} alt="Player" className="w-full h-full object-cover object-top grayscale contrast-125 sepia-[.3]" />
                         ) : (
                           <div className="w-full h-full flex flex-col items-center justify-center opacity-30">
-                            <User className="w-10 h-10 text-[#171513] mb-2" />
+                            <User className="w-10 h-10 text-charcoal-900 mb-2" />
                           </div>
                         )}
                         <input 
@@ -379,7 +379,7 @@ export default function WorldMap() {
                      </div>
                      
                      <div className="flex gap-2">
-                       <button className="text-[8px] uppercase tracking-widest font-bold text-[#171513]/60 hover:text-[#171513] transition-colors pointer-events-none group-hover:pointer-events-auto">Upload Photo</button>
+                       <button className="text-[8px] uppercase tracking-widest font-bold text-charcoal-900/60 hover:text-charcoal-900 transition-colors pointer-events-none group-hover:pointer-events-auto">Upload Photo</button>
                        {player.profilePhoto && (
                          <button 
                            onClick={() => useGameStore.getState().setProfilePhoto(undefined)}
@@ -391,14 +391,14 @@ export default function WorldMap() {
                      </div>
 
                      <div className="mt-auto w-full text-left border-t border-[#171513]/10 pt-4">
-                        <p className="text-[7px] uppercase tracking-widest text-[#171513]/40 mb-1">Scholar Name</p>
-                        <p className="text-sm font-serif font-bold text-[#171513] uppercase">{player.name}</p>
+                        <p className="text-[7px] uppercase tracking-widest text-charcoal-900/40 mb-1">Scholar Name</p>
+                        <p className="text-sm font-serif font-bold text-charcoal-900 uppercase">{player.name}</p>
                      </div>
                   </div>
 
                   {/* Right Page: Stamps */}
                   <div className="w-1/2 h-full relative p-6 sm:p-10 flex flex-col">
-                     <p className="text-[8px] uppercase tracking-[0.3em] font-bold text-[#171513]/40 border-b border-[#171513]/10 pb-4 mb-6 text-center">
+                     <p className="text-[8px] uppercase tracking-[0.3em] font-bold text-charcoal-900/40 border-b border-[#171513]/10 pb-4 mb-6 text-center">
                        Visas & Stamps
                      </p>
                      <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-2">
@@ -417,7 +417,7 @@ export default function WorldMap() {
                        })}
                        {discoveredCount === 0 && (
                          <div className="w-full h-full flex items-center justify-center mt-10">
-                           <p className="text-xs font-serif italic text-[#171513]/30 text-center">Your journey is just beginning.<br/>No stamps recorded.</p>
+                           <p className="text-xs font-serif italic text-charcoal-900/30 text-center">Your journey is just beginning.<br/>No stamps recorded.</p>
                          </div>
                        )}
                      </div>
@@ -432,29 +432,29 @@ export default function WorldMap() {
       {/* =========================================
           06 VEDA 
       ========================================= */}
-      <section className="relative w-full py-32 bg-[#F4F0E7] border-y border-[#D8CCB8] z-10 overflow-hidden text-[#201D18]">
+      <section className="relative w-full py-32 bg-ivory-100 border-y border-[#D8CCB8] z-10 overflow-hidden text-charcoal-800">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,_rgba(212,175,55,0.05)_0%,_transparent_50%)] pointer-events-none" />
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16 relative z-10">
           <div className="flex-1 w-full text-center md:text-left order-2 md:order-1">
-            <h2 className="text-4xl md:text-6xl font-serif font-bold tracking-widest uppercase text-[#201D18] mb-4">VEDA</h2>
+            <h2 className="text-4xl md:text-6xl font-serif font-bold tracking-widest uppercase text-charcoal-800 mb-4">VEDA</h2>
             <h3 className="text-lg md:text-xl text-gold-600 font-bold tracking-[0.3em] uppercase mb-8">Your AI Heritage Guide</h3>
             <div className="flex gap-6 mb-8 justify-center md:justify-start">
-               <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#201D18]">Ask.</span>
-               <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#201D18]">Explore.</span>
-               <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#201D18]">Learn.</span>
+               <span className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-800">Ask.</span>
+               <span className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-800">Explore.</span>
+               <span className="text-xs font-bold uppercase tracking-[0.2em] text-charcoal-800">Learn.</span>
             </div>
             <p className="text-base md:text-lg text-[#29251F] leading-relaxed mb-10 max-w-lg mx-auto md:mx-0">
               Navigate the depths of Indian history with an AI companion grounded strictly in verified archaeological data. If you are stuck on a riddle, VEDA holds the key.
             </p>
             <button 
               onClick={openVeda}
-              className="px-10 py-5 bg-[#201D18] text-[#F5EFE4] font-bold uppercase tracking-[0.2em] text-sm hover:bg-gold-600 hover:text-[#171513] transition-colors cursor-pointer shadow-lg"
+              className="px-10 py-5 bg-charcoal-800 text-ivory-100 font-bold uppercase tracking-[0.2em] text-sm hover:bg-gold-600 hover:text-charcoal-900 transition-colors cursor-pointer shadow-lg"
             >
               Consult Veda Now
             </button>
           </div>
           <div className="flex-1 w-full flex justify-center order-1 md:order-2">
-             <div className="w-64 h-64 md:w-96 md:h-96 rounded-full border border-gold-600/20 flex items-center justify-center relative bg-[#EAE3D5]/50 backdrop-blur-sm shadow-xl">
+             <div className="w-64 h-64 md:w-96 md:h-96 rounded-full border border-gold-600/20 flex items-center justify-center relative bg-ivory-200/50 backdrop-blur-sm shadow-xl">
                <div className="absolute inset-4 rounded-full border border-dashed border-gold-600/30 animate-[spin_60s_linear_infinite]" />
                <div className="w-48 h-48 bg-gradient-to-tr from-gold-400 to-[#EAE3D5] rounded-full blur-3xl opacity-30 animate-pulse" />
                <img src="/veda/neutral.svg" alt="Veda AI" className="absolute w-32 h-32 md:w-48 md:h-48 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.2)]" />
@@ -466,11 +466,11 @@ export default function WorldMap() {
       {/* =========================================
           07 TRUTH LAYER
       ========================================= */}
-      <section className="relative w-full py-32 bg-[#171513] text-[#F5EFE4] z-10 border-b border-[#29251F]">
+      <section className="relative w-full py-32 bg-charcoal-900 text-ivory-100 z-10 border-b border-[#29251F]">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
-             <ShieldCheck className="w-12 h-12 text-[#D8CCB8] mx-auto mb-6 opacity-80" />
-             <h2 className="text-[10px] uppercase tracking-[0.5em] text-[#D8CCB8] mb-4 font-mono">Authenticity Engine</h2>
+             <ShieldCheck className="w-12 h-12 text-ivory-300 mx-auto mb-6 opacity-80" />
+             <h2 className="text-[10px] uppercase tracking-[0.5em] text-ivory-300 mb-4 font-mono">Authenticity Engine</h2>
              <h3 className="text-4xl md:text-5xl font-serif font-bold tracking-widest uppercase mb-8 text-white">
                The Truth Layer
              </h3>
@@ -488,7 +488,7 @@ export default function WorldMap() {
                { id: '03', title: 'EVIDENCE-BASED RECONSTRUCTION', desc: 'Architectural models based strictly on ruined foundations.', status: 'RECONSTRUCTED', icon: 'bg-yellow-500' },
                { id: '04', title: 'GAMEPLAY FICTION', desc: 'Character names, interactive dialogue, and puzzle mechanisms.', status: 'FICTION', icon: 'bg-[#D8CCB8]' }
              ].map((tier) => (
-               <div key={tier.id} className="group relative border border-white/10 bg-[#211E1A] overflow-hidden hover:border-gold-500/50 transition-colors cursor-pointer flex flex-col h-full">
+               <div key={tier.id} className="group relative border border-white/10 bg-charcoal-800 overflow-hidden hover:border-gold-500/50 transition-colors cursor-pointer flex flex-col h-full">
                   <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:via-gold-500/50 transition-colors" />
                   <div className="p-6 sm:p-8 flex-1 flex flex-col">
                      <div className="flex justify-between items-start mb-8">
@@ -496,7 +496,7 @@ export default function WorldMap() {
                        <div className={`w-2 h-2 rounded-full ${tier.icon} animate-pulse shadow-[0_0_10px_currentColor]`} />
                      </div>
                      <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-4 leading-relaxed group-hover:text-gold-400 transition-colors">{tier.title}</h4>
-                     <p className="text-[10px] text-[#D8CCB8]/60 uppercase tracking-widest font-mono mb-8 leading-relaxed flex-1">
+                     <p className="text-[10px] text-ivory-300/60 uppercase tracking-widest font-mono mb-8 leading-relaxed flex-1">
                        {tier.desc}
                      </p>
                      <div className="mt-auto border-t border-white/10 pt-4 flex justify-between items-center overflow-hidden">
@@ -515,43 +515,43 @@ export default function WorldMap() {
       {/* =========================================
           08 FOOTER
       ========================================= */}
-      <footer className="w-full bg-[#171513] text-[#F5EFE4] pt-24 pb-12 border-t-4 border-gold-600 z-10 relative">
+      <footer className="w-full bg-charcoal-900 text-ivory-100 pt-24 pb-12 border-t-4 border-gold-600 z-10 relative">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
             <img src="/LOGO.png" alt="DHARA" className="h-10 w-auto mb-6 object-contain" />
-            <p className="text-xs text-[#D8CCB8] leading-relaxed max-w-xs font-serif italic">
+            <p className="text-xs text-ivory-300 leading-relaxed max-w-xs font-serif italic">
               Where India's Heritage Flows.
             </p>
           </div>
           
           <div className="flex flex-col gap-4">
              <h4 className="text-[10px] uppercase font-bold tracking-widest text-gold-500 mb-2">Explore</h4>
-             <button onClick={() => scrollToElement("destinations-nav")} className="text-left text-sm text-[#D8CCB8] hover:text-white transition-colors cursor-pointer w-fit">World</button>
-             <Link href="/profile" className="text-sm text-[#D8CCB8] hover:text-white transition-colors">Passport</Link>
-             <Link href="/profile" className="text-sm text-[#D8CCB8] hover:text-white transition-colors">Quests</Link>
+             <button onClick={() => scrollToElement("destinations-nav")} className="text-left text-sm text-ivory-300 hover:text-white transition-colors cursor-pointer w-fit">World</button>
+             <Link href="/profile" className="text-sm text-ivory-300 hover:text-white transition-colors">Passport</Link>
+             <Link href="/profile" className="text-sm text-ivory-300 hover:text-white transition-colors">Quests</Link>
           </div>
           
           <div className="flex flex-col gap-4">
              <h4 className="text-[10px] uppercase font-bold tracking-widest text-gold-500 mb-2">Systems</h4>
-             <button onClick={() => scrollToElement("destinations-nav")} className="text-left text-sm text-[#D8CCB8] hover:text-white transition-colors cursor-pointer w-fit">Truth Layer</button>
-             <button onClick={openVeda} className="text-left text-sm text-[#D8CCB8] hover:text-white transition-colors cursor-pointer w-fit">VEDA AI</button>
+             <button onClick={() => scrollToElement("destinations-nav")} className="text-left text-sm text-ivory-300 hover:text-white transition-colors cursor-pointer w-fit">Truth Layer</button>
+             <button onClick={openVeda} className="text-left text-sm text-ivory-300 hover:text-white transition-colors cursor-pointer w-fit">VEDA AI</button>
           </div>
 
           <div className="flex flex-col gap-4">
              <h4 className="text-[10px] uppercase font-bold tracking-widest text-gold-500 mb-2">Information</h4>
-             <span className="text-sm text-[#D8CCB8] cursor-pointer hover:text-white transition-colors">About DHARA</span>
-             <span className="text-sm text-[#D8CCB8] cursor-pointer hover:text-white transition-colors">Historical Integrity</span>
-             <span className="text-sm text-[#D8CCB8] cursor-pointer hover:text-white transition-colors">Accessibility</span>
+             <span className="text-sm text-ivory-300 cursor-pointer hover:text-white transition-colors">About DHARA</span>
+             <span className="text-sm text-ivory-300 cursor-pointer hover:text-white transition-colors">Historical Integrity</span>
+             <span className="text-sm text-ivory-300 cursor-pointer hover:text-white transition-colors">Accessibility</span>
           </div>
         </div>
         
         <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[10px] text-[#D8CCB8]/50 uppercase tracking-widest">
+          <p className="text-[10px] text-ivory-300/50 uppercase tracking-widest">
             © {new Date().getFullYear()} Government of Bharat - Heritage Project
           </p>
           <div className="flex gap-6">
-            <span className="text-[10px] text-[#D8CCB8]/50 uppercase tracking-widest cursor-pointer hover:text-white transition-colors">Privacy Policy</span>
-            <span className="text-[10px] text-[#D8CCB8]/50 uppercase tracking-widest cursor-pointer hover:text-white transition-colors">Terms of Use</span>
+            <span className="text-[10px] text-ivory-300/50 uppercase tracking-widest cursor-pointer hover:text-white transition-colors">Privacy Policy</span>
+            <span className="text-[10px] text-ivory-300/50 uppercase tracking-widest cursor-pointer hover:text-white transition-colors">Terms of Use</span>
           </div>
         </div>
       </footer>
@@ -559,3 +559,4 @@ export default function WorldMap() {
     </div>
   );
 }
+
