@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function CinematicVRIntro({ onComplete }: { onComplete: () => void }) {
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
+  const [hasPlaybackFailed, setHasPlaybackFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Preload video to ensure it's in browser cache immediately
@@ -39,8 +40,7 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
         }
       } catch (mutedErr) {
         console.error("Video playback completely failed:", mutedErr);
-        // If it completely fails, we keep the poster visible.
-        // We log it as requested by the user.
+        setHasPlaybackFailed(true);
       }
     }
   };
@@ -121,14 +121,31 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
                 className="absolute top-[82%] left-1/2 -translate-x-1/2 w-[22%] h-[8%] cursor-pointer rounded-full outline-none group pointer-events-auto"
                 aria-label="Enter Dhara"
               >
-                {/* Extremely subtle responsive interaction as requested */}
                 <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_30px_rgba(212,175,55,0.2)] bg-white/5" />
                 <div className="absolute inset-0 rounded-full opacity-0 group-active:opacity-100 transition-opacity duration-150 bg-black/10" />
               </button>
             </div>
+            
+            {hasPlaybackFailed && (
+              <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
+                <button onClick={handleEnterClick} className="px-8 py-3 bg-white text-black font-bold tracking-widest text-xs uppercase rounded-full shadow-2xl">
+                   Play Intro →
+                </button>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* SKIP INTRO CONTROL */}
+      <button 
+        onClick={onComplete}
+        className="absolute bottom-8 right-8 z-[210] flex items-center gap-2 text-white/50 hover:text-white transition-colors cursor-pointer group"
+      >
+        <span className="text-[10px] uppercase font-bold tracking-[0.3em]">Skip Intro</span>
+        <div className="w-[1px] h-3 bg-white/20 group-hover:bg-white/50 transition-colors" />
+        <span className="text-[12px] group-hover:translate-x-1 transition-transform">→</span>
+      </button>
     </motion.div>
   );
 }

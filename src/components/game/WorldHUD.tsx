@@ -6,7 +6,7 @@ import { useGameStore } from "@/store/gameState";
 import { useVedaStore } from "@/store/vedaStore";
 import { CITIES_DATA } from "@/data/gameContent";
 import { motion, AnimatePresence } from "framer-motion";
-import { Compass, Star, Trophy, User, Settings as SettingsIcon, Award, ShieldCheck, ArrowLeft } from "lucide-react";
+import { Compass, Star, Trophy, User, Settings as SettingsIcon, Award, ShieldCheck, ArrowLeft, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import PassportModal from "./PassportModal";
@@ -16,6 +16,7 @@ export default function WorldHUD() {
   const router = useRouter();
   const pathname = usePathname();
   const [showPassport, setShowPassport] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const {
     player,
@@ -149,9 +150,9 @@ export default function WorldHUD() {
             </div>
           </div>
 
-          {/* Nav Controls: Profile, Settings */}
+          {/* Nav Controls: Profile, Settings, Mobile Menu */}
           <div className="flex items-center gap-1 ml-1">
-            <Link href="/profile">
+            <Link href="/profile" className="hidden sm:block">
               <button
                 className="p-2 rounded-full border border-gold-500/20 bg-[#211E1A] text-[#D8CCB8] hover:text-white hover:border-gold-500 transition-all shadow-sm cursor-pointer"
                 title="Scholar Profile"
@@ -160,7 +161,7 @@ export default function WorldHUD() {
               </button>
             </Link>
 
-            <Link href="/settings">
+            <Link href="/settings" className="hidden sm:block">
               <button
                 className="p-2 rounded-full border border-gold-500/20 bg-[#211E1A] text-[#D8CCB8] hover:text-white hover:border-gold-500 transition-all shadow-sm cursor-pointer"
                 title="Settings"
@@ -168,9 +169,47 @@ export default function WorldHUD() {
                 <SettingsIcon className="w-4 h-4" />
               </button>
             </Link>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="xl:hidden p-2 ml-2 rounded-full border border-gold-500/20 bg-[#211E1A] text-[#D8CCB8] hover:text-white transition-colors cursor-pointer"
+            >
+               <Menu className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </div>
+
+      {/* MOBILE MENU OVERLAY */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[200] bg-[#171513] flex flex-col items-center justify-center pointer-events-auto"
+          >
+            <button 
+              onClick={() => setMobileMenuOpen(false)}
+              className="absolute top-6 right-6 p-2 text-[#D8CCB8] hover:text-white transition-colors"
+            >
+               <X className="w-8 h-8" />
+            </button>
+            <div className="flex flex-col gap-8 text-center">
+               <button onClick={() => { setMobileMenuOpen(false); handleReturnToWorld(); }} className="text-2xl font-serif uppercase tracking-widest text-gold-500 hover:text-white transition-colors">World</button>
+               <button onClick={() => { setMobileMenuOpen(false); setShowPassport(true); }} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">Passport</button>
+               <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">Quests</Link>
+               <button onClick={() => { setMobileMenuOpen(false); handleReturnToWorld(); }} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">Truth Layer</button>
+               <button onClick={() => { setMobileMenuOpen(false); openVeda(); }} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">VEDA</button>
+               <div className="h-px w-16 bg-white/10 mx-auto my-4" />
+               <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="text-lg font-sans uppercase tracking-widest text-[#D8CCB8]/60 hover:text-white transition-colors">Profile</Link>
+               <Link href="/settings" onClick={() => setMobileMenuOpen(false)} className="text-lg font-sans uppercase tracking-widest text-[#D8CCB8]/60 hover:text-white transition-colors">Settings</Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Level Up Celebration Banner */}
       <AnimatePresence>

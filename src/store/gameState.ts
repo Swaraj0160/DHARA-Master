@@ -679,7 +679,6 @@ export const useGameStore = create<DharaState>()(
       name: 'dhara_game_progression_v1',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        hasSeenIntro: state.hasSeenIntro,
         ambientEffectsEnabled: state.ambientEffectsEnabled,
         player: state.player,
         chapterProgress: state.chapterProgress,

@@ -26,19 +26,25 @@ function DestinationCard({ city, progress, onClick }: { city: City, progress: nu
   const images = getImagesForCity(city.id);
   
   return (
-    <button 
+    <motion.button 
+      whileHover={{ y: -10 }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => scrollToElement(`realm-${city.id}`)}
-      className="group relative flex flex-col text-left overflow-hidden border border-[#201D18]/10 hover:border-gold-600/50 transition-all duration-500 bg-[#29251F] w-[85vw] md:w-[45vw] lg:w-[28vw] aspect-[3/4] cursor-pointer shrink-0 snap-center shadow-xl"
+      className="group relative flex flex-col text-left overflow-hidden border border-[#201D18]/10 hover:border-gold-600/50 transition-colors duration-500 bg-[#29251F] w-[85vw] md:w-[45vw] lg:w-[28vw] aspect-[3/4] cursor-pointer shrink-0 snap-center shadow-2xl"
     >
        <div className="absolute inset-0 w-full h-full overflow-hidden bg-[#171513]">
-         <img src={images.hero} alt={city.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
+         <motion.img 
+           initial={{ scale: 1 }}
+           whileHover={{ scale: 1.05 }}
+           transition={{ duration: 1.5, ease: "easeOut" }}
+           src={images.hero} alt={city.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700" />
          <div className="absolute inset-0 bg-gradient-to-t from-[#171513] via-[#171513]/40 to-transparent opacity-90" />
        </div>
        
-       <div className="relative z-10 p-6 sm:p-8 flex flex-col h-full justify-end">
+       <div className="relative z-10 p-6 sm:p-8 flex flex-col h-full justify-end transform transition-transform duration-500 group-hover:-translate-y-2">
           <span className="text-[10px] uppercase tracking-[0.3em] text-gold-400 mb-2">{city.region}</span>
           <h3 className="text-3xl sm:text-4xl font-serif font-bold tracking-widest uppercase text-[#F5EFE4] mb-2 drop-shadow-md">{city.name}</h3>
-          <span className="text-[10px] uppercase tracking-widest text-[#D8CCB8] mb-4 font-mono border border-[#D8CCB8]/20 px-2 py-1 inline-block w-max backdrop-blur-sm">{city.era}</span>
+          <span className="text-[10px] uppercase tracking-widest text-[#D8CCB8] mb-4 font-mono border border-[#D8CCB8]/20 px-2 py-1 inline-block w-max backdrop-blur-sm bg-black/20">{city.era}</span>
           
           <p className="text-xs sm:text-sm text-[#D8CCB8] mb-6 line-clamp-2 leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity duration-500">{city.description}</p>
           
@@ -48,11 +54,11 @@ function DestinationCard({ city, progress, onClick }: { city: City, progress: nu
                <span className="text-xs font-mono text-gold-400">{progress} <span className="text-[#D8CCB8]/40">/ {city.chapters.length}</span></span>
              </div>
              <div className="w-10 h-10 rounded-full border border-gold-500/30 flex items-center justify-center group-hover:bg-gold-600 transition-colors bg-[#171513]/50 backdrop-blur-md">
-               <ArrowRight className="w-4 h-4 text-gold-400 group-hover:text-white transition-colors" />
+               <ArrowRight className="w-4 h-4 text-gold-400 group-hover:text-[#171513] transition-colors" />
              </div>
           </div>
        </div>
-    </button>
+    </motion.button>
   );
 }
 
