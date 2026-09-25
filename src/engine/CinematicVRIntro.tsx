@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGameStore } from "@/store/gameState";
 import { CITIES_DATA } from "@/data/gameContent";
-import { Compass, Star, Trophy, User, Settings as SettingsIcon, ShieldCheck, MapPin, Mouse, BookOpen, Map } from "lucide-react";import GooeyActionButton from "../components/ui/GooeyActionButton";
+import { Compass, Star, Trophy, User, Settings as SettingsIcon, ShieldCheck, MapPin, Mouse, BookOpen, Map } from "lucide-react";
 
 export default function CinematicVRIntro({ onComplete }: { onComplete: () => void }) {
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -234,20 +234,19 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
 
                 {/* THE CTA */}
                 <div className="pointer-events-auto flex flex-col items-center">
-                  <GooeyActionButton
+                  <button
                     onClick={handleEnterClick}
-                    gooColor="bg-gold-500"
-                    className="group relative px-12 py-4 rounded-full border border-gold-500/40 bg-charcoal-900/80 backdrop-blur-md shadow-[0_0_30px_rgba(212,175,55,0.15)] hover:shadow-[0_0_50px_rgba(212,175,55,0.4)] hover:border-gold-400 hover:bg-gold-600 transition-all cursor-pointer flex items-center justify-center gap-4"
+                    className="group relative px-12 py-4 border border-gold-500/40 bg-charcoal-900/80 backdrop-blur-md shadow-[0_0_30px_rgba(212,175,55,0.15)] hover:shadow-[0_0_50px_rgba(212,175,55,0.4)] hover:border-gold-400 hover:bg-gold-600 transition-all duration-700 cursor-pointer flex items-center justify-center gap-4 overflow-hidden"
                   >
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-ivory-100/10 to-transparent translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite]" />
                     <Compass className="w-5 h-5 text-gold-400 group-hover:rotate-90 group-hover:text-charcoal-900 transition-transform duration-700 relative z-10" />
-                    <span className="relative z-10 text-ivory-100 group-hover:text-charcoal-900 font-bold text-sm tracking-[0.4em] uppercase">
+                    <span className="relative z-10 text-ivory-100 group-hover:text-charcoal-900 font-bold text-sm tracking-[0.4em] uppercase transition-colors duration-500">
                       Enter Dhara
                     </span>
-                    <span className="relative z-10 text-gold-400 group-hover:text-charcoal-900 group-hover:translate-x-1 transition-transform">?</span>
-                  </GooeyActionButton>
+                  </button>
 
                   {hasPlaybackFailed && (
-                    <div className="mt-6 text-red-400 text-xs font-mono tracking-widest text-center bg-black/80 backdrop-blur px-6 py-2 rounded-full border border-red-500/30">
+                    <div className="mt-6 text-red-400 text-xs font-mono tracking-widest text-center bg-black/80 backdrop-blur px-6 py-2 rounded-none border border-red-500/30">
                       Autoplay restricted. Please click to play.
                     </div>
                   )}
@@ -309,6 +308,24 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
                </div>
             </motion.div>
 
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* LAYER 3: IN-VIDEO CONTROLS */}
+      <AnimatePresence>
+        {isVideoReady && !isFadingOut && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute bottom-8 right-8 z-[150]"
+          >
+            <button
+              onClick={handleVideoEnded}
+              className="px-6 py-2 border border-white/20 bg-charcoal-900/60 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-black/50 transition-colors"
+            >
+              Skip Intro ⇥
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

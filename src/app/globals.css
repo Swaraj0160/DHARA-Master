@@ -154,3 +154,14 @@ body {
     stroke-dashoffset: 1000;
   }
 }
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes scan {
+  from { top: -100%; }
+  to { top: 100%; }
+}
