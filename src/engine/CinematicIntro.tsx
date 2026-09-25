@@ -34,7 +34,7 @@ export default function CinematicIntro() {
   const setHasSeenIntro = useGameStore((state) => state.setHasSeenIntro);
   
   // States: "AERIAL" -> "PROMPT" -> "DESCENT" -> "TIME_SHIFT" -> "COMPLETE"
-  const [phase, setPhase] = useState<"AERIAL" | "PROMPT" | "DESCENT" | "TIME_SHIFT">("AERIAL");
+  const [phase, setPhase] = useState<"AERIAL" | "PROMPT" | "DESCENT" | "TIME_SHIFT" | "COMPLETE">("AERIAL");
   const [year, setYear] = useState(2026);
 
   useEffect(() => {
@@ -72,13 +72,22 @@ export default function CinematicIntro() {
 
     // Handoff to Nalanda World Engine
     setTimeout(() => {
+      setPhase("COMPLETE");
+    }, 5500);
+
+    setTimeout(() => {
       setHasSeenIntro(true);
       router.push("/quest/nalanda");
     }, 6500);
   };
 
   return (
-    <div className="fixed inset-0 bg-black overflow-hidden select-none z-[200]">
+    <motion.div 
+      className="fixed inset-0 bg-earth-950 overflow-hidden select-none z-[200]"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: phase === "COMPLETE" ? 0 : 1 }}
+      transition={{ duration: 1.5, ease: "easeInOut" }}
+    >
       {/* 
         THE CAMERA RIG 
         We simulate a continuous camera journey by animating the scale and z-index of the container.
@@ -98,14 +107,35 @@ export default function CinematicIntro() {
         
         {/* SHOT 1: Modern Aerial Layer */}
         <motion.div 
-          className="absolute inset-0 bg-earth-900"
+          className="absolute inset-0 bg-earth-950"
           initial={{ opacity: 1 }}
           animate={{ opacity: phase === "TIME_SHIFT" ? 0 : 1 }}
           transition={{ duration: 2, ease: "easeOut" }}
         >
-          {/* Fallback styling representing the drone footage until loaded */}
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-earth-900 mix-blend-overlay" />
-          <div className="absolute inset-0 opacity-30 bg-[url('/noise.png')] mix-blend-overlay" />
+          {/* REAL MEDIA SLOT: This is where the final aerial drone video goes. */}
+          {/* To replace: Add 'modern_india_aerial.mp4' to /public/video/ and set src below. */}
+          <video 
+            src="/video/modern_india_aerial_placeholder.mp4" 
+            autoPlay 
+            muted 
+            loop 
+            playsInline
+            className="w-full h-full object-cover opacity-80 mix-blend-screen"
+            onError={(e) => {
+              // If the video file doesn't exist locally yet, show a clear visual placeholder
+              e.currentTarget.style.display = 'none';
+              document.getElementById('video-placeholder-text')!.style.display = 'flex';
+            }}
+          />
+          
+          <div id="video-placeholder-text" className="absolute inset-0 flex items-center justify-center hidden bg-earth-900">
+             <div className="text-center">
+               <p className="text-earth-400 font-mono text-sm tracking-widest">[ PLACEHOLDER ]</p>
+               <p className="text-earth-500 font-serif text-xs mt-2">Awaiting actual aerial drone footage of India.</p>
+             </div>
+          </div>
+          
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-earth-950/40 mix-blend-overlay" />
         </motion.div>
 
         {/* SHOT 4: Architectural Blueprints & Ancient Texture (Revealed during TIME_SHIFT) */}
@@ -170,6 +200,6 @@ export default function CinematicIntro() {
         )}
       </AnimatePresence>
 
-    </div>
+    </motion.div>
   );
 }

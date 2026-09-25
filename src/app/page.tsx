@@ -1,22 +1,46 @@
 "use client";
 
+import { Suspense, useEffect, useState } from "react";
 import { useGameStore } from "@/store/gameState";
 import { motion } from "framer-motion";
 import WorldHUD from "@/components/game/WorldHUD";
 import WorldMap from "@/components/game/WorldMap";
 import CityMap from "@/components/game/CityMap";
 import ChapterView from "@/components/game/ChapterView";
-import RealmEntranceAnimation from "@/components/game/RealmEntranceAnimation";
 import CinematicIntro from "@/engine/CinematicIntro";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function GameRoot() {
+function GameRootContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   const {
     currentCityId,
     currentChapterId,
     enteringCityId,
     confirmEnterRealm,
     hasSeenIntro,
+    setHasSeenIntro
   } = useGameStore();
+
+  useEffect(() => {
+    // Clean dev reset flag
+    if (searchParams.get("intro") === "reset") {
+      setHasSeenIntro(false);
+      router.replace("/");
+    }
+  }, [searchParams, setHasSeenIntro, router]);
+
+  useEffect(() => {
+    // Bypass the old Time Portal entirely if the map sets enteringCityId
+    if (enteringCityId) {
+      confirmEnterRealm();
+    }
+  }, [enteringCityId, confirmEnterRealm]);
+
+  if (searchParams.get("intro") === "reset") {
+    return null;
+  }
 
   if (!hasSeenIntro) {
     return <CinematicIntro />;
@@ -39,16 +63,15 @@ export default function GameRoot() {
           <WorldMap />
         )}
       </main>
-
-      {/* Cinematic AAA-game inspired Realm Entrance Animation */}
-      {enteringCityId && (
-        <RealmEntranceAnimation
-          cityId={enteringCityId}
-          onComplete={confirmEnterRealm}
-          onSkip={confirmEnterRealm}
-        />
-      )}
     </motion.div>
+  );
+}
+
+export default function GameRoot() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <GameRootContent />
+    </Suspense>
   );
 }
 
