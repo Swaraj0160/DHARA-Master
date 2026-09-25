@@ -77,7 +77,7 @@ export default function HeritageJourneyTicket({ cityId, onAccept, onCancel }: He
             <div className="flex justify-between items-start">
               <div>
                 <h5 className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-charcoal-800/60 mb-1 font-mono">
-                  Govt. of Bharat • ASI
+                  DHARA HERITAGE JOURNEY
                 </h5>
                 <h4 className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-gold-600 font-serif">
                   Dhara Heritage Project

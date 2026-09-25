@@ -19,6 +19,7 @@ import {
   Sun,
 } from "lucide-react";
 import KonarkTimeLens from "../quest/konark/KonarkTimeLens";
+import HeritageLearningSequence from "./HeritageLearningSequence";
 
 interface ChapterViewProps {
   cityId: string;
@@ -98,6 +99,45 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
         >
           Return to City Map
         </button>
+      </div>
+    );
+  }
+
+  if (chapter.chapterNumber === 1 && !completionData) {
+    return (
+      <div className="relative w-full h-screen">
+        <HeritageLearningSequence 
+          cityId={city.id} 
+          chapterId={chapter.id} 
+          onSequenceComplete={() => {
+            const result = completeChapter(city.id, chapter.id, 5, 5); // perfect score
+            setCompletionData({
+              starsAwarded: result.starsAwarded,
+              newStarsEarned: result.newStarsEarned,
+              nextChapterUnlocked: result.nextChapterUnlocked,
+            });
+            setXpEarnedInRun(50);
+          }} 
+        />
+      </div>
+    );
+  }
+
+  // Show completion modal immediately if triggered from learning sequence
+  if (chapter.chapterNumber === 1 && completionData) {
+    return (
+      <div className="min-h-screen bg-earth-950 flex flex-col justify-center relative">
+        <ChapterCompleteModal
+          chapterTitle={chapter.title}
+          locationName={chapter.locationName}
+          correctAnswers={5}
+          totalQuestions={5}
+          starsEarned={completionData.starsAwarded}
+          newStarsEarned={completionData.newStarsEarned}
+          xpEarned={50}
+          nextChapterUnlocked={completionData.nextChapterUnlocked}
+          onContinue={() => enterChapter(null)}
+        />
       </div>
     );
   }

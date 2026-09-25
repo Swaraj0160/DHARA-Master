@@ -78,13 +78,23 @@ export default function WorldMap() {
   useEffect(() => setMounted(true), []);
 
   const handleEnterWorld = (cityId: string) => {
-    // Show journey ticket instead of immediately entering
-    setTicketCityId(cityId);
+    const city = CITIES_DATA.find(c => c.id === cityId);
+    if (!city) return;
+    const firstChapterId = city.chapters[0].id;
+    const isCh1Completed = chapterProgress[firstChapterId]?.completed;
+
+    if (isCh1Completed) {
+      // Ticket permanently skipped, enter directly
+      setEnteringCityId(cityId);
+      setTimeout(() => startEnterRealm(cityId), 1500);
+    } else {
+      // Show journey ticket
+      setTicketCityId(cityId);
+    }
   };
 
   const handleTicketAccept = () => {
     if (ticketCityId) {
-      addXP(10); // Exploration Bonus
       setEnteringCityId(ticketCityId);
       setTimeout(() => startEnterRealm(ticketCityId), 1500);
       setTicketCityId(null);
