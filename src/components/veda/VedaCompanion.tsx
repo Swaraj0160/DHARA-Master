@@ -8,6 +8,7 @@ import { useMounted } from "@/hooks/useMounted";
 import { REALM_ENTRANCE_DIALOGUES, DAILY_AI_LIMIT } from "@/data/vedaDialogues";
 import { X, Send, Sparkles, Crown, Lock } from "lucide-react";
 import Image from "next/image";
+import VoicePill from "./VoicePill";
 
 // Map logical emotions to user's PNG files in public/veda/
 const EMOTION_FILE_MAP: Record<string, string> = {
@@ -322,6 +323,7 @@ export default function VedaCompanion() {
                   </div>
                 ) : (
                   <form
+                    id="veda-chat-form"
                     onSubmit={handleSendMessage}
                     className="mt-2.5 flex items-center gap-1.5 bg-amber-50/80 rounded-xl px-2.5 py-1.5 border border-amber-200"
                   >
@@ -331,6 +333,16 @@ export default function VedaCompanion() {
                       onChange={(e) => setInputText(e.target.value)}
                       placeholder={`Ask Veda anything... (${remainingAiQueries} free left)`}
                       className="flex-1 bg-transparent text-xs text-earth-950 placeholder:text-stone-400 focus:outline-none font-sans"
+                    />
+                    <VoicePill 
+                      onTranscript={(text) => setInputText(text)}
+                      onFinal={(text) => {
+                        setInputText(text);
+                        setTimeout(() => {
+                          const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
+                          document.getElementById('veda-chat-form')?.dispatchEvent(submitEvent);
+                        }, 50);
+                      }}
                     />
                     <button
                       type="submit"
