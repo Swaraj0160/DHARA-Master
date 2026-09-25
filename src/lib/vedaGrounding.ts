@@ -1,5 +1,6 @@
 import { CITIES_DATA } from "@/data/gameContent";
 import { REALM_ENTRANCE_DATA } from "@/data/realmEntranceData";
+import { LEARNING_DATA } from '@/components/game/HeritageLearningSequence';
 
 /**
  * Lightweight retrieval for VEDA (Phase 8, Heritage Truth Layer input).
@@ -49,6 +50,15 @@ export function getGroundedContext(cityId?: string | null, chapterId?: string | 
         for (const puzzle of chapter.puzzles) {
           const correct = puzzle.options.find((o) => o.isCorrect);
           if (correct?.explanation) lines.push(correct.explanation);
+        }
+      }
+      
+      // Phase 8: Also inject the actual Chapter 1 Truth Layer data if applicable.
+      // This ensures VEDA knows about the HeritageLearningSequence facts, evidence, and truth classifications.
+      const learningScenes = LEARNING_DATA[cityId];
+      if (learningScenes) {
+        for (const scene of learningScenes) {
+          lines.push(`Fact: ${scene.fact} (Evidence: ${scene.evidence}, Truth Layer: ${scene.truthClassification})`);
         }
       }
     }

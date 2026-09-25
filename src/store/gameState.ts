@@ -594,6 +594,7 @@ export const useGameStore = create<DharaState>()(
       bannerMessage: null,
       setBannerMessage: (msg) => set({ bannerMessage: msg }),
       completeQuest: (questId, rewards) => {
+        if (get().completedQuests.includes(questId)) return;
         get().addXP(rewards.xp);
 
         set((state) => ({

@@ -8,7 +8,7 @@ import { CheckCircle, ShieldCheck, ArrowRight, ArrowLeft } from 'lucide-react';
 import { City, Chapter } from '@/data/gameContent';
 import GooeyActionButton from '../ui/GooeyActionButton';
 
-interface Scene {
+export interface Scene {
   id: string;
   image: string;
   title: string;
@@ -17,7 +17,7 @@ interface Scene {
   truthClassification: 'VERIFIED' | 'QUALIFIED' | 'RECONSTRUCTED' | 'FICTION';
 }
 
-const LEARNING_DATA: Record<string, Scene[]> = {
+export const LEARNING_DATA: Record<string, Scene[]> = {
   nalanda: [
     { id: 'nalanda-1', image: '/destinations/nalanda-hero.png', title: 'The Great Mahavihara', fact: 'Nalanda was one of the first residential universities in the world, accommodating over 10,000 students and 2,000 teachers.', evidence: 'Excavated monastic cells and accounts by Xuanzang (7th Century CE).', truthClassification: 'VERIFIED' },
     { id: 'nalanda-2', image: '/destinations/nalanda-detail.png', title: 'Dharmaganja Library', fact: 'The library complex consisted of three massive multi-story buildings: Ratnasagara, Ratnodadhi, and Ratnaranjaka.', evidence: 'Tibetan historical records (Pag Sam Jon Zang).', truthClassification: 'QUALIFIED' },

@@ -12,8 +12,8 @@ interface KonarkTimeLensProps {
 export default function KonarkTimeLens({ onClose }: KonarkTimeLensProps) {
   // Time from 0 (Sunrise) to 24 (Sunrise next day)
   const [time, setTime] = useState<number>(6); 
-  const [rewardClaimed, setRewardClaimed] = useState(false);
-  const { addXP } = useGameStore();
+  
+  const { completeQuest, completedQuests } = useGameStore();
 
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTime(parseFloat(e.target.value));
@@ -31,12 +31,12 @@ export default function KonarkTimeLens({ onClose }: KonarkTimeLensProps) {
   const phase = getDayPhase(time);
 
   useEffect(() => {
-    if ((phase === "NIGHT" || phase === "NOON") && !rewardClaimed) {
-      addXP(25);
+    if ((phase === "NIGHT" || phase === "NOON") && !completedQuests.includes('konarkTimeLens')) {
+      completeQuest('konarkTimeLens', { xp: 25 });
       // eslint-disable-next-line
-      setRewardClaimed(true);
+      
     }
-  }, [phase, rewardClaimed, addXP]);
+  }, [phase, completedQuests, completeQuest]);
 
   // Lighting calculations based on time (6 = 0deg, 12 = 90deg, 18 = 180deg)
   const sunAngle = ((time - 6) / 12) * 180;

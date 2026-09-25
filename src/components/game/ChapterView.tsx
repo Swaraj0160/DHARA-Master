@@ -111,13 +111,16 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
           cityId={city.id} 
           chapterId={chapter.id} 
           onSequenceComplete={() => {
-            const result = completeChapter(city.id, chapter.id, 5, 5); // perfect score
+            const wasCompleted = useGameStore.getState().getChapterState(chapter.id).completed;
+              const result = completeChapter(city.id, chapter.id, 5, 5); // perfect score
             setCompletionData({
               starsAwarded: result.starsAwarded,
               newStarsEarned: result.newStarsEarned,
               nextChapterUnlocked: result.nextChapterUnlocked,
             });
-            setXpEarnedInRun(50);
+            const xpToAward = wasCompleted ? 0 : 500;
+              if (xpToAward > 0) useGameStore.getState().addXP(xpToAward);
+              setXpEarnedInRun(xpToAward);
           }} 
         />
       </div>
