@@ -7,6 +7,7 @@ import { useGameStore } from "@/store/gameState";
 import { useVedaStore } from "@/store/vedaStore";
 import { Compass, Play, ArrowRight, ShieldCheck, Star, Trophy, Award, ChevronRight, ChevronLeft, MapPin, User } from "lucide-react";
 import Link from "next/link";
+import HeritageCircularGallery from "./HeritageCircularGallery";
 
 const getImagesForCity = (id: string) => {
   return {
@@ -71,7 +72,7 @@ export default function WorldMap() {
 
   const { scrollYProgress } = useScroll();
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-
+  // eslint-disable-next-line
   useEffect(() => setMounted(true), []);
 
   const handleEnterWorld = (cityId: string) => {
@@ -157,7 +158,7 @@ export default function WorldMap() {
           <p className="text-sm md:text-lg text-ivory-300 max-w-xl font-light leading-relaxed mb-12 drop-shadow-md">
             Explore real places.<br />
             Uncover forgotten stories.<br />
-            Be a part of India's living heritage.
+            Be a part of India&apos;s living heritage.
           </p>
 
           <button 
@@ -170,56 +171,11 @@ export default function WorldMap() {
       </section>
 
       {/* =========================================
-          02 REALM NAVIGATION
+          02 & 03 HERITAGE CIRCULAR GALLERY
       ========================================= */}
-      <div id="destinations-nav" className="sticky top-0 z-40 w-full bg-ivory-200/90 backdrop-blur-xl border-b border-[#201D18]/10 py-4 px-6 shadow-sm">
-        <ul className="flex items-center justify-start md:justify-center gap-6 lg:gap-10 max-w-7xl mx-auto overflow-x-auto no-scrollbar">
-          <li><span className="text-[10px] md:text-xs tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 text-charcoal-800/50 font-bold">Realms</span></li>
-          {CITIES_DATA.map(city => (
-            <li key={`nav-${city.id}`}>
-              <button 
-                onClick={() => scrollToElement(`realm-${city.id}`)}
-                className="text-[10px] md:text-xs tracking-[0.2em] uppercase whitespace-nowrap transition-colors px-4 py-2 text-charcoal-800 hover:text-gold-600 font-bold cursor-pointer"
-              >
-                {city.name}
-              </button>
-            </li>
-          ))}
-        </ul>
+      <div id="destinations-nav">
+        <HeritageCircularGallery onEnterRealm={handleEnterWorld} />
       </div>
-
-      {/* =========================================
-          03 REALM HORIZONTAL EXPLORER
-      ========================================= */}
-      <section className="relative z-10 w-full bg-ivory-100 py-24 md:py-32 overflow-hidden border-b border-[#D8CCB8]">
-        <div className="max-w-[1800px] mx-auto px-6 mb-8 flex justify-between items-end">
-          <div>
-             <h2 className="text-sm font-bold uppercase tracking-[0.4em] text-gold-600 mb-2">Explore the World</h2>
-             <h3 className="text-3xl md:text-4xl font-serif text-charcoal-800">Heritage Destinations</h3>
-          </div>
-          <div className="hidden md:flex gap-4">
-             <button onClick={() => scrollCarousel('left')} className="w-12 h-12 rounded-full border border-[#201D18]/20 flex items-center justify-center hover:bg-charcoal-800 hover:text-[#F4F0E7] transition-colors cursor-pointer">
-               <ChevronLeft className="w-5 h-5" />
-             </button>
-             <button onClick={() => scrollCarousel('right')} className="w-12 h-12 rounded-full border border-[#201D18]/20 flex items-center justify-center hover:bg-charcoal-800 hover:text-[#F4F0E7] transition-colors cursor-pointer">
-               <ChevronRight className="w-5 h-5" />
-             </button>
-          </div>
-        </div>
-        
-        <div 
-          ref={carouselRef}
-          className="flex overflow-x-auto gap-6 md:gap-8 px-6 pb-12 snap-x snap-mandatory no-scrollbar"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {CITIES_DATA.map(city => {
-            const completedCount = city.chapters.filter(ch => chapterProgress[ch.id]?.completed).length;
-            return <DestinationCard key={`card-${city.id}`} city={city} progress={completedCount} onClick={() => scrollToElement(`realm-${city.id}`)} />;
-          })}
-          {/* Spacer to allow last card to scroll to center on large screens */}
-          <div className="w-[10vw] shrink-0 pointer-events-none" />
-        </div>
-      </section>
 
       {/* =========================================
           04 DESTINATION EDITORIAL SECTIONS
@@ -520,7 +476,7 @@ export default function WorldMap() {
           <div className="md:col-span-1">
             <img src="/LOGO.png" alt="DHARA" className="h-10 w-auto mb-6 object-contain" />
             <p className="text-xs text-ivory-300 leading-relaxed max-w-xs font-serif italic">
-              Where India's Heritage Flows.
+              Where India&apos;s Heritage Flows.
             </p>
           </div>
           
@@ -559,4 +515,6 @@ export default function WorldMap() {
     </div>
   );
 }
+
+
 

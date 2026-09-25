@@ -73,7 +73,7 @@ export default function SceneManager({ config, onExit }: SceneManagerProps) {
                     audio.play().catch(()=>{});
                     
                     if (hotspot.actionPayload?.type === "FRAGMENT") {
-                      addFragment(hotspot.actionPayload.id);
+                      addFragment(hotspot.actionPayload.id as string);
                     }
                     hotspot.onInteract?.();
                   }}

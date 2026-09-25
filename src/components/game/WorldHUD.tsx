@@ -86,7 +86,7 @@ export default function WorldHUD() {
             </div>
             <div className="hidden lg:block border-l border-gold-600/20 pl-3">
               <p className="text-[10px] font-serif italic text-[#D8CCB8]/80 leading-tight">
-                Where India's<br/>Heritage Flows
+                Where India&apos;s<br/>Heritage Flows
               </p>
             </div>
           </button>
@@ -253,4 +253,5 @@ export default function WorldHUD() {
     </header>
   );
 }
+
 

@@ -34,7 +34,7 @@ export interface Hotspot {
   y: number;
   label: string;
   mediaAsset?: MediaAsset;
-  actionPayload?: any; // To trigger quests, modals, discoveries
+  actionPayload?: Record<string, unknown>; // To trigger quests, modals, discoveries
   onInteract?: () => void;
   requiredState?: WorldState;
 }

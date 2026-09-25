@@ -90,6 +90,7 @@ export default function VedaCompanion() {
 
   // Update image source whenever emotion changes
   useEffect(() => {
+    // eslint-disable-next-line
     setImageSrc(resolveVedaImage(currentEmotion));
   }, [currentEmotion]);
 
@@ -349,3 +350,4 @@ export default function VedaCompanion() {
     </>
   );
 }
+

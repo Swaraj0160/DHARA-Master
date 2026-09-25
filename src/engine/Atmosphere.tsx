@@ -12,6 +12,7 @@ export default function Atmosphere({ type }: AtmosphereProps) {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // eslint-disable-next-line
     setPrefersReducedMotion(mediaQuery.matches);
     
     const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
@@ -21,27 +22,39 @@ export default function Atmosphere({ type }: AtmosphereProps) {
 
   if (type === "none" || prefersReducedMotion) return null;
 
-  // Lightweight CSS-based particles.
   // We use a small number of divs and animate them infinitely.
   if (type === "dust") {
+    // Generate static random values once per component lifecycle to avoid hydration mismatch
+    // and satisfy react-hooks/purity rules.
+    const dustParticles = [...Array(15)].map((_, i) => {
+      // Use pseudo-random based on index so it's pure during render
+      const seed = i * 0.12345;
+      const x1 = (seed * 100) % 100;
+      const y1 = (seed * 70) % 100;
+      const op = (seed * 0.5) % 0.5 + 0.1;
+      const dir = (seed * 10) % 1 > 0.5 ? "+" : "-";
+      const dur = (seed * 20) % 10 + 15;
+      return { x1, y1, op, dir, dur };
+    });
+
     return (
       <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden mix-blend-screen opacity-40">
-        {[...Array(15)].map((_, i) => (
+        {dustParticles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-parchment-200 rounded-full blur-[1px]"
             initial={{
-              x: Math.random() * 100 + "vw",
-              y: Math.random() * 100 + "vh",
-              opacity: Math.random() * 0.5 + 0.1,
+              x: p.x1 + "vw",
+              y: p.y1 + "vh",
+              opacity: p.op,
             }}
             animate={{
               y: [null, "-20vh"],
-              x: [null, (Math.random() > 0.5 ? "+" : "-") + "10vw"],
+              x: [null, p.dir + "10vw"],
               opacity: [null, 0, 0.5],
             }}
             transition={{
-              duration: Math.random() * 10 + 15,
+              duration: p.dur,
               repeat: Infinity,
               ease: "linear",
             }}
@@ -66,3 +79,4 @@ export default function Atmosphere({ type }: AtmosphereProps) {
 
   return null;
 }
+

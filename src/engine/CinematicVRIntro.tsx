@@ -138,7 +138,7 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
                  <img src="/LOGO.png" alt="DHARA" className="h-10 lg:h-12 w-auto invert drop-shadow-md" />
                  <div className="hidden lg:flex flex-col">
                     <span className="text-white font-serif font-bold text-lg tracking-widest uppercase">Dhara</span>
-                    <span className="text-ivory-300 text-[9px] uppercase tracking-widest opacity-80">Where India's stories flow</span>
+                    <span className="text-ivory-300 text-[9px] uppercase tracking-widest opacity-80">Where India&apos;s stories flow</span>
                  </div>
               </div>
 
@@ -229,7 +229,7 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
 
                 <p className="text-sm md:text-base lg:text-lg text-ivory-100 max-w-xl mx-auto font-light leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mb-12">
                   Explore real places. Uncover forgotten stories.<br />
-                  Be a part of India's living heritage.
+                  Be a part of India&apos;s living heritage.
                 </p>
 
                 {/* THE CTA */}
@@ -300,7 +300,7 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
                      <div className="flex items-center gap-3 group cursor-pointer">
                         <ShieldCheck className="w-6 h-6 text-gold-400 group-hover:text-white transition-colors opacity-70" />
                         <div className="flex flex-col text-right">
-                           <span className="text-white font-serif font-bold text-sm lg:text-base leading-none">India's</span>
+                           <span className="text-white font-serif font-bold text-sm lg:text-base leading-none">India&apos;s</span>
                            <span className="text-[9px] uppercase tracking-widest text-gold-400 mt-1">Living Heritage</span>
                         </div>
                      </div>
