@@ -5,8 +5,9 @@ import { useGameStore } from "@/store/gameState";
 import { CITIES_DATA, Chapter } from "@/data/gameContent";
 import ChapterNode from "./ChapterNode";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Star, Lock, X, Trophy, Sparkles } from "lucide-react";
+import { ArrowLeft, Star, Lock, X, Trophy, Sparkles, Database } from "lucide-react";
 import Image from "next/image";
+import FlyingPosters from "./FlyingPosters";
 
 interface CityMapProps {
   cityId: string;
@@ -15,6 +16,7 @@ interface CityMapProps {
 export default function CityMap({ cityId }: CityMapProps) {
   const { enterCity, enterChapter, chapterProgress, getChapterState, startEnterRealm } = useGameStore();
   const [lockedNotice, setLockedNotice] = useState<Chapter | null>(null);
+  const [showPosters, setShowPosters] = useState(false);
 
   const city = CITIES_DATA.find((c) => c.id === cityId);
 
@@ -84,6 +86,14 @@ export default function CityMap({ cityId }: CityMapProps) {
           >
             <ArrowLeft className="w-4 h-4 text-gold-400" />
             <span>World Map</span>
+          </button>
+
+          <button
+            onClick={() => setShowPosters(true)}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-charcoal-900/80 border border-gold-500/40 text-gold-400 hover:text-gold-300 hover:border-gold-400 hover:bg-gold-600/10 text-xs font-serif font-bold uppercase tracking-wider transition-all backdrop-blur-md shadow-[0_0_15px_rgba(212,175,55,0.1)] cursor-pointer"
+          >
+            <Database className="w-4 h-4" />
+            <span className="hidden sm:inline">Archives</span>
           </button>
 
           <div>
@@ -277,6 +287,13 @@ export default function CityMap({ cityId }: CityMapProps) {
               </button>
             </motion.div>
           </motion.div>
+        )}
+
+        {showPosters && (
+          <FlyingPosters 
+            city={city} 
+            onClose={() => setShowPosters(false)} 
+          />
         )}
       </AnimatePresence>
     </div>
