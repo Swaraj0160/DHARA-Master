@@ -1,35 +1,23 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect } from "react";
 import { useGameStore } from "@/store/gameState";
 import { motion } from "framer-motion";
 import WorldHUD from "@/components/game/WorldHUD";
 import WorldMap from "@/components/game/WorldMap";
 import CityMap from "@/components/game/CityMap";
 import ChapterView from "@/components/game/ChapterView";
-import CinematicIntro from "@/engine/CinematicIntro";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function GameRootContent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   
   const {
     currentCityId,
     currentChapterId,
     enteringCityId,
-    confirmEnterRealm,
-    hasSeenIntro,
-    setHasSeenIntro
+    confirmEnterRealm
   } = useGameStore();
-
-  useEffect(() => {
-    // Clean dev reset flag
-    if (searchParams.get("intro") === "reset") {
-      setHasSeenIntro(false);
-      router.replace("/");
-    }
-  }, [searchParams, setHasSeenIntro, router]);
 
   useEffect(() => {
     // Bypass the old Time Portal entirely if the map sets enteringCityId
@@ -37,14 +25,6 @@ function GameRootContent() {
       confirmEnterRealm();
     }
   }, [enteringCityId, confirmEnterRealm]);
-
-  if (searchParams.get("intro") === "reset") {
-    return null;
-  }
-
-  if (!hasSeenIntro) {
-    return <CinematicIntro />;
-  }
 
   return (
     <motion.div
