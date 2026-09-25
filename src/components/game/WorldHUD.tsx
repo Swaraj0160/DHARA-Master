@@ -51,19 +51,16 @@ export default function WorldHUD() {
             className="flex items-center gap-2.5 group text-left cursor-pointer focus-visible:outline-none"
             title="Return to World Map"
           >
-            <div className="w-10 h-10 rounded-2xl bg-earth-900/90 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:border-gold-400 transition-all shadow-md group-hover:scale-105">
-              <Compass className="w-5 h-5 animate-[spin_60s_linear_infinite]" />
+            <div className="flex items-center justify-center transition-all group-hover:scale-105 px-2">
+              <img src="/LOGO.png" alt="DHARA Logo" className="h-8 md:h-10 w-auto object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
             </div>
-            <div>
+            <div className="hidden sm:block border-l border-gold-500/20 pl-4 ml-1">
               <div className="flex items-center gap-1.5">
-                <span className="font-serif text-2xl sm:text-3xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white via-gold-200 to-gold-500 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                  DHARA
-                </span>
                 <span className="hidden md:inline-block text-[10px] uppercase font-mono tracking-widest px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/30">
                   World
                 </span>
               </div>
-              <p className="text-[10px] font-serif italic text-parchment-300/80 hidden sm:block">
+              <p className="text-[10px] font-serif italic text-parchment-300/80">
                 Where India&apos;s stories flow
               </p>
             </div>

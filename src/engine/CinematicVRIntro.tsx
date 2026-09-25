@@ -13,7 +13,7 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'video';
-    link.href = '/intro/final_cinematic.mp4';
+    link.href = '/intro/intro_video.mp4';
     document.head.appendChild(link);
     return () => {
       document.head.removeChild(link);
@@ -76,7 +76,7 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
       */}
       <video
         ref={videoRef}
-        src="/intro/final_cinematic.mp4"
+        src="/intro/intro_video.mp4"
         className="absolute inset-0 w-full h-full object-cover object-center" 
         preload="auto"
         playsInline
@@ -103,7 +103,7 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
           >
             {/* Visual Poster matching the video's object-fit perfectly */}
             <img 
-              src="/intro/final_poster.png" 
+              src="/intro/intro_frame.png" 
               alt="Dhara Heritage Poster" 
               className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
             />
