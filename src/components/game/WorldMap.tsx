@@ -9,10 +9,9 @@ import { Compass, Play, ArrowRight, ShieldCheck, Star, Trophy, Award, ChevronRig
 import Link from "next/link";
 
 const getImagesForCity = (id: string) => {
-  const hasDetail = ["nalanda", "pataliputra"].includes(id);
   return {
     hero: `/destinations/${id}-hero.png`,
-    detail: hasDetail ? `/destinations/${id}-detail.png` : undefined
+    detail: `/destinations/${id}-detail.png`
   };
 };
 
