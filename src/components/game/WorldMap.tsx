@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { CITIES_DATA, City } from "@/data/gameContent";
 import { useGameStore } from "@/store/gameState";
 import { useVedaStore } from "@/store/vedaStore";
-import { Compass, Play, ArrowRight, ShieldCheck, Star, Trophy, Award, ChevronRight, ChevronLeft, MapPin } from "lucide-react";
+import { Compass, Play, ArrowRight, ShieldCheck, Star, Trophy, Award, ChevronRight, ChevronLeft, MapPin, User } from "lucide-react";
 import Link from "next/link";
 
 const getImagesForCity = (id: string) => {
@@ -113,15 +113,31 @@ export default function WorldMap() {
       {/* =========================================
           01 HERO / WORLD INTRO
       ========================================= */}
-      <section className="relative w-full min-h-[90vh] flex flex-col justify-center items-center text-center px-6 overflow-hidden pt-20 bg-[#171513] text-[#F5EFE4]">
+      <section className="relative w-full min-h-[100vh] flex flex-col justify-center items-center text-center px-6 overflow-hidden pt-20 bg-[#171513] text-[#F5EFE4]">
+        
+        {/* CINEMATIC BACKGROUND IMAGE */}
         <motion.div 
           className="absolute inset-0 z-0 pointer-events-none"
           style={{ y: backgroundY }}
         >
-          {/* Using a subtle map-like dark background */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(40,35,30,0.6)_0%,_#171513_80%)] mix-blend-normal" />
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay" />
+          <div className="absolute inset-0 bg-[url('/home-background.png')] bg-cover bg-center bg-no-repeat" />
+          {/* Subtle gradient overlay to ensure text readability while keeping the image visible */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#171513]/80 via-[#171513]/40 to-[#F4F0E7]" />
         </motion.div>
+
+        {/* SUBTLE GAME HUD OVERLAYS */}
+        <div className="absolute top-24 left-8 text-left hidden lg:block z-10 pointer-events-none opacity-60">
+           <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-gold-400 mb-1">Chapter 01</p>
+           <p className="text-[10px] font-sans uppercase tracking-widest text-[#D8CCB8]">Bharat · Heritage World</p>
+        </div>
+        <div className="absolute top-24 right-8 text-right hidden lg:block z-10 pointer-events-none opacity-60">
+           <p className="text-[9px] font-mono uppercase tracking-[0.3em] text-gold-400 mb-1">Discoveries: {discoveredCount}</p>
+           <p className="text-[10px] font-sans uppercase tracking-widest text-[#D8CCB8]">XP: {player.xp}</p>
+        </div>
+        <div className="absolute bottom-32 left-8 hidden lg:block z-10 pointer-events-none opacity-30">
+           <div className="w-[1px] h-32 bg-gold-600/50 mb-2 relative"><div className="absolute top-0 left-[-2px] w-[5px] h-[5px] bg-gold-400 rounded-full" /></div>
+           <p className="text-[8px] font-mono tracking-widest text-gold-500">25.61° N, 85.14° E</p>
+        </div>
 
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -129,30 +145,27 @@ export default function WorldMap() {
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="relative z-10 max-w-5xl mx-auto flex flex-col items-center mt-12"
         >
-          <span className="text-gold-500 tracking-[0.4em] text-xs sm:text-sm uppercase mb-8 font-bold flex items-center gap-3">
+          <span className="text-gold-500 tracking-[0.4em] text-xs sm:text-sm uppercase mb-6 font-bold flex items-center gap-3">
             <Compass className="w-4 h-4" /> The Heritage Exploration Game
           </span>
-          <h1 className="text-5xl md:text-7xl lg:text-9xl font-serif font-bold tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-[#EAE3D5] to-gold-600 drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] mb-8 leading-none">
+          
+          <h1 className="text-5xl md:text-7xl lg:text-[8rem] font-serif font-bold tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-[#EAE3D5] to-[#D8CCB8] drop-shadow-2xl mb-8 leading-[0.9]">
             Ancient<br />Realms<br />
-            <span className="text-3xl md:text-5xl lg:text-7xl font-light italic text-gold-400 mt-4 block">of Bharat</span>
+            <span className="text-3xl md:text-5xl lg:text-7xl font-light italic text-gold-400/90 mt-2 block tracking-wider">of Bharat</span>
           </h1>
-          <p className="text-base md:text-xl text-[#D8CCB8] max-w-2xl font-light leading-relaxed mb-16">
-            Explore real places. Uncover forgotten stories. Be a part of India's living heritage.
+          
+          <p className="text-sm md:text-lg text-[#D8CCB8] max-w-xl font-light leading-relaxed mb-12 drop-shadow-md">
+            Explore real places.<br />
+            Uncover forgotten stories.<br />
+            Be a part of India's living heritage.
           </p>
 
-          {/* Interactive Hero Map Markers */}
-          <div className="flex flex-wrap justify-center gap-4 max-w-3xl">
-             {CITIES_DATA.map(city => (
-               <button 
-                 key={`marker-${city.id}`}
-                 onClick={() => scrollToElement(`realm-${city.id}`)}
-                 className="flex items-center gap-2 px-4 py-2 border border-[#D8CCB8]/20 rounded-full bg-[#211E1A]/80 backdrop-blur-md hover:bg-gold-600 hover:text-[#171513] transition-all group shadow-lg cursor-pointer"
-               >
-                 <MapPin className="w-3 h-3 text-gold-500 group-hover:text-[#171513]" />
-                 <span className="text-[10px] font-bold uppercase tracking-widest">{city.name}</span>
-               </button>
-             ))}
-          </div>
+          <button 
+            onClick={() => scrollToElement("destinations-nav")}
+            className="px-8 py-4 bg-gold-600 text-[#171513] font-bold uppercase tracking-[0.3em] text-xs hover:bg-[#F5EFE4] transition-colors shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(212,175,55,0.5)] cursor-pointer"
+          >
+            Explore Dhara
+          </button>
         </motion.div>
       </section>
 
@@ -294,59 +307,125 @@ export default function WorldMap() {
       {/* =========================================
           05 HERITAGE PASSPORT
       ========================================= */}
-      <section className="relative w-full py-32 bg-[#211E1A] text-[#F5EFE4] z-10 overflow-hidden">
-        {/* Subtle noise/texture overlay for dark section */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay pointer-events-none" />
-        
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
-          <div>
-            <h2 className="text-[10px] uppercase tracking-[0.5em] text-gold-500 mb-6 font-bold">Player Progression</h2>
-            <h3 className="text-4xl md:text-5xl font-serif font-bold tracking-widest uppercase text-white mb-8">
-              Heritage Passport
+      <section className="relative w-full py-32 bg-[#171513] text-[#F5EFE4] z-10 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+          
+          <div className="lg:col-span-5 flex flex-col justify-center">
+            <h2 className="text-[10px] uppercase tracking-[0.5em] text-gold-500 mb-6 font-bold flex items-center gap-2"><Trophy className="w-3 h-3"/> Player Progression</h2>
+            <h3 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-widest uppercase text-white mb-8 leading-tight">
+              Heritage<br />Passport
             </h3>
             <p className="text-base text-[#D8CCB8] leading-relaxed mb-12 max-w-md">
               Every discovery, every solved mystery, and every truth uncovered is recorded here. Earn stars to unlock advanced realms and elevate your scholar rank.
             </p>
-            <div className="grid grid-cols-2 gap-8">
-              <div className="bg-[#171513] border border-white/5 p-6 flex flex-col gap-2">
-                <Star className="w-6 h-6 text-gold-400 mb-2" />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#D8CCB8]/60">Total Stars</span>
-                <span className="text-2xl font-mono text-gold-400">{getTotalStars()}</span>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-[#211E1A] border border-white/5 p-5">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/50 block mb-2">Total Stars</span>
+                <span className="text-3xl font-serif text-gold-400">{getTotalStars()}</span>
               </div>
-              <div className="bg-[#171513] border border-white/5 p-6 flex flex-col gap-2">
-                <Trophy className="w-6 h-6 text-gold-400 mb-2" />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#D8CCB8]/60">Scholar Level</span>
-                <span className="text-2xl font-mono text-white">{player.level}</span>
+              <div className="bg-[#211E1A] border border-white/5 p-5">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/50 block mb-2">Scholar Level</span>
+                <span className="text-3xl font-serif text-white">{player.level}</span>
               </div>
-              <div className="bg-[#171513] border border-white/5 p-6 flex flex-col gap-2">
-                <Compass className="w-6 h-6 text-gold-400 mb-2" />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#D8CCB8]/60">Worlds Discovered</span>
-                <span className="text-2xl font-mono text-white">{discoveredCount} <span className="text-[#D8CCB8]/40 text-sm">/ {CITIES_DATA.length}</span></span>
+              <div className="bg-[#211E1A] border border-white/5 p-5">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/50 block mb-2">Worlds Discovered</span>
+                <span className="text-3xl font-serif text-white">{discoveredCount}</span>
               </div>
-              <div className="bg-[#171513] border border-white/5 p-6 flex flex-col gap-2">
-                <Award className="w-6 h-6 text-gold-400 mb-2" />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[#D8CCB8]/60">Player Title</span>
+              <div className="bg-[#211E1A] border border-white/5 p-5">
+                <span className="text-[9px] uppercase tracking-[0.2em] text-[#D8CCB8]/50 block mb-2">Player Title</span>
                 <span className="text-sm font-serif italic text-gold-400">{player.title}</span>
               </div>
             </div>
           </div>
-          <div className="flex justify-center md:justify-end">
-            <div className="w-full max-w-md aspect-[3/4] bg-[#F4F0E7] border border-[#201D18]/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative p-8 flex flex-col items-center text-center">
-               <div className="absolute inset-2 border border-dashed border-[#201D18]/20 pointer-events-none" />
-               <img src="/LOGO.png" alt="DHARA" className="w-16 h-auto opacity-30 mb-12 invert" />
-               <h4 className="text-2xl font-serif text-[#201D18] uppercase tracking-widest mb-4 font-bold">Official Passport</h4>
-               <p className="text-xs text-[#201D18]/60 font-bold uppercase tracking-widest mb-8 border-b border-[#201D18]/10 pb-4">Government of Bharat</p>
+
+          <div className="lg:col-span-7 flex justify-center lg:justify-end relative">
+            {/* The Passport Visual */}
+            <div className="w-full max-w-[600px] aspect-[4/3] sm:aspect-[3/2] relative overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] rounded-md border border-[#F4F0E7]/10 group">
+               <img src="/passport-asset.png" alt="Passport Base" className="absolute inset-0 w-full h-full object-cover" />
                
-               <div className="flex flex-wrap justify-center gap-4 mt-auto">
-                 {/* Visual Stamps */}
-                 {CITIES_DATA.slice(0,4).map((city, i) => (
-                   <div key={i} className={`w-16 h-16 rounded-full border-2 flex items-center justify-center transform ${i%2===0 ? '-rotate-12' : 'rotate-6'} ${city.chapters?.[0] && chapterProgress[city.chapters[0].id]?.completed ? 'border-red-800/80 text-red-800/80' : 'border-[#201D18]/10 text-[#201D18]/10'}`}>
-                     <span className="text-[8px] font-bold uppercase tracking-tighter">{city.name}</span>
-                   </div>
-                 ))}
+               {/* Passport Overlay Content */}
+               <div className="absolute inset-0 flex">
+                  {/* Left Page: Player ID */}
+                  <div className="w-1/2 h-full relative p-6 sm:p-10 flex flex-col items-center text-center border-r border-[#171513]/10">
+                     <div className="w-full flex justify-between items-start mb-6">
+                       <img src="/LOGO.png" className="h-6 opacity-40 invert" alt="Logo" />
+                       <span className="text-[8px] font-mono tracking-widest text-[#171513]/40">IND-HRT-0{player.level}</span>
+                     </div>
+                     
+                     <div className="relative w-24 h-32 sm:w-32 sm:h-40 border-2 border-[#171513]/20 p-1 mb-4 bg-[#F4F0E7]/50 overflow-hidden cursor-pointer">
+                        {player.profilePhoto ? (
+                          <img src={player.profilePhoto} alt="Player" className="w-full h-full object-cover object-top grayscale contrast-125 sepia-[.3]" />
+                        ) : (
+                          <div className="w-full h-full flex flex-col items-center justify-center opacity-30">
+                            <User className="w-10 h-10 text-[#171513] mb-2" />
+                          </div>
+                        )}
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          className="absolute inset-0 opacity-0 cursor-pointer" 
+                          title="Change Photo"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onload = (ev) => {
+                                useGameStore.getState().setProfilePhoto(ev.target?.result as string);
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                     </div>
+                     
+                     <div className="flex gap-2">
+                       <button className="text-[8px] uppercase tracking-widest font-bold text-[#171513]/60 hover:text-[#171513] transition-colors pointer-events-none group-hover:pointer-events-auto">Upload Photo</button>
+                       {player.profilePhoto && (
+                         <button 
+                           onClick={() => useGameStore.getState().setProfilePhoto(undefined)}
+                           className="text-[8px] uppercase tracking-widest font-bold text-red-800/60 hover:text-red-800 transition-colors pointer-events-none group-hover:pointer-events-auto"
+                         >
+                           Remove
+                         </button>
+                       )}
+                     </div>
+
+                     <div className="mt-auto w-full text-left border-t border-[#171513]/10 pt-4">
+                        <p className="text-[7px] uppercase tracking-widest text-[#171513]/40 mb-1">Scholar Name</p>
+                        <p className="text-sm font-serif font-bold text-[#171513] uppercase">{player.name}</p>
+                     </div>
+                  </div>
+
+                  {/* Right Page: Stamps */}
+                  <div className="w-1/2 h-full relative p-6 sm:p-10 flex flex-col">
+                     <p className="text-[8px] uppercase tracking-[0.3em] font-bold text-[#171513]/40 border-b border-[#171513]/10 pb-4 mb-6 text-center">
+                       Visas & Stamps
+                     </p>
+                     <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-2">
+                       {CITIES_DATA.map((city, i) => {
+                         const hasVisited = city.chapters?.[0] && chapterProgress[city.chapters[0].id]?.completed;
+                         if (!hasVisited) return null;
+                         return (
+                           <div key={i} className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 flex items-center justify-center transform ${i%2===0 ? '-rotate-12' : 'rotate-6'} border-[#8B0000]/60 text-[#8B0000]/80 shadow-sm mix-blend-multiply bg-[#8B0000]/5`}>
+                             <div className="text-center">
+                               <span className="block text-[6px] sm:text-[7px] font-bold uppercase tracking-widest opacity-80">{city.region}</span>
+                               <span className="block text-[10px] sm:text-xs font-serif font-bold uppercase">{city.name}</span>
+                               <span className="block text-[5px] sm:text-[6px] font-mono mt-1 opacity-70">VERIFIED</span>
+                             </div>
+                           </div>
+                         );
+                       })}
+                       {discoveredCount === 0 && (
+                         <div className="w-full h-full flex items-center justify-center mt-10">
+                           <p className="text-xs font-serif italic text-[#171513]/30 text-center">Your journey is just beginning.<br/>No stamps recorded.</p>
+                         </div>
+                       )}
+                     </div>
+                  </div>
                </div>
             </div>
           </div>
+          
         </div>
       </section>
 
@@ -387,29 +466,48 @@ export default function WorldMap() {
       {/* =========================================
           07 TRUTH LAYER
       ========================================= */}
-      <section className="relative w-full py-32 bg-[#EAE3D5] text-[#201D18] z-10 border-b border-[#D8CCB8]">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <ShieldCheck className="w-12 h-12 text-gold-600 mx-auto mb-8" />
-          <h2 className="text-[10px] uppercase tracking-[0.5em] text-gold-600 mb-6 font-bold">Authenticity Engine</h2>
-          <h3 className="text-3xl md:text-5xl font-serif font-bold tracking-widest uppercase mb-6">
-            The Truth Layer
-          </h3>
-          <p className="text-lg text-[#201D18]/80 italic mb-16 border border-[#201D18]/10 inline-block px-8 py-3 rounded-full bg-[#F4F0E7] shadow-sm">
-            NO VERIFIED SOURCE <ArrowRight className="inline w-4 h-4 mx-2 text-gold-600" /> NO HISTORICAL CLAIM
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-left">
-            {[
-              { tier: "VERIFIED HISTORICAL FACT", desc: "Epigraphy, excavation reports, ASI verified data, carbon dating." },
-              { tier: "SOURCE-QUALIFIED INFO", desc: "Contemporary chronicles, travelogues, edicts, royal inscriptions." },
-              { tier: "EVIDENCE-BASED RECONSTRUCTION", desc: "Architectural models based strictly on ruined foundations." },
-              { tier: "GAMEPLAY FICTION", desc: "Character names, interactive dialogue, and puzzle mechanisms." }
-            ].map((t) => (
-              <div key={t.tier} className="bg-[#F4F0E7] border border-[#201D18]/10 p-8 flex flex-col justify-between hover:border-gold-600/50 transition-colors shadow-sm">
-                <span className="text-[10px] uppercase tracking-widest text-gold-600 block mb-4 border-b border-[#201D18]/10 pb-4 font-bold">{t.tier}</span>
-                <p className="text-xs text-[#201D18]/70 leading-relaxed font-sans">{t.desc}</p>
-              </div>
-            ))}
+      <section className="relative w-full py-32 bg-[#171513] text-[#F5EFE4] z-10 border-b border-[#29251F]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+             <ShieldCheck className="w-12 h-12 text-[#D8CCB8] mx-auto mb-6 opacity-80" />
+             <h2 className="text-[10px] uppercase tracking-[0.5em] text-[#D8CCB8] mb-4 font-mono">Authenticity Engine</h2>
+             <h3 className="text-4xl md:text-5xl font-serif font-bold tracking-widest uppercase mb-8 text-white">
+               The Truth Layer
+             </h3>
+             <div className="inline-flex items-center gap-4 border border-red-900/30 bg-red-950/20 px-8 py-4">
+               <span className="text-sm md:text-base font-mono tracking-widest text-red-400 uppercase">No Verified Source</span>
+               <ArrowRight className="w-5 h-5 text-red-500/50" />
+               <span className="text-sm md:text-base font-mono tracking-widest text-red-400 uppercase">No Historical Claim</span>
+             </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+             {[
+               { id: '01', title: 'VERIFIED HISTORICAL FACT', desc: 'Epigraphy, excavation reports, ASI verified data, carbon dating.', status: 'VERIFIED', icon: 'bg-green-600' },
+               { id: '02', title: 'SOURCE-QUALIFIED INFO', desc: 'Contemporary chronicles, travelogues, edicts, royal inscriptions.', status: 'QUALIFIED', icon: 'bg-blue-500' },
+               { id: '03', title: 'EVIDENCE-BASED RECONSTRUCTION', desc: 'Architectural models based strictly on ruined foundations.', status: 'RECONSTRUCTED', icon: 'bg-yellow-500' },
+               { id: '04', title: 'GAMEPLAY FICTION', desc: 'Character names, interactive dialogue, and puzzle mechanisms.', status: 'FICTION', icon: 'bg-[#D8CCB8]' }
+             ].map((tier) => (
+               <div key={tier.id} className="group relative border border-white/10 bg-[#211E1A] overflow-hidden hover:border-gold-500/50 transition-colors cursor-pointer flex flex-col h-full">
+                  <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-white/5 to-transparent group-hover:via-gold-500/50 transition-colors" />
+                  <div className="p-6 sm:p-8 flex-1 flex flex-col">
+                     <div className="flex justify-between items-start mb-8">
+                       <span className="text-xl font-serif text-white/20 group-hover:text-gold-500/40 transition-colors">{tier.id}</span>
+                       <div className={`w-2 h-2 rounded-full ${tier.icon} animate-pulse shadow-[0_0_10px_currentColor]`} />
+                     </div>
+                     <h4 className="text-sm font-bold uppercase tracking-widest text-white mb-4 leading-relaxed group-hover:text-gold-400 transition-colors">{tier.title}</h4>
+                     <p className="text-[10px] text-[#D8CCB8]/60 uppercase tracking-widest font-mono mb-8 leading-relaxed flex-1">
+                       {tier.desc}
+                     </p>
+                     <div className="mt-auto border-t border-white/10 pt-4 flex justify-between items-center overflow-hidden">
+                       <span className="text-[8px] uppercase tracking-[0.3em] font-bold text-white/40">Status</span>
+                       <span className="text-[9px] uppercase tracking-widest font-mono text-white/80 transform translate-y-8 group-hover:translate-y-0 transition-transform">{tier.status}</span>
+                     </div>
+                  </div>
+                  {/* Scanline Effect on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gold-500/10 to-transparent opacity-0 group-hover:opacity-100 -translate-y-full group-hover:animate-[scan_2s_ease-in-out_infinite]" />
+               </div>
+             ))}
           </div>
         </div>
       </section>

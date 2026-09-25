@@ -88,51 +88,55 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
       />
 
       {/* 
-        LAYER 2: THE POSTER
-        Sits precisely on top of the video. 
-        Only fades out when isVideoReady is confirmed by timeUpdate.
+        LAYER 2: RESPONSIVE CONTENT OVERLAY
+        Sits on top of the video and poster.
       */}
       <AnimatePresence>
         {!isVideoReady && (
           <motion.div
             key="poster-layer"
-            className="absolute inset-0 z-10"
+            className="absolute inset-0 z-10 flex flex-col justify-between p-8 sm:p-12 pb-16 sm:pb-20"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }} // Short, cinematic dissolve
+            transition={{ duration: 0.8, ease: "easeInOut" }}
           >
-            {/* Visual Poster matching the video's object-fit perfectly */}
-            <img 
-              src="/intro/intro_frame.png" 
-              alt="Dhara Heritage Poster" 
-              className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
-            />
+            {/* Visual Poster */}
+            <div className="absolute inset-0 z-[-1] pointer-events-none bg-[#171513]">
+              <img 
+                src="/intro/intro_frame.png" 
+                alt="Dhara Heritage Poster" 
+                className="w-full h-full object-cover object-center opacity-70"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
+            </div>
 
-            {/* 
-              Aspect Ratio Preserving Container for Perfect Overlay Alignment 
-              This invisibly matches a 16:9 ratio, scaling exactly like the object-cover image.
-              It ensures the button target never drifts from the baked pixels on wide/tall screens.
-            */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] pointer-events-none">
+            {/* TOP LEFT: LOGO */}
+            <div className="w-full max-w-[1800px] mx-auto flex items-start justify-start z-10">
+              <img src="/LOGO.png" alt="DHARA Logo" className="w-[120px] md:w-[160px] lg:w-[200px] h-auto object-contain invert opacity-90 drop-shadow-lg" />
+            </div>
+
+            {/* BOTTOM / LOWER AREA: CTA */}
+            <div className="w-full max-w-[1800px] mx-auto flex flex-col items-center justify-end z-10 mt-auto">
+              <p className="text-[#D8CCB8] text-xs sm:text-sm md:text-base font-serif italic mb-6 tracking-widest opacity-80 text-center">
+                Where India's Heritage Flows
+              </p>
               
-              {/* Invisible Click Target over the baked-in "ENTER DHARA" button */}
               <button
                 onClick={handleEnterClick}
-                className="absolute top-[82%] left-1/2 -translate-x-1/2 w-[22%] h-[8%] cursor-pointer rounded-full outline-none group pointer-events-auto"
-                aria-label="Enter Dhara"
+                className="group relative px-10 sm:px-16 py-4 sm:py-5 border border-gold-500/30 bg-black/40 backdrop-blur-md rounded-full shadow-[0_0_40px_rgba(212,175,55,0.1)] hover:shadow-[0_0_60px_rgba(212,175,55,0.3)] hover:border-gold-400 transition-all cursor-pointer pointer-events-auto overflow-hidden"
               >
-                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_30px_rgba(212,175,55,0.2)] bg-white/5" />
-                <div className="absolute inset-0 rounded-full opacity-0 group-active:opacity-100 transition-opacity duration-150 bg-black/10" />
+                <div className="absolute inset-0 bg-gold-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <span className="relative z-10 text-[#F5EFE4] font-bold text-xs sm:text-sm tracking-[0.3em] uppercase">
+                  Enter Dhara
+                </span>
               </button>
+
+              {hasPlaybackFailed && (
+                <div className="mt-8 text-red-400 text-xs font-mono tracking-widest text-center bg-black/50 px-4 py-2 rounded">
+                  Autoplay restricted. Please click to play.
+                </div>
+              )}
             </div>
-            
-            {hasPlaybackFailed && (
-              <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
-                <button onClick={handleEnterClick} className="px-8 py-3 bg-white text-black font-bold tracking-widest text-xs uppercase rounded-full shadow-2xl">
-                   Play Intro →
-                </button>
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -140,9 +144,9 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
       {/* SKIP INTRO CONTROL */}
       <button 
         onClick={onComplete}
-        className="absolute bottom-8 right-8 z-[210] flex items-center gap-2 text-white/50 hover:text-white transition-colors cursor-pointer group"
+        className="absolute bottom-8 sm:bottom-12 right-8 sm:right-12 z-[210] flex items-center gap-2 text-[#D8CCB8]/50 hover:text-white transition-colors cursor-pointer group"
       >
-        <span className="text-[10px] uppercase font-bold tracking-[0.3em]">Skip Intro</span>
+        <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-[0.3em]">Skip Intro</span>
         <div className="w-[1px] h-3 bg-white/20 group-hover:bg-white/50 transition-colors" />
         <span className="text-[12px] group-hover:translate-x-1 transition-transform">→</span>
       </button>

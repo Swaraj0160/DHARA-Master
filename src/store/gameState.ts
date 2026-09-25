@@ -8,6 +8,7 @@ export interface PlayerProfile {
   level: number;
   xp: number;
   nextLevelXP: number;
+  profilePhoto?: string;
 }
 
 export interface ChapterProgress {
@@ -177,6 +178,7 @@ export interface DharaState {
   };
   addXP: (amount: number) => { leveledUp: boolean; newLevel: number };
   resetProgress: () => void;
+  setProfilePhoto: (base64String: string | undefined) => void;
 
   // Legacy stubs for existing components
   inventory: InventoryItem[];
@@ -540,6 +542,15 @@ export const useGameStore = create<DharaState>()(
         });
 
         return { leveledUp, newLevel };
+      },
+
+      setProfilePhoto: (base64String) => {
+        set((state) => ({
+          player: {
+            ...state.player,
+            profilePhoto: base64String
+          }
+        }));
       },
 
       resetProgress: () => {
