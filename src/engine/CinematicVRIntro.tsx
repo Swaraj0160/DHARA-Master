@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGameStore } from "@/store/gameState";
 import { CITIES_DATA } from "@/data/gameContent";
-import { Compass, Star, Trophy, User, Settings as SettingsIcon, ShieldCheck, MapPin, Mouse, BookOpen, Map } from "lucide-react";
+import { Compass, Star, Trophy, User, Settings as SettingsIcon, ShieldCheck, MapPin, Mouse, BookOpen, Map } from "lucide-react";import GooeyActionButton from "../components/ui/GooeyActionButton";
 
 export default function CinematicVRIntro({ onComplete }: { onComplete: () => void }) {
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -234,17 +234,17 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
 
                 {/* THE CTA */}
                 <div className="pointer-events-auto flex flex-col items-center">
-                  <button
+                  <GooeyActionButton
                     onClick={handleEnterClick}
-                    className="group relative px-12 py-4 rounded-full border border-gold-500/40 bg-black/60 backdrop-blur-md shadow-[0_0_30px_rgba(212,175,55,0.15)] hover:shadow-[0_0_50px_rgba(212,175,55,0.4)] hover:border-gold-400 hover:bg-gold-600/10 transition-all cursor-pointer overflow-hidden flex items-center justify-center gap-4"
+                    gooColor="bg-gold-500"
+                    className="group relative px-12 py-4 rounded-full border border-gold-500/40 bg-charcoal-900/80 backdrop-blur-md shadow-[0_0_30px_rgba(212,175,55,0.15)] hover:shadow-[0_0_50px_rgba(212,175,55,0.4)] hover:border-gold-400 hover:bg-gold-600 transition-all cursor-pointer flex items-center justify-center gap-4"
                   >
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.2)_0%,_transparent_70%)] transition-opacity duration-500" />
-                    <Compass className="w-5 h-5 text-gold-400 group-hover:rotate-90 transition-transform duration-700 relative z-10" />
-                    <span className="relative z-10 text-ivory-100 font-bold text-sm tracking-[0.4em] uppercase">
+                    <Compass className="w-5 h-5 text-gold-400 group-hover:rotate-90 group-hover:text-charcoal-900 transition-transform duration-700 relative z-10" />
+                    <span className="relative z-10 text-ivory-100 group-hover:text-charcoal-900 font-bold text-sm tracking-[0.4em] uppercase">
                       Enter Dhara
                     </span>
-                    <span className="relative z-10 text-gold-400 group-hover:translate-x-1 transition-transform">→</span>
-                  </button>
+                    <span className="relative z-10 text-gold-400 group-hover:text-charcoal-900 group-hover:translate-x-1 transition-transform">?</span>
+                  </GooeyActionButton>
 
                   {hasPlaybackFailed && (
                     <div className="mt-6 text-red-400 text-xs font-mono tracking-widest text-center bg-black/80 backdrop-blur px-6 py-2 rounded-full border border-red-500/30">
@@ -315,4 +315,5 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
     </motion.div>
   );
 }
+
 

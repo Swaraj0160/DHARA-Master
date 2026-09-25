@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import GooeyActionButton from '../ui/GooeyActionButton';
 import { Star, ArrowRight, CheckCircle2 } from "lucide-react";
 
 interface ChapterCompleteModalProps {
@@ -111,13 +112,14 @@ export default function ChapterCompleteModal({
         </div>
 
         {/* Continue Button */}
-        <button
+        <GooeyActionButton
           onClick={onContinue}
-          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2 shadow-xl"
+          gooColor="bg-gold-500"
+          className="w-full py-3.5 rounded-2xl bg-gold-500 text-charcoal-950 font-serif font-bold text-xs uppercase tracking-widest hover:bg-gold-400 transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(212,175,55,0.2)]"
         >
           <span>Continue Journey</span>
           <ArrowRight className="w-4 h-4" />
-        </button>
+        </GooeyActionButton>
       </motion.div>
     </div>
   );

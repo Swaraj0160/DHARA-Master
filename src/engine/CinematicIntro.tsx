@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import GooeyActionButton from '../components/ui/GooeyActionButton';
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { CinematicEasing } from "./MotionSystem";
@@ -173,12 +174,13 @@ export default function CinematicIntro() {
             <h2 className="text-sm font-serif tracking-[0.3em] text-parchment-300/70 mb-8 uppercase drop-shadow-lg">
               Ready to dive into history?
             </h2>
-            <button 
+            <GooeyActionButton 
               onClick={handleEnter}
-              className="text-2xl sm:text-4xl font-serif tracking-widest text-gold-200 hover:text-white transition-colors duration-700 drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]"
+              gooColor="bg-gold-500"
+              className="px-8 py-4 bg-charcoal-900/80 border border-gold-500/50 rounded-full text-lg sm:text-2xl font-serif tracking-[0.2em] text-gold-400 hover:text-charcoal-900 hover:border-gold-600 transition-colors duration-700 shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_40px_rgba(212,175,55,0.4)]"
             >
               ENTER DHARA
-            </button>
+            </GooeyActionButton>
           </motion.div>
         )}
       </AnimatePresence>

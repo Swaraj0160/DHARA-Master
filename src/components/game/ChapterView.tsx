@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import GooeyActionButton from '../ui/GooeyActionButton';
 import { useGameStore } from "@/store/gameState";
 import { useVedaStore } from "@/store/vedaStore";
 import { CITIES_DATA, PuzzleOption } from "@/data/gameContent";
@@ -298,22 +299,24 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mx-auto max-w-lg">
               {city.id === "konark" && (
-                <button
+                <GooeyActionButton
                   onClick={() => setShowTimeLens(true)}
-                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-earth-800 border border-gold-500/40 text-gold-400 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:bg-earth-700 hover:text-gold-300 transition-all shadow-xl flex items-center justify-center gap-2"
+                  gooColor="bg-charcoal-800"
+                  className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-charcoal-800 border border-gold-500/40 text-gold-400 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:text-gold-300 active:scale-[0.99] transition-colors shadow-[0_0_20px_rgba(212,175,55,0.15)] flex items-center justify-center gap-2"
                 >
                   <Sun className="w-4 h-4" />
-                  <span>Time Lens</span>
-                </button>
+                  <span>Start Exploration</span>
+                </GooeyActionButton>
               )}
 
-              <button
+              <GooeyActionButton
                 onClick={() => setHasStarted(true)}
-                className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-earth-950 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:brightness-110 active:scale-[0.99] transition-all shadow-xl flex items-center justify-center gap-2"
+                gooColor="bg-gold-500"
+                className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gold-500 text-charcoal-950 font-serif font-bold text-xs sm:text-sm uppercase tracking-widest hover:bg-gold-400 active:scale-[0.99] transition-colors shadow-[0_0_20px_rgba(212,175,55,0.2)] flex items-center justify-center gap-2"
               >
-                <span>Begin Chapter</span>
-                <Play className="w-4 h-4 fill-earth-950" />
-              </button>
+                <span>Begin Quest</span>
+                <Play className="w-4 h-4 fill-charcoal-950 text-charcoal-950" />
+              </GooeyActionButton>
             </div>
           </motion.div>
         ) : (

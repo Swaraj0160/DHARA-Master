@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { Lock, MapPin, Compass } from 'lucide-react';
 import { CITIES_DATA } from '@/data/gameContent';
 import { useGameStore } from '@/store/gameState';
+import GooeyActionButton from '../ui/GooeyActionButton';
 import ReactBitsCircularGallery from './ReactBitsCircularGallery';
 
 interface CircularGalleryProps {
@@ -110,22 +111,24 @@ export default function HeritageCircularGallery({ onEnterRealm }: CircularGaller
             </div>
 
             {/* CTA */}
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                if (isUnlocked) onEnterRealm(activeCity.id);
-              }}
-              className={`w-full py-4 px-6 border text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 flex justify-center items-center gap-3 
-                ${isUnlocked 
-                  ? 'bg-charcoal-900/80 border-gold-500/50 text-gold-400 hover:bg-gold-600 hover:text-charcoal-900 hover:border-gold-600 shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)]' 
-                  : 'bg-charcoal-900/50 border-white/10 text-white/30 cursor-not-allowed'}`}
-            >
-              {isUnlocked ? (
-                <>Enter Realm <Compass className="w-4 h-4" /></>
-              ) : (
-                <>Requires {activeCity.requiredStars} Stars</>
-              )}
-            </button>
+            {isUnlocked ? (
+              <GooeyActionButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEnterRealm(activeCity.id);
+                }}
+                gooColor="bg-gold-500"
+                className="w-full py-4 px-6 border text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 flex justify-center items-center gap-3 bg-charcoal-900/80 border-gold-500/50 text-gold-400 hover:text-charcoal-900 hover:border-gold-600 shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)]"
+              >
+                Enter Realm <Compass className="w-4 h-4" />
+              </GooeyActionButton>
+            ) : (
+              <button 
+                className="w-full py-4 px-6 border text-[11px] font-bold uppercase tracking-[0.2em] transition-all duration-300 flex justify-center items-center gap-3 bg-charcoal-900/50 border-white/10 text-white/30 cursor-not-allowed"
+              >
+                Requires {activeCity.requiredStars} Stars
+              </button>
+            )}
 
           </div>
         )}

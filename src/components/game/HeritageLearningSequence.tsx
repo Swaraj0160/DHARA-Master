@@ -6,6 +6,7 @@ import { useVedaStore } from '@/store/vedaStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle, ShieldCheck, ArrowRight, ArrowLeft } from 'lucide-react';
 import { City, Chapter } from '@/data/gameContent';
+import GooeyActionButton from '../ui/GooeyActionButton';
 
 interface Scene {
   id: string;
@@ -166,14 +167,19 @@ export default function HeritageLearningSequence({ cityId, chapterId, onSequence
           <span className="text-[10px] uppercase tracking-[0.2em] text-ivory-300/60 font-bold">Scroll or drag to navigate</span>
           
           {isLast && (
-            <motion.button
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              onClick={onSequenceComplete}
-              className="mt-4 px-8 py-4 bg-gold-600 text-charcoal-900 font-bold uppercase tracking-[0.2em] text-xs hover:bg-gold-500 transition-colors flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(212,175,55,0.3)] rounded-xl"
+              className="mt-4"
             >
-              Complete Chapter <ArrowRight className="w-4 h-4" />
-            </motion.button>
+              <GooeyActionButton
+                onClick={onSequenceComplete}
+                gooColor="bg-gold-500"
+                className="px-8 py-4 bg-gold-600 text-charcoal-900 font-bold uppercase tracking-[0.2em] text-xs hover:bg-gold-500 transition-colors flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(212,175,55,0.3)] rounded-xl"
+              >
+                Unlock <ArrowRight className="w-4 h-4" />
+              </GooeyActionButton>
+            </motion.div>
           )}
         </div>
 
