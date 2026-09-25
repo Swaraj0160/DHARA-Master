@@ -2,7 +2,12 @@
 
 Short, living memory. Update at end of each work session; don't re-read completed work.
 
-## Current Phase: Cinematic Experience Foundation (Block 1) - COMPLETED
+## Current Phase: Cinematic Intro Replacement - COMPLETED
+- Implemented `CinematicIntro.tsx` replacing the old "India is not one story" sequence.
+- Continuous camera descent from Modern Aerial -> Time Shift (Blueprints) -> Nalanda Engine.
+- `hasSeenIntro` correctly integrated to prevent repeats and hand off to `/quest/nalanda`.
+
+## Previous Phase: Cinematic Experience Foundation (Block 1) - COMPLETED
 - Implemented Renderer-Agnostic `SceneManager`.
 - Built `Camera` (2.5D virtual panning context).
 - Created `MotionSystem` for global cinematic easing.
