@@ -1,84 +1,225 @@
 "use client";
 
-import { useMounted } from "@/hooks/useMounted";
-import { useGameStore } from "@/store/gameState";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { CITIES_DATA, City } from "@/data/gameContent";
-import CityVerticalCard from "./CityVerticalCard";
+import { useGameStore } from "@/store/gameState";
+
+// Geographical percentages for the constellation
+const VISUAL_COORDS: Record<string, { x: number; y: number }> = {
+  "varanasi": { x: 42, y: 35 },
+  "pataliputra": { x: 55, y: 28 },
+  "nalanda": { x: 65, y: 38 },
+  "konark": { x: 70, y: 58 },
+  "hampi": { x: 35, y: 68 },
+  "madurai": { x: 42, y: 88 },
+};
+
+// Travel route connecting the dots
+const ROUTE_PATH = "M 42 35 L 55 28 L 65 38 L 70 58 L 35 68 L 42 88";
 
 export default function WorldMap() {
-  const mounted = useMounted();
-  const { startEnterRealm, chapterProgress, getTotalStars, ambientEffectsEnabled } = useGameStore();
+  const [hoveredCity, setHoveredCity] = useState<City | null>(null);
+  const [enteringCityId, setEnteringCityId] = useState<string | null>(null);
+  const { startEnterRealm, chapterProgress, getTotalStars } = useGameStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   const totalGlobalStars = mounted ? getTotalStars() : 0;
+  const discoveredCount = mounted ? CITIES_DATA.filter(c => c.chapters.some(ch => chapterProgress[ch.id]?.completed)).length : 0;
 
-  const handleSelectCity = (city: City) => {
-    startEnterRealm(city.id);
+  const handleCityClick = (city: City) => {
+    setEnteringCityId(city.id);
+    // Cinematic micro-transition into the world
+    setTimeout(() => {
+      startEnterRealm(city.id);
+    }, 1500);
+  };
+
+  // Mouse Parallax for the dark canvas
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (enteringCityId) return;
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    setMousePos({
+      x: (clientX / innerWidth) * 2 - 1,
+      y: (clientY / innerHeight) * 2 - 1,
+    });
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-[#0d0a08] overflow-hidden select-none flex flex-col justify-start">
-      {/* Background Cartographic Atmosphere */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(44,26,18,0.7)_0%,_#090705_80%)] pointer-events-none" />
-      <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:40px_40px]" />
+    <div 
+      className="relative w-full min-h-screen bg-[#030202] overflow-hidden select-none font-serif text-white flex flex-col"
+      onMouseMove={handleMouseMove}
+    >
+      {/* ── 1. CINEMATIC BACKGROUND IMAGE ── */}
+      {/* Defaults to a dark moody radial gradient when idle */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(40,30,20,0.8)_0%,_#030202_80%)]" />
 
-      {/* Rotating Astrological Mandala Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] sm:w-[950px] sm:h-[950px] rounded-full border border-gold-500/10 pointer-events-none flex items-center justify-center">
-        <div className={`w-[500px] h-[500px] sm:w-[700px] sm:h-[700px] rounded-full border border-dashed border-gold-400/15 ${ambientEffectsEnabled ? "animate-[spin_120s_linear_infinite]" : ""}`} />
-        <div className={`absolute w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] rounded-full border border-gold-500/10 ${ambientEffectsEnabled ? "animate-[spin_80s_linear_infinite_reverse]" : ""}`} />
-      </div>
+      <AnimatePresence>
+        {hoveredCity && (
+          <motion.div
+            key={hoveredCity.id}
+            className="absolute inset-0 z-0"
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ 
+              opacity: enteringCityId === hoveredCity.id ? 1 : 0.4, 
+              scale: enteringCityId === hoveredCity.id ? 1.15 : 1 + (mousePos.x * 0.02)
+            }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+          >
+            <img 
+              src={`/destinations/${hoveredCity.id}.jpg`} 
+              alt={hoveredCity.name}
+              className="w-full h-full object-cover object-center"
+            />
+            {/* Vignette to blend the edges into the dark canvas */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#030202_100%)] mix-blend-multiply" />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* ── TOP HEADER SECTION ── */}
-      <div className="relative z-20 pt-16 px-6 max-w-7xl mx-auto w-full text-center">
-        <div className="flex flex-col items-center justify-center gap-2 pb-8 border-b border-gold-500/20">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white via-gold-200 to-gold-500 drop-shadow-xl uppercase">
-            DHARA
-          </h1>
-          <h2 className="text-xl sm:text-2xl font-serif font-light tracking-wider text-parchment-200 mt-2">
-            Ancient Realms of Bharat
-          </h2>
-          <p className="text-sm font-serif italic text-parchment-300/80 mt-2 max-w-2xl">
-            Choose a heritage destination to explore its chapters, solve historical riddles, and restore sacred knowledge.
-          </p>
-        </div>
-      </div>
+      {/* ── 2. GEOGRAPHICAL CONSTELLATION ── */}
+      <motion.div 
+        className="absolute inset-0 z-10 pointer-events-none"
+        animate={{
+          x: mousePos.x * -15,
+          y: mousePos.y * -15,
+        }}
+        transition={{ type: "spring", stiffness: 50, damping: 20 }}
+      >
+        {/* Travel Routes */}
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full opacity-15">
+          <motion.path
+            d={ROUTE_PATH}
+            fill="none"
+            stroke="#d4af37"
+            strokeWidth="0.2"
+            strokeDasharray="1 1"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 3, ease: "easeInOut" }}
+          />
+        </svg>
 
-      {/* ── MAIN CONTENT AREA ── */}
-      <div className="relative z-10 w-full flex-1 flex flex-col justify-center py-10 overflow-y-auto">
-        <div className="w-full max-w-[1600px] mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 justify-items-center">
-            {CITIES_DATA.map((city) => {
-              // ALL CITIES UNLOCKED for the homepage phase
-              const unlocked = true; 
-              
-              const starsEarned = city.chapters.reduce((acc, ch) => {
-                const p = chapterProgress[ch.id];
-                return acc + (p?.completed ? p.stars : 0);
-              }, 0);
-              const maxStars = city.chapters.length * 3;
-              const completedChapters = city.chapters.filter(
-                (ch) => chapterProgress[ch.id]?.completed
-              ).length;
+        {/* Nodes */}
+        {CITIES_DATA.map((city) => {
+          const coords = VISUAL_COORDS[city.id] || { x: 50, y: 50 };
+          const isHovered = hoveredCity?.id === city.id;
+          const isEntering = enteringCityId === city.id;
+          const isDimmed = (hoveredCity && !isHovered) || (enteringCityId && !isEntering);
 
-              return (
-                <div key={city.id} className="w-full flex justify-center transform transition-transform hover:scale-[1.02]">
-                  <CityVerticalCard
-                    city={city}
-                    isUnlocked={unlocked}
-                    starsEarned={starsEarned}
-                    maxStars={maxStars}
-                    completedChapters={completedChapters}
-                    totalChapters={city.chapters.length}
-                    totalGlobalStars={totalGlobalStars}
-                    onSelect={() => handleSelectCity(city)}
-                    onLockedClick={() => {}} // Not needed as all are unlocked
+          return (
+            <div
+              key={city.id}
+              className={`absolute flex flex-col items-center justify-center transition-all duration-700 pointer-events-auto cursor-crosshair
+                ${isDimmed ? 'opacity-20 blur-[2px] scale-90' : 'opacity-100 scale-100'}
+                ${isEntering ? 'opacity-0 scale-150 blur-xl' : ''}
+              `}
+              style={{ left: `${coords.x}%`, top: `${coords.y}%`, transform: 'translate(-50%, -50%)' }}
+              onMouseEnter={() => !enteringCityId && setHoveredCity(city)}
+              onMouseLeave={() => !enteringCityId && setHoveredCity(null)}
+              onClick={() => !enteringCityId && handleCityClick(city)}
+            >
+              {/* Glowing Point */}
+              <div className="relative group p-4">
+                {isHovered && (
+                  <motion.div 
+                    layoutId="active-node-ring"
+                    className="absolute inset-0 rounded-full border border-gold-400/50 animate-[spin_4s_linear_infinite]"
                   />
-                </div>
-              );
-            })}
-          </div>
+                )}
+                <div className={`w-3 h-3 rounded-full transition-colors duration-500 ${isHovered ? 'bg-gold-300 shadow-[0_0_20px_#d4af37]' : 'bg-gold-600/50 shadow-[0_0_10px_rgba(212,175,55,0.3)]'}`} />
+              </div>
+              
+              {/* Always visible minimal label */}
+              <span className={`text-[10px] tracking-[0.3em] uppercase mt-2 transition-colors ${isHovered ? 'text-gold-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' : 'text-white/40'}`}>
+                {city.name}
+              </span>
+            </div>
+          );
+        })}
+      </motion.div>
+
+      {/* ── 3. HUD: TOP NAV ── */}
+      <motion.div 
+        className="relative z-20 flex justify-between items-start p-8 w-full pointer-events-none"
+        animate={{ opacity: enteringCityId ? 0 : 1 }}
+      >
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold tracking-[0.4em] text-gold-500 uppercase">DHARA</h1>
+          <span className="text-xs tracking-widest text-parchment-300/60 uppercase">Ancient Realms of Bharat</span>
         </div>
-      </div>
+
+        {/* Minimal Passport Indicator */}
+        <div className="flex flex-col items-end gap-1 text-right">
+          <span className="text-[10px] tracking-[0.3em] text-white/50 uppercase">Heritage Passport</span>
+          <span className="text-sm tracking-widest text-gold-300">{discoveredCount} / {CITIES_DATA.length} Worlds Discovered</span>
+          <span className="text-xs tracking-widest text-white/30 mt-2">Total Stars: {totalGlobalStars}</span>
+        </div>
+      </motion.div>
+
+      {/* ── 4. HUD: DESTINATION INFO (BOTTOM LEFT) ── */}
+      <AnimatePresence>
+        {hoveredCity && !enteringCityId && (
+          <motion.div
+            key={`info-${hoveredCity.id}`}
+            className="absolute bottom-12 left-12 z-20 max-w-lg pointer-events-none"
+            initial={{ opacity: 0, x: -20, filter: "blur(5px)" }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, x: -10, filter: "blur(5px)" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            {/* Authenticity Tag */}
+            <div className="inline-block px-3 py-1 mb-4 border border-white/20 bg-black/40 backdrop-blur-md rounded-sm">
+              <span className="text-[9px] tracking-[0.3em] text-white/70 uppercase">
+                PHOTOGRAPH • AI RECONSTRUCTION
+              </span>
+            </div>
+
+            <h2 className="text-6xl font-bold tracking-widest text-white mb-2 drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] uppercase">
+              {hoveredCity.name}
+            </h2>
+            
+            <div className="flex items-center gap-4 text-sm tracking-widest text-gold-300 uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mb-6">
+              <span>{hoveredCity.region}</span>
+              <span className="w-1 h-1 rounded-full bg-gold-500/50" />
+              <span>{hoveredCity.era}</span>
+            </div>
+
+            <p className="text-base leading-relaxed text-parchment-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-md border-l border-gold-500/30 pl-4">
+              {hoveredCity.description}
+            </p>
+
+            <div className="mt-8 flex gap-8">
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] tracking-[0.2em] text-white/40 uppercase">Chapters</span>
+                <span className="text-lg tracking-widest text-white">{hoveredCity.chapters.length}</span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] tracking-[0.2em] text-white/40 uppercase">Required Stars</span>
+                <span className="text-lg tracking-widest text-white">
+                  {hoveredCity.requiredStars === 0 ? "UNLOCKED" : hoveredCity.requiredStars}
+                </span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── 5. HUD: BOTTOM RIGHT VEDA HINT ── */}
+      <motion.div 
+        className="absolute bottom-12 right-12 z-20 flex items-center gap-3 pointer-events-none opacity-50"
+        animate={{ opacity: enteringCityId ? 0 : 0.5 }}
+      >
+        <span className="text-[9px] tracking-[0.3em] text-white uppercase">Veda • Your Guide</span>
+        <div className="w-6 h-6 rounded-full border border-white/30 flex items-center justify-center">
+          <div className="w-2 h-2 bg-white/50 rounded-full animate-pulse" />
+        </div>
+      </motion.div>
     </div>
   );
 }
-
