@@ -179,6 +179,7 @@ export interface DharaState {
   addXP: (amount: number) => { leveledUp: boolean; newLevel: number };
   resetProgress: () => void;
   setProfilePhoto: (base64String: string | undefined) => void;
+  updatePlayerName: (name: string) => void;
 
   // Legacy stubs for existing components
   inventory: InventoryItem[];
@@ -544,6 +545,8 @@ export const useGameStore = create<DharaState>()(
         return { leveledUp, newLevel };
       },
 
+      updatePlayerName: (name) => { set((state) => ({ player: { ...state.player, name } })); },
+
       setProfilePhoto: (base64String) => {
         set((state) => ({
           player: {
@@ -711,3 +714,4 @@ export const useGameStore = create<DharaState>()(
     }
   )
 );
+
