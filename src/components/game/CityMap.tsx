@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Star, Lock, X, Trophy, Sparkles, Database } from "lucide-react";
 import Image from "next/image";
 import FlyingPosters from "./FlyingPosters";
+import RealmIntro from "./RealmIntro";
 
 interface CityMapProps {
   cityId: string;
@@ -17,8 +18,13 @@ export default function CityMap({ cityId }: CityMapProps) {
   const { enterCity, enterChapter, chapterProgress, getChapterState, startEnterRealm } = useGameStore();
   const [lockedNotice, setLockedNotice] = useState<Chapter | null>(null);
   const [showPosters, setShowPosters] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   const city = CITIES_DATA.find((c) => c.id === cityId);
+
+  if (showIntro) {
+    return <RealmIntro cityId={cityId} onEnter={() => setShowIntro(false)} />;
+  }
 
   if (!city) {
     return (

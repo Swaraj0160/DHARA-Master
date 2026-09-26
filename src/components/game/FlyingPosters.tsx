@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { City } from '@/data/gameContent';
-import { X, ChevronRight, ShieldCheck, BookOpen, Map as MapIcon, Info, Database } from 'lucide-react';
+import { X, ChevronRight, ShieldCheck, BookOpen, Map as MapIcon, Database } from 'lucide-react';
 import { useGameStore } from '@/store/gameState';
 
 interface FlyingPostersProps {
@@ -16,6 +16,7 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
   const { addXP } = useGameStore();
   const [rewardClaimed, setRewardClaimed] = useState(false);
 
+  // Compile archival fragment details from city and chapter content
   const posters = [
     {
       id: 'intro',
@@ -23,11 +24,11 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
       subtitle: 'Geographic & Temporal Context',
       content: `Situated in the heart of ${city.region}, this sanctuary dates back to the ${city.era}. It stands as a testament to the architectural and cultural zenith of its time.`,
       truthStatus: 'VERIFIED FACT',
-      truthDesc: 'Epigraphy, excavation reports, ASI verified data.',
+      truthDesc: 'Demarcated chronological & geographic data.',
       icon: ShieldCheck,
-      color: 'text-green-500',
-      bg: 'bg-green-500/10',
-      border: 'border-green-500/30'
+      color: 'text-[#4d9b6e]',
+      bg: 'bg-[#4d9b6e]/10',
+      border: 'border-[#4d9b6e]/30'
     },
     {
       id: 'desc',
@@ -37,21 +38,21 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
       truthStatus: 'SOURCE-QUALIFIED',
       truthDesc: 'Contemporary chronicles, travelogues, edicts.',
       icon: BookOpen,
-      color: 'text-blue-400',
-      bg: 'bg-blue-400/10',
-      border: 'border-blue-400/30'
+      color: 'text-[#4d8fc4]',
+      bg: 'bg-[#4d8fc4]/10',
+      border: 'border-[#4d8fc4]/30'
     },
-    ...city.chapters.map((ch, i) => ({
+    ...city.chapters.map((ch) => ({
       id: ch.id,
       title: ch.title,
       subtitle: ch.locationName,
       content: ch.description,
       truthStatus: 'EVIDENCE-BASED RECONSTRUCTION',
-      truthDesc: 'Architectural models based strictly on ruined foundations.',
+      truthDesc: 'Architectural models based on ruined foundations.',
       icon: MapIcon,
-      color: 'text-yellow-500',
-      bg: 'bg-yellow-500/10',
-      border: 'border-yellow-500/30'
+      color: 'text-[#d4af37]',
+      bg: 'bg-[#d4af37]/10',
+      border: 'border-[#d4af37]/30'
     }))
   ];
 
@@ -72,15 +73,7 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') {
-        if (activeIndex < posters.length - 1) {
-          setActiveIndex((prev) => prev + 1);
-        } else {
-          if (!rewardClaimed) {
-            addXP(25);
-            setRewardClaimed(true);
-          }
-          onClose();
-        }
+        handleNext();
       } else if (e.key === 'ArrowLeft' && activeIndex > 0) {
         setActiveIndex((prev) => prev - 1);
       } else if (e.key === 'Escape') {
@@ -92,23 +85,24 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
   }, [activeIndex, posters.length, rewardClaimed, addXP, onClose]);
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-charcoal-950/95 backdrop-blur-xl overflow-hidden perspective-1000"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-charcoal-950/80 backdrop-blur-xl overflow-hidden"
+      style={{ perspective: '1200px' }}
     >
-      <button 
+      <button
         onClick={onClose}
         className="absolute top-8 right-8 z-[210] w-12 h-12 flex items-center justify-center rounded-full bg-charcoal-900 border border-white/10 text-ivory-300 hover:text-white hover:bg-white/10 transition-colors"
       >
         <X className="w-6 h-6" />
       </button>
 
-      {/* Background Ambience */}
-      <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(ellipse_at_center,_rgba(212,175,55,0.15)_0%,_transparent_70%)] mix-blend-screen" />
+      {/* Background Ambience / Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(212,175,55,0.08)_0%,_transparent_70%)] pointer-events-none" />
 
-      {/* VEDA AI HUD Overlay */}
+      {/* HUD Header */}
       <div className="absolute top-8 left-8 z-[210] flex items-center gap-4 pointer-events-none">
          <div className="w-12 h-12 rounded-full border border-gold-500/30 flex items-center justify-center bg-charcoal-900/50 backdrop-blur-sm">
            <Database className="w-5 h-5 text-gold-500" />
@@ -119,11 +113,12 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
          </div>
       </div>
 
-      <div className="relative w-full max-w-[1000px] h-[600px] flex items-center justify-center pointer-events-none">
+      <div className="relative w-full max-w-[1000px] h-[600px] flex items-center justify-center pointer-events-none pt-12">
         <AnimatePresence>
           {posters.map((poster, index) => {
             const offset = index - activeIndex;
-            if (offset < 0 || offset > 4) return null; // Only render active and a few upcoming
+            // Only render active and a few upcoming to save DOM nodes
+            if (offset < -1 || offset > 3) return null;
 
             const isActive = offset === 0;
 
@@ -131,79 +126,81 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
               <motion.div
                 key={poster.id}
                 initial={
-                  offset === 0 
-                    ? { opacity: 0, z: -1000, y: 200 } // Initial entrance
+                  offset === 0
+                    ? { opacity: 0, z: -1000, y: 300 }
                     : { opacity: 0 }
                 }
-                animate={{ 
-                  opacity: isActive ? 1 : 1 - offset * 0.2,
-                  z: isActive ? 0 : -offset * 300,
-                  y: isActive ? 0 : offset * 40,
-                  x: isActive ? 0 : offset * 60,
-                  rotateY: isActive ? 0 : -10 + offset * -2,
+                animate={{
+                  opacity: isActive ? 1 : Math.max(0, 1 - Math.abs(offset) * 0.3),
+                  z: isActive ? 0 : -offset * 250,
+                  y: isActive ? 0 : offset * 30,
+                  x: isActive ? 0 : offset * 40,
+                  rotateY: isActive ? 0 : -12 + offset * -3,
                   rotateX: isActive ? 0 : offset * 2,
+                  scale: isActive ? 1 : 1 - Math.abs(offset) * 0.05,
                 }}
-                exit={{ 
-                  opacity: 0, 
-                  z: 500, 
+                exit={{
+                  opacity: 0,
+                  z: 600,
                   y: -100,
-                  transition: { duration: 0.5, ease: "anticipate" } 
+                  transition: { duration: 0.5, ease: "anticipate" }
                 }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 100, 
-                  damping: 20, 
-                  mass: 1 
+                transition={{
+                  type: "spring",
+                  stiffness: 90,
+                  damping: 18,
+                  mass: 1
                 }}
-                className={`absolute w-[90%] md:w-[600px] aspect-[4/3] rounded-xl flex flex-col bg-charcoal-900 border ${isActive ? 'border-gold-500/50 shadow-[0_0_50px_rgba(212,175,55,0.15)] pointer-events-auto' : 'border-white/10 pointer-events-none'}`}
+                className={`absolute w-[90%] sm:w-[500px] md:w-[600px] aspect-[4/3] sm:aspect-auto sm:min-h-[420px] rounded-3xl flex flex-col overflow-hidden bg-charcoal-800 border-2 ${isActive ? 'border-gold-500/40 shadow-[0_30px_60px_rgba(0,0,0,0.8)] pointer-events-auto' : 'border-white/5 shadow-2xl pointer-events-none'}`}
                 style={{ transformStyle: 'preserve-3d' }}
               >
+                {/* Subtle texture over the card */}
+                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay pointer-events-none" />
+
                 {/* TRUTH LAYER HEADER */}
-                <div className={`w-full px-6 py-4 border-b flex items-center gap-4 ${poster.bg} ${poster.border}`}>
-                  <poster.icon className={`w-6 h-6 ${poster.color}`} />
+                <div className={`w-full px-6 sm:px-8 py-5 border-b border-white/5 flex items-center gap-4 ${poster.bg}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${poster.border} bg-black/40`}>
+                    <poster.icon className={`w-5 h-5 ${poster.color}`} />
+                  </div>
                   <div>
                     <h5 className={`text-[10px] uppercase tracking-[0.2em] font-bold ${poster.color}`}>
                       Truth Layer: {poster.truthStatus}
                     </h5>
-                    <p className="text-[9px] font-mono tracking-wider text-white/50 mt-1 uppercase">
+                    <p className="text-[9px] font-mono tracking-wider text-white/50 mt-0.5 uppercase">
                       {poster.truthDesc}
                     </p>
                   </div>
                 </div>
 
                 {/* POSTER CONTENT */}
-                <div className="flex-1 p-8 md:p-12 flex flex-col relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-8 opacity-5">
-                    <Info className="w-48 h-48" />
-                  </div>
-                  
-                  <h4 className="text-[10px] md:text-xs uppercase tracking-[0.3em] font-mono text-gold-500 mb-4">
+                <div className="flex-1 p-8 sm:p-10 flex flex-col relative z-10">
+                  <h4 className="text-[10px] sm:text-xs uppercase tracking-[0.3em] font-mono text-gold-500 mb-3">
                     {poster.subtitle}
                   </h4>
-                  <h2 className="text-3xl md:text-5xl font-serif font-bold text-ivory-100 mb-8 leading-tight">
+                  <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-ivory-100 mb-6 leading-tight drop-shadow-md">
                     {poster.title}
                   </h2>
-                  <p className="text-sm md:text-base font-serif text-ivory-300 leading-relaxed max-w-lg">
+                  <p className="text-sm sm:text-base font-serif text-ivory-300/90 leading-relaxed">
                     {poster.content}
                   </p>
                 </div>
 
                 {/* FOOTER ACTIONS */}
                 {isActive && (
-                  <div className="w-full px-8 py-6 border-t border-white/10 flex justify-between items-center bg-charcoal-950/50">
+                  <div className="w-full px-8 py-5 border-t border-white/5 flex justify-between items-center bg-charcoal-900 z-10">
                     <div className="flex gap-2">
                        {[...Array(posters.length)].map((_, dotIdx) => (
-                         <div 
-                           key={dotIdx} 
-                           className={`w-2 h-2 rounded-full transition-colors ${dotIdx === activeIndex ? 'bg-gold-500 shadow-[0_0_10px_rgba(212,175,55,0.8)]' : dotIdx < activeIndex ? 'bg-gold-500/30' : 'bg-white/10'}`} 
+                         <div
+                           key={dotIdx}
+                           className={`w-1.5 h-1.5 rounded-full transition-colors ${dotIdx === activeIndex ? 'bg-gold-500 shadow-[0_0_8px_rgba(212,175,55,0.8)]' : dotIdx < activeIndex ? 'bg-gold-500/30' : 'bg-white/10'}`}
                          />
                        ))}
                     </div>
-                    <button 
+                    <button
                       onClick={handleNext}
-                      className="px-6 py-3 bg-gold-600 text-charcoal-950 font-bold uppercase tracking-widest text-[10px] hover:bg-gold-500 transition-colors flex items-center gap-2 rounded-sm"
+                      className="px-6 py-2.5 bg-gold-600 text-charcoal-950 font-bold uppercase tracking-widest text-[10px] hover:bg-gold-500 hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all flex items-center gap-2 rounded-full cursor-pointer"
                     >
-                      {activeIndex === posters.length - 1 ? 'Complete Review' : 'Next Fragment'}
+                      {activeIndex === posters.length - 1 ? 'Finish Archive' : 'Next Entry'}
                       <ChevronRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -212,6 +209,12 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
             );
           })}
         </AnimatePresence>
+      </div>
+
+      <div className="absolute bottom-8 text-center w-full pointer-events-none">
+        <span className="text-[9px] uppercase tracking-[0.3em] font-mono text-white/30 truncate">
+          Press Space or Arrow Keys to navigate
+        </span>
       </div>
     </motion.div>
   );

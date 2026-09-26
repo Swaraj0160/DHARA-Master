@@ -10,7 +10,7 @@ import Link from "next/link";
 import HeritageCircularGallery from "./HeritageCircularGallery";
 import HeritageJourneyTicket from "./HeritageJourneyTicket";
 
-const getImagesForCity = (id: string) => {
+export const getImagesForCity = (id: string) => {
   return {
     hero: `/destinations/${id}-hero.png`,
     detail: `/destinations/${id}-detail.png`

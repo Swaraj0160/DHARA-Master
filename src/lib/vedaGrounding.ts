@@ -1,6 +1,6 @@
 import { CITIES_DATA } from "@/data/gameContent";
 import { REALM_ENTRANCE_DATA } from "@/data/realmEntranceData";
-import { LEARNING_DATA } from '@/components/game/HeritageLearningSequence';
+import { LEARNING_DATA } from '@/data/learningData';
 
 /**
  * Lightweight retrieval for VEDA (Phase 8, Heritage Truth Layer input).
