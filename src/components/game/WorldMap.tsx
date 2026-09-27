@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from 'next/navigation';
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
@@ -12,7 +13,7 @@ import HeritageJourneyTicket from "./HeritageJourneyTicket";
 
 export const getImagesForCity = (id: string) => {
   return {
-    hero: `/destinations/${id}-hero.png`,
+    hero: `/destinations/${id}.jpg`,
     detail: `/destinations/${id}-detail.png`
   };
 };
@@ -74,23 +75,12 @@ export default function WorldMap() {
 
   const { scrollYProgress } = useScroll();
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const router = useRouter();
   // eslint-disable-next-line
   useEffect(() => setMounted(true), []);
 
   const handleEnterWorld = (cityId: string) => {
-    const city = CITIES_DATA.find(c => c.id === cityId);
-    if (!city) return;
-    const firstChapterId = city.chapters[0].id;
-    const isCh1Completed = chapterProgress[firstChapterId]?.completed;
-
-    if (isCh1Completed) {
-      // Ticket permanently skipped, enter directly
-      setEnteringCityId(cityId);
-      setTimeout(() => startEnterRealm(cityId), 1500);
-    } else {
-      // Show journey ticket
-      setTicketCityId(cityId);
-    }
+    router.push(`/realm/${cityId}`);
   };
 
   const handleTicketAccept = () => {

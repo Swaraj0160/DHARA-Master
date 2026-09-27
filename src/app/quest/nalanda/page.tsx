@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGameStore } from "@/store/gameState";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, ChevronRight, SkipForward } from "lucide-react";
+import { CheckCircle2, SkipForward } from "lucide-react";
 import NalandaMap from "@/components/quest/NalandaMap";
 import ScholarChallenge from "@/components/quest/ScholarChallenge";
 import ManuscriptHunt from "@/components/quest/ManuscriptHunt";

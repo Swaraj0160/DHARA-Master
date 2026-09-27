@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { City } from '@/data/gameContent';
 import { X, ChevronRight, ShieldCheck, BookOpen, Map as MapIcon, Database } from 'lucide-react';
@@ -56,9 +56,9 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
     }))
   ];
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (activeIndex < posters.length - 1) {
-      setActiveIndex(activeIndex + 1);
+      setActiveIndex(prev => prev + 1);
     } else {
       // Claim XP on finishing reading
       if (!rewardClaimed) {
@@ -67,7 +67,7 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
       }
       onClose();
     }
-  };
+  }, [activeIndex, posters.length, rewardClaimed, addXP, onClose]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function FlyingPosters({ city, onClose }: FlyingPostersProps) {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeIndex, posters.length, rewardClaimed, addXP, onClose]);
+  }, [activeIndex, handleNext, onClose]);
 
   return (
     <motion.div

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, useAnimation, useDragControls, PanInfo, AnimatePresence } from 'framer-motion';
 import { CITIES_DATA } from '@/data/gameContent';
 import { MapPin, X, Fingerprint, QrCode, Star, Compass } from 'lucide-react';

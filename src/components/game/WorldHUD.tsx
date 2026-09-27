@@ -9,13 +9,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Compass, Star, Trophy, User, Settings as SettingsIcon, Award, ShieldCheck, ArrowLeft, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import PassportModal from "./PassportModal";
 
 export default function WorldHUD() {
   const mounted = useMounted();
   const router = useRouter();
   const pathname = usePathname();
-  const [showPassport, setShowPassport] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const {
@@ -95,9 +93,9 @@ export default function WorldHUD() {
         {/* CENTER: Main Navigation */}
         <nav className="hidden xl:flex items-center gap-8 pointer-events-auto flex-1 justify-center">
            <button onClick={handleReturnToWorld} className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">World</button>
-           <button onClick={() => setShowPassport(true)} className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">Passport</button>
-           <Link href="/profile" className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">Quests</Link>
-           <button onClick={handleReturnToWorld} className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">Truth Layer</button>
+           <button onClick={() => { if (pathname !== '/passport') router.push('/passport'); }} className={`text-[10px] uppercase font-bold tracking-[0.2em] transition-colors ${pathname === '/passport' ? 'text-gold-500' : 'text-[#D8CCB8] hover:text-gold-500'}`}>Passport</button>
+           <Link href="/quest" className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">Quests</Link>
+           <Link href="/truth-layer" className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">Truth Layer</Link>
            <button onClick={openVeda} className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">VEDA</button>
         </nav>
 
@@ -116,7 +114,12 @@ export default function WorldHUD() {
 
           {/* Heritage Passports Section */}
           <button
-            onClick={() => setShowPassport(true)}
+            onClick={() => {
+              if (pathname === '/passport') {
+                return;
+              }
+              router.push('/passport');
+            }}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-charcoal-800 border border-gold-500/20 hover:border-gold-500 text-gold-400 shadow-sm transition-all group cursor-pointer active:scale-95 hidden md:flex"
             title="Dhara Heritage Passports"
           >
@@ -199,9 +202,9 @@ export default function WorldHUD() {
             </button>
             <div className="flex flex-col gap-8 text-center">
                <button onClick={() => { setMobileMenuOpen(false); handleReturnToWorld(); }} className="text-2xl font-serif uppercase tracking-widest text-gold-500 hover:text-white transition-colors">World</button>
-               <button onClick={() => { setMobileMenuOpen(false); setShowPassport(true); }} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">Passport</button>
-               <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">Quests</Link>
-               <button onClick={() => { setMobileMenuOpen(false); handleReturnToWorld(); }} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">Truth Layer</button>
+               <button onClick={() => { setMobileMenuOpen(false); if (pathname !== '/passport') router.push('/passport'); }} className={`text-2xl font-serif uppercase tracking-widest transition-colors ${pathname === '/passport' ? 'text-gold-500' : 'text-[#D8CCB8] hover:text-white'}`}>Passport</button>
+               <Link href="/quest" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">Quests</Link>
+               <Link href="/truth-layer" onClick={() => setMobileMenuOpen(false)} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">Truth Layer</Link>
                <button onClick={() => { setMobileMenuOpen(false); openVeda(); }} className="text-2xl font-serif uppercase tracking-widest text-[#D8CCB8] hover:text-white transition-colors">VEDA</button>
                <div className="h-px w-16 bg-white/10 mx-auto my-4" />
                <Link href="/profile" onClick={() => setMobileMenuOpen(false)} className="text-lg font-sans uppercase tracking-widest text-[#D8CCB8]/60 hover:text-white transition-colors">Profile</Link>
@@ -242,14 +245,6 @@ export default function WorldHUD() {
         )}
       </AnimatePresence>
 
-      {/* Heritage Passport Modal */}
-      <AnimatePresence>
-        {showPassport && (
-          <div className="pointer-events-auto">
-            <PassportModal onClose={() => setShowPassport(false)} />
-          </div>
-        )}
-      </AnimatePresence>
     </header>
   );
 }

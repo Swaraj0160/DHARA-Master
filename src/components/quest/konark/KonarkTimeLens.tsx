@@ -5,12 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Sun, Moon, ShieldCheck, Info } from "lucide-react";
 import { useGameStore } from "@/store/gameState";
 import { useVedaStore } from "@/store/vedaStore";
+import { VedaEmotion } from "@/components/veda/types";
 
 interface KonarkTimeLensProps {
   onClose: () => void;
 }
 
-const KONARK_EXPLANATIONS: Record<string, { text: string; emotion: string }> = {
+const KONARK_EXPLANATIONS: Record<string, { text: string; emotion: VedaEmotion }> = {
   SUNRISE: {
     text: "At dawn, the first rays of Surya pierce through the main entrance, illuminating the sanctum. The wheels on the eastern side cast long, precise shadow markers.",
     emotion: "Excited"
@@ -64,7 +65,7 @@ export default function KonarkTimeLens({ onClose }: KonarkTimeLensProps) {
   useEffect(() => {
     const explanation = KONARK_EXPLANATIONS[phase];
     if (explanation) {
-      popWithDialogue(explanation.text, explanation.emotion as any);
+      popWithDialogue(explanation.text, explanation.emotion);
     }
   }, [phase, popWithDialogue]);
 

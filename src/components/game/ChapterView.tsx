@@ -138,7 +138,7 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
           totalQuestions={5}
           starsEarned={completionData.starsAwarded}
           newStarsEarned={completionData.newStarsEarned}
-          xpEarned={50}
+          xpEarned={xpEarnedInRun}
           nextChapterUnlocked={completionData.nextChapterUnlocked}
           onContinue={() => enterChapter(null)}
         />
@@ -162,7 +162,7 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
       // Veda celebrates correct deduction
       useVedaStore.getState().popWithDialogue(
         `Brilliant deduction! The truth of ${chapter.locationName} is unveiled.`,
-        "happy"
+        "Happy"
       );
 
       // Submit to authoritative store (awards +100 XP only on first solve)
@@ -177,7 +177,7 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
       // Veda offers encouragement and guidance
       useVedaStore.getState().popWithDialogue(
         `Ponder deeply! Ancient mysteries often reveal themselves upon careful reflection.`,
-        "thinking"
+        "Thinking"
       );
     }
 
@@ -198,12 +198,12 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
       if (result.starsAwarded === 3) {
         useVedaStore.getState().popWithDialogue(
           `Sensational mastery! You have earned all 3 stars in ${chapter.title}!`,
-          "excited"
+          "Excited"
         );
       } else {
         useVedaStore.getState().popWithDialogue(
           `Well journeyed, scholar! ${chapter.title} has yielded its secrets to you.`,
-          "happy"
+          "Happy"
         );
       }
       setCompletionData({
@@ -362,7 +362,7 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
                         if (next && currentPuzzle.hint) {
                           useVedaStore.getState().popWithDialogue(
                             `Veda's ancient whisper: "${currentPuzzle.hint}"`,
-                            "guiding"
+                            "Pointing"
                           );
                         }
                       }}

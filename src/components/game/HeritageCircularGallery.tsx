@@ -49,7 +49,6 @@ export default function HeritageCircularGallery({ onEnterRealm }: CircularGaller
   const totalStarsInRealm = activeCity
     ? activeCity.chapters.reduce((acc, ch) => acc + (chapterProgress[ch.id]?.stars || 0), 0)
     : 0;
-  const maxStarsInRealm = totalChapters * 3;
 
   const ambience = activeCity ? (REALM_AMBIENCE[activeCity.id] || REALM_AMBIENCE.pataliputra) : REALM_AMBIENCE.pataliputra;
 

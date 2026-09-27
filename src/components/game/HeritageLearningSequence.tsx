@@ -10,7 +10,7 @@ import GooeyActionButton from '../ui/GooeyActionButton';
 
 interface HeritageLearningProps {
   cityId: string;
-  chapterId: string;
+  chapterId?: string;
   onSequenceComplete: () => void;
 }
 
@@ -44,7 +44,7 @@ export default function HeritageLearningSequence({ cityId, chapterId, onSequence
       <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
         <ReactBitsFlyingPosters
           items={scenes.map(s => s.image)}
-          onItemChange={(idx) => {}} // Disabled automatic scrolling from inside to strictly sync with button
+          onItemChange={() => {}} // Disabled automatic scrolling from inside to strictly sync with button
           distortion={3}
           cameraFov={50}
           cameraZ={15}
