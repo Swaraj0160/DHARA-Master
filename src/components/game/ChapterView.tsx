@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import KonarkTimeLens from "../quest/konark/KonarkTimeLens";
 import HeritageLearningSequence from "./HeritageLearningSequence";
+import SlidingPuzzle from "./SlidingPuzzle";
 
 interface ChapterViewProps {
   cityId: string;
@@ -50,6 +51,7 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
   const [xpEarnedInRun, setXpEarnedInRun] = useState(0);
   const [showXpToast, setShowXpToast] = useState(false);
   const [showTimeLens, setShowTimeLens] = useState(false);
+  const [showPuzzlePhase, setShowPuzzlePhase] = useState(false);
 
   // Completion modal state
   const [completionData, setCompletionData] = useState<{
@@ -104,30 +106,44 @@ export default function ChapterView({ cityId, chapterId }: ChapterViewProps) {
     );
   }
 
-  if (chapter.chapterNumber === 1 && !completionData) {
+  if (chapter.chapterNumber === 1 && !completionData && !showPuzzlePhase) {
     return (
       <div className="relative w-full h-screen">
         <HeritageLearningSequence 
           cityId={city.id} 
-          chapterId={chapter.id} 
           onSequenceComplete={() => {
-            const wasCompleted = useGameStore.getState().getChapterState(chapter.id).completed;
-              const result = completeChapter(city.id, chapter.id, 5, 5); // perfect score
-            setCompletionData({
-              starsAwarded: result.starsAwarded,
-              newStarsEarned: result.newStarsEarned,
-              nextChapterUnlocked: result.nextChapterUnlocked,
-            });
-            const xpToAward = wasCompleted ? 0 : 500;
-              if (xpToAward > 0) useGameStore.getState().addXP(xpToAward);
-              setXpEarnedInRun(xpToAward);
+            setShowPuzzlePhase(true); // Move to puzzle phase instead of completing immediately
           }} 
         />
       </div>
     );
   }
 
-  // Show completion modal immediately if triggered from learning sequence
+  // PUZZLE PHASE
+  if (chapter.chapterNumber === 1 && showPuzzlePhase && !completionData) {
+    return (
+      <div className="relative w-full h-screen">
+        <SlidingPuzzle 
+          imageUrl="/puzzle1.jpeg"
+          onComplete={(moves, time) => {
+            // Puzzle is solved!
+            const wasCompleted = useGameStore.getState().getChapterState(chapter.id).completed;
+            const result = completeChapter(city.id, chapter.id, 5, 5); // 5/5 stars for perfect completion
+            setCompletionData({
+              starsAwarded: result.starsAwarded,
+              newStarsEarned: result.newStarsEarned,
+              nextChapterUnlocked: result.nextChapterUnlocked,
+            });
+            const xpToAward = wasCompleted ? 0 : 500;
+            if (xpToAward > 0) useGameStore.getState().addXP(xpToAward);
+            setXpEarnedInRun(xpToAward);
+          }}
+        />
+      </div>
+    );
+  }
+
+  // Show completion modal immediately if triggered from puzzle sequence
   if (chapter.chapterNumber === 1 && completionData) {
     return (
       <div className="min-h-screen bg-earth-950 flex flex-col justify-center relative">
