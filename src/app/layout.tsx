@@ -16,6 +16,11 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "DHARA - Where India's stories flow",
   description: "Digital Heritage Adventure & Recreation Architecture",
+  icons: {
+    icon: "/logos/app-icon.png",
+    shortcut: "/logos/app-icon.png",
+    apple: "/logos/app-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

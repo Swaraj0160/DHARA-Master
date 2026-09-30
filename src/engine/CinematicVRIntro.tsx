@@ -20,6 +20,62 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
   
   const discoveredCount = Object.values(chapterProgress).filter(c => c.completed).length;
 
+  // Dynamic positioning for watermark overlay covering previous burned-in logo in video
+  const [watermarkStyle, setWatermarkStyle] = useState<React.CSSProperties>({
+    position: 'absolute',
+    right: '1.2%',
+    bottom: '9.8%',
+    width: '320px',
+    height: '115px',
+  });
+
+  useEffect(() => {
+    const updateWatermarkPosition = () => {
+      const containerW = window.innerWidth;
+      const containerH = window.innerHeight;
+      const videoAspect = 2688 / 1512;
+      const windowAspect = containerW / containerH;
+
+      let renderedW = containerW;
+      let renderedH = containerH;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (windowAspect > videoAspect) {
+        renderedW = containerW;
+        renderedH = containerW / videoAspect;
+        offsetY = (renderedH - containerH) / 2;
+      } else {
+        renderedH = containerH;
+        renderedW = containerH * videoAspect;
+        offsetX = (renderedW - containerW) / 2;
+      }
+
+      // Old logo coordinates in 2688x1512 video:
+      // X: 2242 to 2658 (right edge is 30px from 2688)
+      // Y: 1214 to 1362 (bottom edge is 150px from 1512)
+      const rightInVideo = ((2688 - 2658) / 2688) * renderedW;
+      const bottomInVideo = ((1512 - 1362) / 1512) * renderedH;
+      const boxW = ((2658 - 2242) / 2688) * renderedW;
+      const boxH = ((1362 - 1214) / 1512) * renderedH;
+
+      const screenRight = rightInVideo - offsetX;
+      const screenBottom = bottomInVideo - offsetY;
+
+      setWatermarkStyle({
+        position: 'absolute',
+        right: `${Math.max(12, screenRight - 8)}px`,
+        bottom: `${Math.max(12, screenBottom - 8)}px`,
+        width: `${Math.max(220, boxW + 20)}px`,
+        height: `${Math.max(76, boxH + 16)}px`,
+      });
+    };
+
+    updateWatermarkPosition();
+    window.addEventListener('resize', updateWatermarkPosition);
+    return () => window.removeEventListener('resize', updateWatermarkPosition);
+  }, [isVideoReady]);
+
   // Preload video to ensure it's in browser cache immediately
   useEffect(() => {
     const link = document.createElement('link');
@@ -131,55 +187,55 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.2 }}
-              className="w-full px-6 py-4 flex items-center justify-between z-20 pointer-events-auto border-b border-white/5 bg-black/20 backdrop-blur-sm"
+              className="w-full px-6 sm:px-8 py-4 flex items-center justify-between z-20 pointer-events-auto border-b border-white/10 bg-black/40 backdrop-blur-md relative"
             >
               {/* LEFT: LOGO */}
-              <div className="flex items-center gap-3">
-                 <img src="/LOGO.png" alt="DHARA" className="h-10 lg:h-12 w-auto invert drop-shadow-md" />
-                 <div className="hidden lg:flex flex-col">
-                    <span className="text-white font-serif font-bold text-lg tracking-widest uppercase">Dhara</span>
-                    <span className="text-ivory-300 text-[9px] uppercase tracking-widest opacity-80">Where India&apos;s stories flow</span>
+              <div className="flex items-center gap-3.5 shrink-0 z-10">
+                 <img src="/logos/logo-gold.png" alt="DHARA" className="h-11 md:h-12 w-auto object-contain drop-shadow-[0_2px_12px_rgba(212,175,55,0.4)]" />
+                 <div className="hidden lg:flex flex-col border-l border-gold-600/30 pl-3.5">
+                    <span className="text-white font-serif font-bold text-xl md:text-2xl tracking-[0.2em] uppercase leading-none">Dhara</span>
+                    <span className="text-gold-400/90 font-serif italic text-[10px] md:text-xs tracking-wide mt-1 leading-none">Where India&apos;s stories flow</span>
                  </div>
               </div>
 
-              {/* CENTER: NAV LINKS */}
-              <div className="hidden xl:flex items-center gap-8">
-                 <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-400 border-b-2 border-gold-400 pb-1">World</button>
-                 <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-ivory-300 hover:text-white transition-colors pb-1">Passport</button>
-                 <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-ivory-300 hover:text-white transition-colors pb-1">Quests</button>
-                 <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-ivory-300 hover:text-white transition-colors pb-1">Truth Layer</button>
-                 <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-ivory-300 hover:text-white transition-colors pb-1">Veda</button>
+              {/* CENTER: NAV LINKS (Centered) */}
+              <div className="hidden xl:flex items-center gap-8 2xl:gap-11 absolute left-1/2 -translate-x-1/2">
+                 <button className="text-xs md:text-sm font-serif font-bold uppercase tracking-[0.22em] text-gold-400 border-b-2 border-gold-400 pb-1 cursor-pointer">World</button>
+                 <button className="text-xs md:text-sm font-serif font-bold uppercase tracking-[0.22em] text-ivory-300 hover:text-white transition-colors pb-1 cursor-pointer">Passport</button>
+                 <button className="text-xs md:text-sm font-serif font-bold uppercase tracking-[0.22em] text-ivory-300 hover:text-white transition-colors pb-1 cursor-pointer">Quests</button>
+                 <button className="text-xs md:text-sm font-serif font-bold uppercase tracking-[0.22em] text-ivory-300 hover:text-white transition-colors pb-1 cursor-pointer">Truth Layer</button>
+                 <button className="text-xs md:text-sm font-serif font-bold uppercase tracking-[0.22em] text-ivory-300 hover:text-white transition-colors pb-1 cursor-pointer">Veda</button>
               </div>
 
               {/* RIGHT: HUD & SETTINGS */}
-              <div className="flex items-center gap-3 lg:gap-4">
-                 <div className="hidden md:flex items-center gap-2 border border-white/10 rounded-full px-4 py-1.5 bg-black/40">
-                   <Star className="w-3 h-3 text-gold-400" />
-                   <div className="flex flex-col items-center leading-none">
-                     <span className="text-white font-mono text-xs">{getTotalStars()}</span>
-                     <span className="text-[7px] uppercase tracking-widest text-ivory-300/60">Stars</span>
+              <div className="flex items-center gap-3 lg:gap-4 shrink-0 z-10 ml-auto">
+                 <div className="hidden md:flex items-center gap-2 border border-white/15 rounded-xl px-3.5 py-2 bg-black/50 shadow-sm">
+                   <Star className="w-4.5 h-4.5 text-gold-400 fill-gold-400" />
+                   <div className="flex items-center leading-none">
+                     <span className="text-white font-mono text-sm sm:text-base font-bold">{getTotalStars()}</span>
+                     <span className="text-[10px] uppercase tracking-widest text-ivory-300/70 ml-1">Stars</span>
                    </div>
                  </div>
-                 <div className="hidden md:flex items-center gap-2 border border-white/10 rounded-full px-4 py-1.5 bg-black/40">
-                   <ShieldCheck className="w-3 h-3 text-gold-400" />
-                   <div className="flex flex-col items-center leading-none">
-                     <span className="text-white font-mono text-xs">{discoveredCount}/{CITIES_DATA.length}</span>
-                     <span className="text-[7px] uppercase tracking-widest text-ivory-300/60">Passports</span>
+                 <div className="hidden md:flex items-center gap-2 border border-white/15 rounded-xl px-3.5 py-2 bg-black/50 shadow-sm">
+                   <ShieldCheck className="w-4.5 h-4.5 text-gold-400" />
+                   <div className="flex items-center leading-none">
+                     <span className="text-white font-mono text-sm sm:text-base font-bold">{discoveredCount}/{CITIES_DATA.length}</span>
+                     <span className="text-[10px] uppercase tracking-widest text-ivory-300/70 ml-1">Passports</span>
                    </div>
                  </div>
-                 <div className="hidden lg:flex items-center gap-4 border border-white/10 rounded-full px-4 py-1.5 bg-black/40">
+                 <div className="hidden lg:flex items-center gap-4 border border-white/15 rounded-xl px-4 py-2 bg-black/50 shadow-sm min-w-[145px]">
                    <div className="flex items-center gap-2">
-                     <div className="w-2 h-2 rounded-full bg-gold-400 animate-pulse" />
-                     <span className="text-[10px] uppercase tracking-widest text-white font-bold">Lvl {player.level}</span>
+                     <div className="w-2.5 h-2.5 rounded-full bg-gold-400 animate-pulse" />
+                     <span className="text-xs font-serif uppercase tracking-wider text-white font-bold">Lvl {player.level}</span>
                    </div>
-                   <span className="text-[9px] font-mono text-ivory-300/60">{player.xp} XP</span>
+                   <span className="text-xs font-mono text-ivory-300/70">{player.xp} XP</span>
                  </div>
                  
-                 <button className="w-8 h-8 rounded-full border border-white/10 bg-black/40 flex items-center justify-center text-ivory-300 hover:text-white transition-colors cursor-pointer">
-                   <User className="w-4 h-4" />
+                 <button className="w-10 h-10 rounded-xl border border-white/15 bg-black/50 flex items-center justify-center text-ivory-300 hover:text-white hover:border-gold-400 transition-colors cursor-pointer shadow-sm">
+                   <User className="w-5 h-5" />
                  </button>
-                 <button className="w-8 h-8 rounded-full border border-white/10 bg-black/40 flex items-center justify-center text-ivory-300 hover:text-white transition-colors cursor-pointer">
-                   <SettingsIcon className="w-4 h-4" />
+                 <button className="w-10 h-10 rounded-xl border border-white/15 bg-black/50 flex items-center justify-center text-ivory-300 hover:text-white hover:border-gold-400 transition-colors cursor-pointer shadow-sm">
+                   <SettingsIcon className="w-5 h-5" />
                  </button>
               </div>
             </motion.nav>
@@ -311,22 +367,51 @@ export default function CinematicVRIntro({ onComplete }: { onComplete: () => voi
           </motion.div>
         )}
       </AnimatePresence>
-      {/* LAYER 3: IN-VIDEO CONTROLS */}
+      {/* LAYER 3: IN-VIDEO BRANDING WATERMARK & CONTROLS */}
       <AnimatePresence>
         {isVideoReady && !isFadingOut && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute bottom-8 right-8 z-[150]"
-          >
-            <button
-              onClick={handleVideoEnded}
-              className="px-6 py-2 border border-white/20 bg-charcoal-900/60 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest text-white/70 hover:text-white hover:bg-black/50 transition-colors"
+          <>
+            {/* Dynamic Watermark Overlay replacing previous burned-in logo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5 }}
+              style={watermarkStyle}
+              className="z-[140] pointer-events-none select-none flex items-center p-3 rounded-2xl bg-[#0f0e0c]/95 border border-gold-500/40 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.95)]"
             >
-              Skip Intro ⇥
-            </button>
-          </motion.div>
+              <div className="flex items-center gap-3.5 w-full h-full px-2">
+                <img
+                  src="/logos/logo-gold.png"
+                  alt="DHARA"
+                  className="h-10 md:h-12 w-auto object-contain drop-shadow-[0_2px_10px_rgba(212,175,55,0.5)] shrink-0"
+                />
+                <div className="flex flex-col text-left">
+                  <span className="font-serif text-sm md:text-base font-bold tracking-[0.25em] text-parchment-100 uppercase leading-tight">
+                    DHARA
+                  </span>
+                  <span className="text-[9px] md:text-[10px] font-serif italic text-gold-400/90 whitespace-nowrap mt-0.5">
+                    Where India&apos;s stories flow
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Skip Intro Button */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute bottom-8 right-8 z-[150]"
+            >
+              <button
+                onClick={handleVideoEnded}
+                className="px-6 py-2.5 border border-white/20 bg-charcoal-900/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-widest text-white/80 hover:text-white hover:bg-black/70 hover:border-gold-500/50 transition-colors rounded-lg shadow-lg"
+              >
+                Skip Intro ⇥
+              </button>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.div>

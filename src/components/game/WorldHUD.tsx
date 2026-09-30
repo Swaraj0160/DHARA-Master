@@ -61,55 +61,81 @@ export default function WorldHUD() {
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 pointer-events-none">
-      <div className="h-20 bg-charcoal-900/90 backdrop-blur-md border-b border-gold-600/10 flex items-center justify-between px-4 sm:px-6 shadow-sm">
+      <div className="h-20 bg-charcoal-900/95 backdrop-blur-xl border-b border-gold-600/20 px-4 sm:px-8 shadow-md flex items-center justify-between relative">
         
         {/* LEFT: Brand & Back Control */}
-        <div className="flex items-center gap-4 pointer-events-auto shrink-0 w-[20%]">
+        <div className="flex items-center gap-4 pointer-events-auto shrink-0 z-10">
           {!isHome && (
             <button 
               onClick={handleBack}
-              className="px-3 py-1.5 rounded-full border border-gold-500/20 text-[#D8CCB8] hover:text-white hover:border-gold-500 flex items-center gap-2 text-[10px] uppercase tracking-widest transition-colors shadow-sm bg-charcoal-800"
+              className="px-3.5 py-2 rounded-xl border border-gold-500/30 text-[#D8CCB8] hover:text-white hover:border-gold-400 flex items-center gap-2 text-xs font-serif font-semibold uppercase tracking-wider transition-colors shadow-sm bg-charcoal-800/90 cursor-pointer"
             >
-              <ArrowLeft className="w-3 h-3" /> Back
+              <ArrowLeft className="w-4 h-4 text-gold-400" /> Back
             </button>
           )}
 
           <button
             onClick={handleReturnToWorld}
-            className="flex items-center gap-3 group text-left cursor-pointer focus-visible:outline-none"
+            className="flex items-center gap-3.5 group text-left cursor-pointer focus-visible:outline-none"
             title="Return to World Map"
           >
             <div className="flex items-center justify-center transition-all group-hover:scale-105">
-              <img src="/LOGO.png" alt="DHARA Logo" className="h-8 md:h-10 w-auto object-contain drop-shadow-sm invert opacity-90 group-hover:opacity-100" />
+              <img src="/logos/logo-gold.png" alt="DHARA Logo" className="h-11 md:h-12 w-auto object-contain drop-shadow-[0_2px_10px_rgba(212,175,55,0.4)] opacity-95 group-hover:opacity-100" />
             </div>
-            <div className="hidden lg:block border-l border-gold-600/20 pl-3">
-              <p className="text-[10px] font-serif italic text-[#D8CCB8]/80 leading-tight">
-                Where India&apos;s<br/>Heritage Flows
-              </p>
+            <div className="hidden lg:flex flex-col border-l border-gold-600/30 pl-3.5">
+              <span className="font-serif text-xl md:text-2xl font-bold tracking-[0.2em] text-parchment-100 uppercase leading-none group-hover:text-gold-400 transition-colors">
+                DHARA
+              </span>
+              <span className="text-[10px] md:text-xs font-serif italic text-gold-400/90 whitespace-nowrap mt-1 leading-none">
+                Where India&apos;s stories flow
+              </span>
             </div>
           </button>
         </div>
 
-        {/* CENTER: Main Navigation */}
-        <nav className="hidden xl:flex items-center gap-8 pointer-events-auto flex-1 justify-center">
-           <button onClick={handleReturnToWorld} className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">World</button>
-           <button onClick={() => { if (pathname !== '/passport') router.push('/passport'); }} className={`text-[10px] uppercase font-bold tracking-[0.2em] transition-colors ${pathname === '/passport' ? 'text-gold-500' : 'text-[#D8CCB8] hover:text-gold-500'}`}>Passport</button>
-           <Link href="/quest" className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">Quests</Link>
-           <Link href="/truth-layer" className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">Truth Layer</Link>
-           <button onClick={openVeda} className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#D8CCB8] hover:text-gold-500 transition-colors">VEDA</button>
+        {/* CENTER: Main Navigation (Precisely centered) */}
+        <nav className="hidden xl:flex items-center gap-8 2xl:gap-11 pointer-events-auto absolute left-1/2 -translate-x-1/2">
+           <button 
+             onClick={handleReturnToWorld} 
+             className={`text-xs md:text-sm uppercase font-serif font-bold tracking-[0.22em] transition-colors py-1 cursor-pointer ${pathname === '/' && !currentCityId ? 'text-gold-400 border-b-2 border-gold-400' : 'text-[#D8CCB8] hover:text-gold-400'}`}
+           >
+             World
+           </button>
+           <button 
+             onClick={() => { if (pathname !== '/passport') router.push('/passport'); }} 
+             className={`text-xs md:text-sm uppercase font-serif font-bold tracking-[0.22em] transition-colors py-1 cursor-pointer ${pathname === '/passport' ? 'text-gold-400 border-b-2 border-gold-400' : 'text-[#D8CCB8] hover:text-gold-400'}`}
+           >
+             Passport
+           </button>
+           <Link 
+             href="/quest" 
+             className={`text-xs md:text-sm uppercase font-serif font-bold tracking-[0.22em] transition-colors py-1 ${pathname.startsWith('/quest') ? 'text-gold-400 border-b-2 border-gold-400' : 'text-[#D8CCB8] hover:text-gold-400'}`}
+           >
+             Quests
+           </Link>
+           <Link 
+             href="/truth-layer" 
+             className={`text-xs md:text-sm uppercase font-serif font-bold tracking-[0.22em] transition-colors py-1 ${pathname.startsWith('/truth-layer') ? 'text-gold-400 border-b-2 border-gold-400' : 'text-[#D8CCB8] hover:text-gold-400'}`}
+           >
+             Truth Layer
+           </Link>
+           <button 
+             onClick={openVeda} 
+             className="text-xs md:text-sm uppercase font-serif font-bold tracking-[0.22em] text-[#D8CCB8] hover:text-gold-400 transition-colors py-1 cursor-pointer"
+           >
+             VEDA
+           </button>
         </nav>
 
-        {/* RIGHT: Player Status */}
-        <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto justify-end shrink-0 w-auto xl:w-[35%]">
+        {/* RIGHT: Player Status & Controls */}
+        <div className="flex items-center gap-3 sm:gap-4 pointer-events-auto justify-end shrink-0 z-10 ml-auto">
           
           {/* Global Stars Currency */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-charcoal-800 border border-gold-500/20 text-gold-400 shadow-sm hidden md:flex">
-            <Star className="w-4 h-4 fill-gold-500 text-gold-500" />
-            <div className="flex items-baseline gap-1">
-              <span suppressHydrationWarning className="font-mono text-sm sm:text-base font-bold text-gold-500">
-                {totalStars}
-              </span>
-            </div>
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-charcoal-800/90 border border-gold-500/25 text-gold-400 shadow-sm hidden md:flex">
+            <Star className="w-5 h-5 fill-gold-500 text-gold-500" />
+            <span suppressHydrationWarning className="font-mono text-base font-bold text-gold-400 leading-none">
+              {totalStars}
+            </span>
           </div>
 
           {/* Heritage Passports Section */}
@@ -120,65 +146,65 @@ export default function WorldHUD() {
               }
               router.push('/passport');
             }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-charcoal-800 border border-gold-500/20 hover:border-gold-500 text-gold-400 shadow-sm transition-all group cursor-pointer active:scale-95 hidden md:flex"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-charcoal-800/90 border border-gold-500/25 hover:border-gold-400 text-gold-400 shadow-sm transition-all group cursor-pointer active:scale-95 hidden md:flex"
             title="Dhara Heritage Passports"
           >
-            <ShieldCheck className="w-4 h-4 text-gold-500 group-hover:scale-110 transition-transform" />
-            <div className="flex items-baseline gap-1">
-              <span suppressHydrationWarning className="font-mono text-sm sm:text-base font-bold text-gold-500">
+            <ShieldCheck className="w-5 h-5 text-gold-500 group-hover:scale-110 transition-transform" />
+            <div className="flex items-baseline gap-1.5">
+              <span suppressHydrationWarning className="font-mono text-base font-bold text-gold-400 leading-none">
                 {unlockedPassportsCount}
               </span>
-              <span className="text-[10px] font-serif uppercase tracking-wider text-[#D8CCB8]">
+              <span className="text-xs font-serif uppercase tracking-wider text-[#D8CCB8]">
                 / {CITIES_DATA.length}
               </span>
             </div>
           </button>
 
           {/* Level & XP Gauge */}
-          <div className="flex flex-col bg-charcoal-800 px-3 py-1.5 rounded-2xl border border-gold-500/20 shadow-sm min-w-[120px]">
-            <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-[#D8CCB8]">
-              <span suppressHydrationWarning className="text-gold-500 font-serif font-bold flex items-center gap-1">
-                <Trophy className="w-3 h-3 text-gold-500" />
+          <div className="flex flex-col bg-charcoal-800/90 px-4 py-2 rounded-xl border border-gold-500/25 shadow-sm min-w-[145px]">
+            <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-[#D8CCB8]">
+              <span suppressHydrationWarning className="text-gold-400 font-serif font-bold flex items-center gap-1.5">
+                <Trophy className="w-4 h-4 text-gold-500" />
                 Lvl {level}
               </span>
-              <span suppressHydrationWarning className="text-[#D8CCB8] font-mono">
+              <span suppressHydrationWarning className="text-[#D8CCB8] font-mono text-xs">
                 {xp} XP
               </span>
             </div>
-            <div className="w-full bg-charcoal-900 rounded-full h-1 mt-1 overflow-hidden">
+            <div className="w-full bg-charcoal-950 rounded-full h-1.5 mt-1.5 overflow-hidden">
               <div
-                className="bg-gradient-to-r from-gold-600 to-gold-400 h-full rounded-full transition-all duration-500"
+                className="bg-gradient-to-r from-gold-600 via-gold-400 to-amber-300 h-full rounded-full transition-all duration-500"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
           </div>
 
           {/* Nav Controls: Profile, Settings, Mobile Menu */}
-          <div className="flex items-center gap-1 ml-1">
+          <div className="flex items-center gap-2 ml-1">
             <Link href="/profile" className="hidden sm:block">
               <button
-                className="p-2 rounded-full border border-gold-500/20 bg-charcoal-800 text-[#D8CCB8] hover:text-white hover:border-gold-500 transition-all shadow-sm cursor-pointer"
+                className="w-10 h-10 rounded-xl border border-gold-500/25 bg-charcoal-800/90 text-[#D8CCB8] hover:text-white hover:border-gold-400 transition-all shadow-sm cursor-pointer flex items-center justify-center"
                 title="Scholar Profile"
               >
-                <User className="w-4 h-4" />
+                <User className="w-5 h-5" />
               </button>
             </Link>
 
             <Link href="/settings" className="hidden sm:block">
               <button
-                className="p-2 rounded-full border border-gold-500/20 bg-charcoal-800 text-[#D8CCB8] hover:text-white hover:border-gold-500 transition-all shadow-sm cursor-pointer"
+                className="w-10 h-10 rounded-xl border border-gold-500/25 bg-charcoal-800/90 text-[#D8CCB8] hover:text-white hover:border-gold-400 transition-all shadow-sm cursor-pointer flex items-center justify-center"
                 title="Settings"
               >
-                <SettingsIcon className="w-4 h-4" />
+                <SettingsIcon className="w-5 h-5" />
               </button>
             </Link>
 
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="xl:hidden p-2 ml-2 rounded-full border border-gold-500/20 bg-charcoal-800 text-[#D8CCB8] hover:text-white transition-colors cursor-pointer"
+              className="xl:hidden p-2.5 ml-2 rounded-xl border border-gold-500/25 bg-charcoal-800/90 text-[#D8CCB8] hover:text-white transition-colors cursor-pointer"
             >
-               <Menu className="w-5 h-5" />
+               <Menu className="w-6 h-6" />
             </button>
           </div>
         </div>
